@@ -5,13 +5,13 @@
   "type": "module",
 
   "main": "./dist/library-test.umd.js",
-  "module": "./dist/library-test.es.js",
+  "module": "./dist/library-test.js",
   "exports": {
     ".": {
-      "import": "./dist/library-test.es.js",
+      "import": "./dist/library-test.js",
       "require": "./dist/library-test.umd.js"
     },
-    "./dist/style.css": "./dist/style.css"
+    "./dist/library-test.css": "./dist/library-test.css"
   },
   "files": [
     "dist"
@@ -19,7 +19,7 @@
 
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc -b && vite build",
+    "build": "vue-tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
