@@ -1,7 +1,7 @@
 import "./assets/main.css";
 
 import { createApp } from 'vue'
-import { Quasar, Notify, Dialog, Dark } from "quasar";
+import { Quasar, Notify, Dialog } from "quasar";
 import { createPinia } from 'pinia'
 
 import App from './App.vue'
@@ -32,7 +32,7 @@ document.documentElement.classList.add(`client-${clientName}`);
 const app = createApp(App)
 
 app.use(Quasar, {
-  plugins: { Notify, Dialog, Dark }, // import Quasar plugins and add here
+  plugins: { Notify, Dialog }, // import Quasar plugins and add here
   lang: langKo,
 })
 
@@ -41,15 +41,5 @@ app.use(createPinia())
 app.use(util)
 app.use(VueVirtualScroller)
 app.use(VueApexCharts);
-
-const savedState = localStorage.getItem("darkModeState");
-if (savedState !== null) {
-  // 저장된 값이 있으면, Quasar 설정에 즉시 적용합니다.
-  const isDark = savedState === "true";
-  // Quasar의 다크 모드 설정을 set() 함수를 사용하여 바로 적용
-  Dark.set(isDark);
-} else {
-  Dark.set(false);
-}
 
 app.mount('#app')
