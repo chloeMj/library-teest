@@ -163,7 +163,7 @@ const formatSecondsGrafana = (value: number) => {
 };
 
 // 축/툴팁/범례에서 공통으로 쓰는 단위 포맷터
-export function formatUnitValue(input: number | null | undefined, options?: { decimals?: number }, baseUnit?: BaseUnit = "number", displayUnit?: string = "auto") {
+export function formatUnitValue(input: number | null | undefined, options: { decimals?: number }, baseUnit: BaseUnit = "number", displayUnit: string = "auto") {
   if (input == null || !Number.isFinite(input)) return "-";
 
   const value = Number(input);

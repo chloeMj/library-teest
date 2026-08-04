@@ -26,7 +26,7 @@ export default ({ mode }: { mode: string }) => {
     build: {
       lib: {
         // 엔트리 파일 지정
-        entry: resolve(__dirname, 'src/index.ts'),
+        entry: resolve(import.meta.dirname, 'src/index.ts'),
         name: 'LibraryTest',
         // 빌드 결과물 파일명 규칙
         fileName: (format) => format === 'es' ? 'library-test.js' : `library-test.${format}.js`

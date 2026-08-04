@@ -14,7 +14,7 @@ export default {
 
 
 // 1. components 폴더 안의 모든 .vue 파일을 동기(eager) 방식으로 가져옵니다.
-const components = import.meta.glob('./components/*.vue', { eager: true })
+const components = import.meta.glob('./components/**/*.vue', { eager: true })
 
 // 2. 개별 export를 위한 객체 생성
 const exportedComponents: Record<string, any> = {}
@@ -32,7 +32,7 @@ Object.entries(components).forEach((component: any) => {
 // 개별 컴포넌트 내보내기 (구조 분해 할당으로 자동 export 효과)
 // import { MyButton, MyInput } from 'my-vue-library'
 export const { ...allComponents } = exportedComponents
-
+console.log('exportedComponents:', exportedComponents)
 // 통째로 등록하는 플러그인 기능 자동화
 export default {
   install: (app: any) => {

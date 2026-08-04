@@ -2,14 +2,11 @@
 // ===================================================
 // 📦 Imports
 // ===================================================
-import { useMainStore } from "@/stores/main";
 import { formatUnitValue } from "@/utils/formatUnit";
 import dayjs from "dayjs";
 import uPlot from "uplot";
 import "uplot/dist/uPlot.min.css";
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
-
-const mainStore = useMainStore();
 
 type AlignedData = uPlot.AlignedData;
 type ChartType = "line" | "area" | "bar";
@@ -91,8 +88,69 @@ const legendTableEl = ref<HTMLDivElement | null>(null);
 const plotHeightPx = ref(props.height ?? 260);
 let chart: uPlot | null = null;
 let resizeObserver: ResizeObserver | null = null;
-const activeSeriesIdx = ref<number | null>(null);
-const palette = computed(() => (props.colors?.length ? props.colors : mainStore.colorPalette));
+const activeSeriesIdx = ref<number | null>(null);  const colorPalette = ref<string[]>([
+    "#7EB26D",
+    "#EAB839",
+    "#1F78C1",
+    "#E24D42",
+    "#BA43A9",
+    "#6ED0E0",
+    "#EF843C",
+    "#705DA0",
+    "#508642",
+    "#CCA300",
+    "#447EBC",
+    "#C15C17",
+    "#890F02",
+    "#0A437C",
+    "#6D1F62",
+    "#584477",
+    "#629E51",
+    "#E5AC0E",
+    "#64B0C8",
+    "#E0752D",
+    "#BF1B00",
+    "#0A50A1",
+    "#962D82",
+    "#614D93",
+    "#3F6833",
+    "#B28F14",
+    "#3B7AA0",
+    "#B95F2A",
+    "#7A2E6B",
+    "#5F8FAF",
+    "#DFAF66",
+    "#D0815E",
+    "#9A7BB5",
+    "#6E9E8A",
+    "#C9A94D",
+    "#7A6A9C",
+    "#5195CE",
+    "#F9934E",
+    "#EA6460",
+    "#806EB7",
+    "#65C5DB",
+    "#D683CE",
+    "#8FBECF",
+    "#9AC48A",
+    "#F2C96D",
+    "#B7DBAB",
+    "#F4D598",
+    "#70DBED",
+    "#F9BA8F",
+    "#F29191",
+    "#82B5D8",
+    "#E5A8E2",
+    "#AEA2E0",
+    "#A6C8B8",
+    "#F1D9A6",
+    "#8BC9E8",
+    "#F4B183",
+    "#B18CCF",
+    "#B3D1C2",
+    "#E3B7A0",
+  ])
+const palette = computed(() => (props.colors?.length ? props.colors : colorPalette));
 const tooltip = ref<{
   show: boolean;
   left: number;

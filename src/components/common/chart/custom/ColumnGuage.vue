@@ -17,9 +17,7 @@
 // ===================================================
 // 📦 Imports
 // ===================================================
-import { getMetricsData } from '@/api/metricsService';
-import useFetch from '@/composables/useFetch';
-import { computed, onBeforeMount, onMounted, ref, useSlots } from 'vue';
+import { computed, ref, useSlots } from 'vue';
 
 // ===================================================
 // 📥 Props / Emits
@@ -30,14 +28,12 @@ const props = withDefaults(
     color?: string
     visiblePrecision?: number // 표시용
     precision?: number // 최소 값 확인용
-    useFetch?: boolean
     fetchParams?: Record<string, string | number>
   }>(),
   {
     color: '#4B8EFF',
     visiblePrecision: 1,
-    precision: 4,
-    useFetch: false
+    precision: 4
   },
 )
 const slots = useSlots()
@@ -67,21 +63,7 @@ const stackbarWidth = computed(() => {
 // ===================================================
 // 🚀 Lifecycle Hooks
 // ===================================================
-onBeforeMount(async () => {
-  if(props.useFetch) {
-    const fetch = useFetch({
-      apiFn: getMetricsData,
-      defaultData: [],
-      calcType: 'irate',
-      parameter: props.fetchParams,
-      isCallAuto: false
-    })
 
-    await fetch.getData()
-  }
-})
-onMounted(() => {
-})
 </script>
 
 <style lang="scss" scoped>

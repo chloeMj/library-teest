@@ -19,9 +19,7 @@
 // ===================================================
 // 📦 Imports
 // ===================================================
-import { getMetricsData } from '@/api/metricsService';
-import useFetch from '@/composables/useFetch';
-import { computed, onBeforeMount, onMounted, ref, useSlots } from 'vue';
+import { computed, ref } from 'vue';
 import Line from '@/components/common/chart/eCharts/Line.vue';
 import dayjs from 'dayjs';
 
@@ -32,13 +30,10 @@ const props = withDefaults(
   defineProps<{
     title?: string
     description?: string
-    useFetch?: boolean
     fetchParams?: Record<string, string | number>
     categoryFormat?: string
   }>(),
   {
-    color: '#4B8EFF',
-    useFetch: false
   },
 )
 // const slots = useSlots()
@@ -111,22 +106,7 @@ const legendLables = computed(() => {
 // ===================================================
 // 🚀 Lifecycle Hooks
 // ===================================================
-onBeforeMount(async () => {
-  if(props.useFetch) {
-    const fetch = useFetch({
-      apiFn: getMetricsData,
-      defaultData: [],
-      parameter: props.fetchParams,
-      isCallAuto: false
-    })
 
-    await fetch.getData()
-
-    series.value = fetch.data.value
-  }
-})
-onMounted(() => {
-})
 </script>
 
 <style lang="scss" scoped>
