@@ -1,0 +1,166 @@
+@use "../../_variables" as *;
+@use "../../_utils" as *;
+
+.list-title-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: rem(46);
+
+  .list-title {
+    font-size: rem(18);
+    font-weight: 600;
+    color: $gray-600;
+    .unit {
+      display: inline-block;
+      font-size: rem(14);
+      color: $gray-500;
+      margin-left: rem(10);
+      font-weight: 400;
+    }
+  }
+  .btn-more {
+    min-width: rem(70);
+    min-height: auto;
+    height: rem(32);
+    font-size: rem(14);
+    font-weight: 500;
+    &:deep() {
+      .block {
+        color: $gray-600;
+      }
+    }
+  }
+}
+.list-wrapper {
+  padding: rem(12) 0 0;
+  margin-top: rem(16);
+  margin-right: rem(8);
+  background-color: $light-gray;
+  border-radius: rem(16);
+  font-size: rem(15);
+  width: 100%;
+  overflow: auto;
+  .list-wrap {
+    min-width: rem(1280);
+    overflow: auto;
+    margin: 0 rem(24) rem(24);
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: rem(40);
+    border-radius: rem(8);
+  }
+
+  .col {
+    flex: 1;
+    &.col-header {
+      text-align: center;
+      color: $gray-600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &:not(.text-left):not(.text-right) {
+      text-align: center;
+    }
+  }
+
+  .list-body {
+    position: relative;
+    padding: 0;
+
+    .row {
+      background-color: $border-light;
+      margin-top: rem(4);
+      min-height: rem(40);
+      color: $gray-700;
+      font-weight: 400;
+      .col {
+        padding: 0 rem(16);
+      }
+
+      &:not(:first-child) {
+        margin-top: 2px;
+      }
+
+      &:nth-child(2n) {
+        background-color: $light-gray;
+      }
+
+      &.active {
+        background-color: $bg-select;
+      }
+    }
+  }
+}
+
+// /* 1. declare transition */
+// .fade-move,
+// .fade-enter-active,
+// .fade-leave-active {
+//   transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+// }
+
+// /* 2. declare enter from and leave to state */
+// .fade-enter-from,
+// .fade-leave-to {
+//   opacity: 0;
+//   transform: scaleY(0.01) translate(30px, 0);
+// }
+
+// /* 3. ensure leaving items are taken out of layout flow so that moving
+//       animations can be calculated correctly. */
+// .fade-leave-active {
+//   position: absolute;
+// }
+
+.fade-enter-active {
+  transition: all 0.5s ease;
+}
+.fade-enter-from {
+  opacity: 0;
+  transform: translateX(30px);
+}
+.fade-leave-active,
+.fade-leave-to {
+  opacity: 0;
+  transform: none;
+}
+
+.realtime-data.fade-enter-active {
+  animation: highlightFade 2.5s ease-in-out;
+}
+
+@mixin highlightFade($color) {
+  @keyframes highlightFade {
+    0% {
+      opacity: 0;
+      background-color: $color;
+    }
+    50% {
+      opacity: 1;
+      background-color: $color;
+    }
+    100% {
+      opacity: 1;
+      background-color: transparent;
+    }
+  }
+}
+
+// 사용
+.realtime-data.fade-enter-active {
+  @include highlightFade($bg-red);
+  animation: highlightFade 2.5s ease-in-out;
+}
+
+.client-hmsec .realtime-data.fade-enter-active {
+  @include highlightFade($bg-blue);
+  animation: highlightFade 2.5s ease-in-out;
+}

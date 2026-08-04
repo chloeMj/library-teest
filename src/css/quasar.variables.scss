@@ -1,0 +1,65 @@
+// Quasar SCSS (& Sass) Variables
+// --------------------------------------------------
+// To customize the look and feel of this app, you can override
+// the Sass/SCSS variables found in Quasar's source Sass/SCSS files.
+
+// Check documentation for full list of Quasar variables
+
+// Your own variables (that are declared here) and Quasar's own
+// ones will be available out of the box in your .vue/.scss/.sass files
+
+// It's highly recommended to change the default colors
+// to match your app's branding.
+// Tip: Use the "Theme Builder" on Quasar's documentation website.
+@use "_variables.scss" as vars;
+
+$primary: vars.$primary-color;
+$secondary: vars.$secondary-color;
+$red: vars.$secondary-red; // 매수
+$blue: vars.$secondary-blue; // 매도
+$green: vars.$badge-green;
+$purple: vars.$badge-purple;
+$accent: #9c27b0;
+$white: vars.$gray-000;
+
+$dark: #1d1d1d;
+$dark-page: #121212;
+
+$positive: #21ba45;
+$negative: vars.$message-error;
+$info: #31ccec;
+$warning: #f2c037;
+
+// $primary
+// $secondary
+// $accent
+// $dark
+// $positive
+// $negative
+// $info
+// $warning
+
+// 그레이 계열
+$grey: vars.$gray-000;
+$grey-1: vars.$gray-100;
+$grey-2: vars.$gray-200;
+$grey-3: vars.$gray-300;
+$grey-4: vars.$gray-400;
+$grey-5: vars.$gray-500;
+$grey-6: vars.$gray-600;
+$grey-7: vars.$gray-700;
+$grey-8: vars.$gray-800;
+$grey-9: vars.$gray-900;
+$grey-10: vars.$border-medium;
+$grey-11: vars.$hard-gray;
+
+// 기타 레이아웃 관련
+$background: vars.$background-color;
+$surface: vars.$surface-color;
+$border-color: vars.$border-color;
+// $separator-color
+
+$point-1: vars.$point_1;
+$point-2: vars.$point_2;
+$point-3: vars.$point_3;
+$point-4: vars.$point_4;

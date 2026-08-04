@@ -1,0 +1,53 @@
+@use "../_variables" as *;
+@use "../_utils" as *;
+
+.dashboard-result-box-wrapper {
+  padding-top: rem(4);
+  margin-left: rem(-6);
+  margin-right: rem(-6);
+  .col-box {
+    padding: rem(6);
+  }
+  .dashboard-title-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    padding: rem(5) rem(18) rem(10);
+    .title {
+      font-size: rem(18);
+      font-weight: 600;
+      color: $gray-600;
+    }
+    .date {
+      font-size: rem(14);
+      color: $gray-500;
+    }
+  }
+}
+
+.buy {
+  color: $secondary-red;
+}
+.sell {
+  color: $secondary-blue;
+}
+
+:deep(.product) {
+  display: inline-block;
+  color: #ffffff;
+  font-weight: 400;
+  border-radius: rem(100);
+  padding: 0 rem(12);
+  line-height: rem(24);
+  min-width: rem(80);
+  font-size: rem(14);
+  &.installment {
+    background-color: $badge-yellow;
+  }
+  &.descretionary {
+    background-color: $badge-blue;
+  }
+  &.lump-sum {
+    background-color: $badge-orange;
+  }
+}

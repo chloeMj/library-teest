@@ -1,0 +1,19 @@
+@use '../../_variables' as *;
+@use '../../_utils' as *;
+
+.chart-wrappper {
+  position: relative;
+  width: 100%;
+  background-color: $gray-000;
+  padding: rem(24) rem(30);
+  border-radius: rem(16);
+  .chart-wrap {
+    width: 90%;
+  }
+  .date {
+    display: block;
+    text-align: right;
+    font-size: rem(14);
+    color: $gray-500;
+  }
+}

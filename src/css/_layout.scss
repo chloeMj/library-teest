@@ -1,0 +1,189 @@
+@use "_variables" as *;
+@use "_utils" as *;
+
+$aside-width: 310px;
+* {
+  scrollbar-width: thin; // 모든 스크롤바를 얇게
+  scrollbar-color: $gray-200 transparent;
+}
+body.body--dark,
+body.body--light {
+  color: $gray-900;
+  background-color: $hard-gray;
+}
+
+.layout-container {
+  display: flex;
+  height: 100vh;
+  .q-page-container {
+    flex-grow: 1;
+    overflow: hidden;
+  }
+  .layout-container-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    &:not(.side-float) {
+      max-width: calc(100% - rem(96));
+    }
+    .layout-container-content-inner {
+      flex: 1;
+      overflow: auto;
+    }
+  }
+
+  &.main {
+    .layout-container-header {
+      width: 100%;
+      max-width: rem(1720);
+      margin: 0 auto;
+    }
+    .layout-container-content-inner {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 100%;
+      > div {
+        width: 100%;
+        margin: 0 auto;
+        &:not(.layout-container-footer) {
+          padding: 0 rem(10) rem(80);
+          max-width: rem(1720);
+        }
+      }
+    }
+  }
+}
+
+.layout-container-header {
+  align-items: flex-end;
+  padding: rem(30) rem(30) 0 0;
+  .q-toolbar {
+    padding: 0;
+    min-height: unset;
+  }
+  .q-toolbar__title {
+    display: flex;
+    justify-content: space-between;
+  }
+  .main-toolbar .q-toolbar__title {
+    justify-content: flex-end;
+  }
+  .sub-title {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    font-size: rem(30);
+    color: $gray-800;
+  }
+  .btn-back {
+    @include q-btn-reset;
+    width: rem(24);
+    height: rem(24);
+    margin-right: rem(8);
+    @include themed-icon(icon-back);
+  }
+}
+
+.layout-container-footer {
+  background-color: $hard-gray;
+  .footer-wrap {
+    position: relative;
+    max-width: rem(1740);
+    width: 100%;
+    padding: rem(48) rem(20);
+    margin: 0 auto;
+    flex-direction: column;
+    align-items: start;
+  }
+  .foot-list {
+    display: flex;
+    margin-top: rem(20);
+    color: $gray-600;
+    font-weight: 500;
+    font-size: rem(16);
+    li {
+      display: flex;
+      align-items: center;
+      &::after {
+        content: "";
+        display: block;
+        width: 1px;
+        height: rem(16);
+        margin: 0 rem(8);
+        background-color: rgba(115, 118, 132, 0.16);
+      }
+      &:last-child::after {
+        display: none;
+      }
+    }
+  }
+  .copy {
+    margin-top: rem(20);
+    color: $gray-500;
+    font-size: rem(16);
+  }
+  .info-wrap {
+    display: flex;
+    align-items: center;
+    margin-top: rem(4);
+    color: $gray-500;
+    font-size: rem(16);
+    > address {
+      display: flex;
+      align-items: center;
+      &::after {
+        content: "";
+        display: block;
+        width: 1px;
+        height: rem(16);
+        margin: 0 rem(8);
+        background-color: rgba(115, 118, 132, 0.16);
+      }
+    }
+  }
+  .btn-site {
+    position: absolute;
+    right: rem(20);
+    top: rem(48);
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: rem(240);
+    height: rem(40);
+    background-color: $light-gray;
+    color: $gray-800;
+    font-size: rem(16);
+    border-radius: 100px;
+    padding: 0 rem(16);
+    &::after {
+      content: "";
+      display: block;
+      width: rem(24);
+      height: rem(24);
+      @include themed-icon(icon-plus);
+    }
+  }
+}
+
+/* aside 등장 */
+.aside-enter-from {
+  width: 0px;
+}
+.aside-enter-active {
+  transition: width 500ms;
+}
+.aside-enter-to {
+  width: $aside-width;
+}
+
+/* aside 퇴장 */
+.aside-leave-from {
+  width: $aside-width;
+}
+.aside-leave-active {
+  transition: width 0.5s;
+}
+.aside-leave-to {
+  width: 0;
+}

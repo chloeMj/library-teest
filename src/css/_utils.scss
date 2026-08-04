@@ -1,0 +1,427 @@
+@use "sass:math";
+@use "sass:string";
+@use "sass:list";
+@use "_variables" as *;
+
+$base-rem-size: 10px;
+$base-vw-size: 1920;
+$base-percent-size: 100;
+$base-decimal-size: 100;
+
+// 플로팅 clear
+@mixin clear {
+  &::after {
+    clear: both;
+    content: "";
+    display: block;
+  }
+}
+
+// 인라인 가로스크롤
+@mixin inline-scrolling {
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: visible;
+  overflow-y: hidden;
+  padding-bottom: 0.2rem;
+  white-space: nowrap;
+  width: 100%;
+}
+// Word Wrapping 믹스인
+@mixin word-wrap {
+  hyphens: auto;
+  word-break: keep-all;
+  word-wrap: break-word;
+}
+
+// blind 믹스인
+@mixin blind {
+  clip: rect(0 0 0 0);
+  color: transparent;
+  font-size: 0;
+  height: 0;
+  line-height: 0;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  text-indent: -999.9rem;
+  width: 0;
+  z-index: -1;
+}
+
+// 텍스트 생략(Ellipsis) 믹스인
+@mixin eline-clamp($lines: 1) {
+  @if $lines ==1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+// safe-area
+@mixin safe-area-bottom($px: 0) {
+  @if $px ==0 {
+    padding-bottom: constant(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom);
+  } @else {
+    padding-bottom: calc(constant(safe-area-inset-bottom) + #{$px}px);
+    padding-bottom: calc(env(safe-area-inset-bottom) + #{$px}px);
+  }
+}
+
+// 단위 제거 유틸리티 함수
+@function remove-unit($value) {
+  @return math.div($value, $value * 0 + 1);
+}
+
+// 단위가 없는 숫자 값 → px 값 반환 유틸리티 함수
+@function unitless-px($value) {
+  @if math.is-unitless($value) and $value != 0 {
+    @return $value * 1px;
+  }
+
+  @return $value;
+}
+
+// 소수점 제한 유틸리티 함수
+@function decimal-limit($value, $base: $base-decimal-size) {
+  @return math.div(math.floor($value * $base), $base);
+}
+
+// px 값 → rem 값 변경 유틸리티 함수
+@function rem($px, $base: $base-rem-size) {
+  @return (remove-unit(math.div($px, $base))) * 1rem;
+}
+
+// px 값 → vw 값 변경 유틸리티 함수
+@function vw($px, $base: $base-vw-size) {
+  @return (remove-unit(math.div($px, $base))) * 100vw;
+}
+
+// px 값 → vh 값 변경 유틸리티 함수
+@function vh($px) {
+  @return calc(var(--vh) * remove-unit($px));
+}
+
+@mixin bg-img($color: transparent, $img: "", $repeat: no-repeat, $position: center center, $size: 100%) {
+  background-color: $color;
+  background-image: url($img);
+  background-repeat: $repeat;
+  background-position: $position;
+  background-size: $size;
+}
+
+@mixin q-btn-reset($none-hover: false) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  min-width: auto;
+  min-height: auto;
+  line-height: 1;
+  border-radius: 0;
+  @if $none-hover {
+    &:deep(.q-focus-helper) {
+      display: none;
+    }
+    .q-focus-helper {
+      display: none;
+    }
+  }
+}
+
+// 아이콘 모드 대응
+@mixin themed-icon(
+  $name,
+  $only: false,
+  $img-size: 100%,
+  $color: transparent,
+  $icon-path: "/src/assets/images/icons"
+) {
+  @if $only {
+    @include bg-img(
+      $img: "#{$icon-path}/#{$name}.svg",
+      $size: $img-size,
+      $color: $color
+    );
+  } @else {
+    @include bg-img(
+      $img: "#{$icon-path}/#{$name}.svg",
+      $size: $img-size,
+      $color: $color
+    );
+    .body--light & {
+      background-image: url("#{$icon-path}/light/#{$name}.svg");
+    }
+  }
+}
+
+@mixin icon-circle-btn(
+  $width: rem(40),
+  $height: rem(40),
+  $bg-color: $medium-gray,
+  $img,
+  $img-width: rem(24),
+  $img-height: rem(24)
+) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: $width;
+  height: $height;
+  border-radius: 50%;
+  background-color: $bg-color;
+  transition: background 0.5s;
+  &::before {
+    content: "";
+    display: block;
+    width: $img-width;
+    height: $img-height;
+    @include themed-icon($img);
+  }
+  &:hover {
+    background-color: transparent;
+  }
+}
+
+@mixin button(
+  $color: $primary-color,
+  $textColor: #ffffff,
+  $width: 100%,
+  $height: rem(40),
+  $fontSize: rem(16),
+  $borderColor: $primary-color
+) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: $width;
+  height: $height;
+  background-color: $color;
+  color: $textColor;
+  font-size: $fontSize;
+  font-weight: 500;
+  border-radius: rem(8);
+  border: 1px solid $borderColor;
+}
+
+@mixin popup-layout($maxWidth: rem(400), $maxHeight: rem(400), $margin: rem(16)) {
+  max-width: $maxWidth;
+  max-height: $maxHeight;
+  border: 1px solid $border-medium;
+  background-color: $popup-bg;
+  border-radius: rem(12);
+  padding: rem(16);
+  margin-top: $margin;
+  color: $gray-600;
+  overflow-y: auto;
+}
+
+@mixin sub-panel-box {
+  // background-color: $gray-000;
+  // border-radius: rem(16);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  .content {
+    flex: 1;
+    overflow: hidden;
+  }
+}
+@mixin input($width: rem(300), $height: rem(36), $bg: $gray-000, $type: basic, $font: rem(15)) {
+  @if $type == basic {
+    width: $width;
+    height: $height;
+    font-size: $font;
+    .q-field__control {
+      border: 1px solid $gray-400;
+      background-color: $bg;
+      border-radius: rem(8);
+      height: 100%;
+      &:has(input[value=""]) {
+        border-color: $border-medium;
+      }
+      > * {
+        height: 100%;
+      }
+      &::before {
+        color: $gray-900;
+      }
+    }
+    &.price {
+      width: rem(180);
+    }
+  } @else {
+    width: $width;
+    height: $height;
+    font-size: rem(15);
+    &.q-field--readonly {
+      background-color: $gray-050;
+    }
+    &.q-field--error {
+      padding-bottom: rem(24);
+    }
+    .q-field__control {
+      width: 100%;
+      height: rem(32);
+      padding: 0 rem(12) 0 rem(2);
+      border-radius: rem(8);
+      border: 1px solid $border-medium;
+      background-color: $gray-000;
+      &-container {
+        height: rem(32);
+      }
+    }
+    .q-field__native {
+      color: $gray-800;
+      font-size: rem(15);
+      padding: 0 rem(10);
+    }
+    .q-field__marginal {
+      height: auto;
+    }
+    .q-field__bottom {
+      padding-left: 0;
+      padding-right: 0;
+      font-weight: 500;
+    }
+  }
+  &.q-field--error {
+    height: calc($height + rem(20));
+    .q-field__messages {
+      font-weight: 600;
+    }
+    .q-field__bottom {
+      padding: rem(10) 0 0;
+    }
+  }
+  input {
+    color: $gray-900;
+    &::placeholder {
+      color: $gray-400;
+      opacity: 1;
+    }
+  }
+  .icon-search {
+    width: rem(20);
+    height: rem(20);
+    @include themed-icon(icon-search);
+  }
+  .icon-clear {
+    width: rem(20);
+    height: rem(20);
+    @include themed-icon(icon-clear);
+  }
+}
+
+@mixin filter-icon-btn($name: icon-inquire, $only: false) {
+  @include q-btn-reset;
+  width: rem(36);
+  height: rem(36);
+  border-radius: 50%;
+  border: 1px solid $gray-400;
+  @include themed-icon($name: $name, $color: $medium-gray, $img-size: rem(16) rem(16), $only: $only);
+}
+
+@mixin filter-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: rem(20);
+  margin-bottom: rem(10);
+  // margin-bottom: rem(8);
+  row-gap: rem(8);
+  column-gap: rem(8);
+  > .title {
+    font-size: rem(16);
+    font-weight: 600;
+    color: $gray-800;
+    line-height: rem(36);
+  }
+  .input {
+    @include input($width: rem(180));
+  }
+  .q-select {
+    min-width: 200px;
+
+    .q-field__control-container,
+    .q-field__label {
+      overflow: visible;
+    }
+
+    .q-field__label {
+      max-width: none;
+      text-overflow: clip;
+      white-space: nowrap;
+    }
+  }
+  .group {
+    display: flex;
+    align-items: center;
+    column-gap: rem(8);
+    .label {
+      color: $gray-600;
+      font-size: rem(14);
+      font-weight: 600;
+    }
+  }
+  .dropdown {
+    width: 18%;
+    min-width: rem(125);
+    max-width: rem(180);
+  }
+  .btns-wrap {
+    display: flex;
+    margin-left: auto;
+    column-gap: rem(8);
+  }
+  .btn-round {
+    @include q-btn-reset;
+    min-width: rem(100);
+    height: rem(36);
+    padding: rem(12);
+    border-radius: rem(100);
+    border: 1px solid $gray-400;
+    background-color: $medium-gray;
+    color: $gray-600;
+    font-size: rem(14);
+    font-weight: 600;
+  }
+  .btn-label {
+    height: rem(36);
+    padding: 0 rem(12);
+    border-radius: rem(100);
+    border: 1px solid $gray-400;
+    background-color: $medium-gray;
+    color: $gray-600;
+    font-size: rem(14);
+    font-weight: 600;
+  }
+  .btn-inquire {
+    @include filter-icon-btn;
+  }
+  .btn-refresh {
+    @include filter-icon-btn(icon-reset);
+  }
+  .btn-excel {
+    @include filter-icon-btn(icon-excel, true);
+  }
+  [class*="btn-"][class*="icon-"] {
+    .q-btn__content::before {
+      content: "";
+      display: block;
+      width: rem(16);
+      height: rem(16);
+      margin-right: rem(4);
+    }
+  }
+  .icon-check .q-btn__content::before {
+    @include themed-icon(icon-check);
+  }
+}
