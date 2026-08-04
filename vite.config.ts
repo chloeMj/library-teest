@@ -33,12 +33,13 @@ export default ({ mode }: { mode: string }) => {
       },
       rollupOptions: {
         // 라이브러리에 포함하지 않을 패키지 설정
-        external: ['vue'],
+        external: ['vue', 'quasar'], 
         output: {
           // 전역 변수 설정 (CDN 환경용)
           exports: 'named', 
           globals: {
-            vue: 'Vue'
+            vue: 'Vue',
+            quasar: 'Quasar' // 전역 변수 매핑 추가
           }
         }
       }

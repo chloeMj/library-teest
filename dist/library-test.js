@@ -14,7 +14,7 @@ var de = Object.create, fe = Object.defineProperty, J = Object.getOwnPropertyDes
 	});
 	return e;
 }, ve = (e, t, n) => (n = e == null ? {} : de(me(e)), _e(t || !e || !e.__esModule || !he.call(e, "default") ? fe(n, "default", {
-	value: e, 
+	value: e,
 	enumerable: !0
 }) : n, e)), ye = { class: "chart-wrapper" }, be = /*@__PURE__*/ f({
 	__name: "Gauge",
