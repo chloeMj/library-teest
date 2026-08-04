@@ -27,7 +27,7 @@ export default ({ mode }: { mode: string }) => {
       lib: {
         // 엔트리 파일 지정
         entry: resolve(__dirname, 'src/index.ts'),
-        name: 'MyVueLibrary',
+        name: 'LibraryTest',
         // 빌드 결과물 파일명 규칙
         fileName: (format) => format === 'es' ? 'library-test.js' : `library-test.${format}.js`
       },
@@ -36,6 +36,7 @@ export default ({ mode }: { mode: string }) => {
         external: ['vue'],
         output: {
           // 전역 변수 설정 (CDN 환경용)
+          exports: 'named', 
           globals: {
             vue: 'Vue'
           }
