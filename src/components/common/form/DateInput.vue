@@ -35,7 +35,7 @@
           </q-popup-proxy>
         </template>
         <template v-slot:append>
-          <q-icon clickable class="btn-calendar" @click.stop="basicProxy.show()" />
+          <q-icon name="calendar_today" clickable @click.stop="basicProxy.show()" />
         </template>
       </q-input>
     </template>
@@ -59,7 +59,7 @@
         :hide-bottom-space="!hasFromError"
       >
         <template v-slot:append>
-          <q-icon class="btn-calendar" />
+          <q-icon name="calendar_today" />
         </template>
       </q-input>
 
@@ -83,7 +83,7 @@
         :hide-bottom-space="!hasToError"
       >
         <template v-slot:append>
-          <q-icon class="btn-calendar" />
+          <q-icon name="calendar_today" />
         </template>
       </q-input>
 
@@ -519,5 +519,25 @@ watch(
 </script>
 
 <style lang="scss" scoped>
-@use '@/css/components/form/dateInput' as *;
+.date-wrap {
+  display: flex;
+  column-gap: 8rem;
+  .dash {
+    line-height: 36rem;
+  }
+  .input {
+    &:deep() {
+      .q-field__prepend {
+        height: 100%;
+        padding: 0;
+      }
+      input {
+        cursor: pointer;
+      }
+      .q-field__append {
+        height: 100%;
+      }
+    }
+  }
+}
 </style>

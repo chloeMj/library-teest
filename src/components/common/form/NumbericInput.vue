@@ -15,11 +15,11 @@
         color="grey-9"
       >
         <template #append>
-          <q-btn class="numberic-input__button minus" :disable="readonly" @click="onClickMinus">
-            <q-icon aria-label="-1" />
+          <q-btn class="numberic-input__button minus" icon="remove" :disable="readonly" @click="onClickMinus">
+            <!-- <q-icon name="add" aria-label="-1" /> -->
           </q-btn>
-          <q-btn class="numberic-input__button plus" :disable="readonly" @click="onClickPlus">
-            <q-icon aria-label="+1" />
+          <q-btn class="numberic-input__button plus" icon="add" :disable="readonly" @click="onClickPlus">
+            <!-- <q-icon aria-label="+1" /> -->
           </q-btn>
         </template>
       </q-input>
@@ -76,5 +76,26 @@ const onClickPlus = () => {
 </script>
 
 <style lang="scss" scoped>
-// @use '@/css/components/flexLayout/partials/numbericInput' as *;
+
+.numberic-input {
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    min-width: auto;
+    min-height: auto;
+    line-height: 1;
+    border-radius: 0;
+  }
+  &:deep() {
+    .q-field__prepend {
+      height: 100%;
+      // padding: 0;
+    }
+    .q-field__append {
+      height: 100%;
+    }
+  }
+}
 </style>
