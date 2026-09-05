@@ -1,0 +1,21 @@
+// 폼 필드류(Input, Select 등)가 공통으로 쓰는 라벨 위치 레이아웃.
+// 새 필드 컴포넌트를 만들 때 아래 mixin을 재사용하세요.
+
+@mixin field-label-top {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lib-spacing-xs);
+}
+
+@mixin field-label-left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--lib-spacing-sm);
+}
+
+@mixin field-label-inside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lib-spacing-xs);
+}

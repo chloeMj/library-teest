@@ -1,0 +1,37 @@
+// library-test 디자인 토큰
+//
+// 소비 프로젝트는 :root(또는 원하는 스코프)에서 아래 변수를 재정의하는 것만으로
+// 컴포넌트 스타일을 커스텀할 수 있습니다. CSS 변수이므로 선택자 명시도
+// 경쟁 없이 값만 덮어씁니다.
+
+:root {
+  // Color
+  --lib-color-primary: #2563eb;
+  --lib-color-border: #d4d4d8;
+  --lib-color-border-focus: var(--lib-color-primary);
+  --lib-color-error: #dc2626;
+  --lib-color-text: #18181b;
+  --lib-color-text-muted: #71717a;
+  --lib-color-bg: #ffffff;
+  --lib-color-bg-disabled: #f4f4f5;
+  /** --lib-color-primary 배경 위에 올라가는 텍스트/아이콘 색 */
+  --lib-color-on-primary: #ffffff;
+
+  // Spacing
+  --lib-spacing-xs: 4px;
+  --lib-spacing-sm: 8px;
+  --lib-spacing-md: 12px;
+  --lib-spacing-lg: 16px;
+
+  // Radius
+  --lib-radius-sm: 4px;
+  --lib-radius-md: 8px;
+
+  // Font
+  --lib-font-size-sm: 12px;
+  --lib-font-size-md: 14px;
+  --lib-font-size-lg: 16px;
+
+  // Z-index (Select의 모바일 bottomSheet, Modal, Toast 등 오버레이류가 공유)
+  --lib-z-index-overlay: 1000;
+}

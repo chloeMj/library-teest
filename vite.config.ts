@@ -2,7 +2,6 @@ import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path';
 import { fileURLToPath, URL } from 'node:url'
-import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 
 // https://vite.dev/config/
 export default ({ mode }: { mode: string }) => {
@@ -11,12 +10,7 @@ export default ({ mode }: { mode: string }) => {
 
   return defineConfig({
     plugins: [
-      vue({
-        template: { transformAssetUrls }
-      }),
-      quasar({
-        sassVariables: fileURLToPath(new URL('./src/css/quasar.variables.scss', import.meta.url)),
-      }),
+      vue(),
     ],
     resolve: {
       alias: {
@@ -33,13 +27,12 @@ export default ({ mode }: { mode: string }) => {
       },
       rollupOptions: {
         // 라이브러리에 포함하지 않을 패키지 설정
-        external: ['vue', 'quasar'], 
+        external: ['vue'],
         output: {
           // 전역 변수 설정 (CDN 환경용)
-          exports: 'named', 
+          exports: 'named',
           globals: {
             vue: 'Vue',
-            quasar: 'Quasar' // 전역 변수 매핑 추가
           }
         }
       }
