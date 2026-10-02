@@ -226,3 +226,24 @@ var(--lib-color-primary)`로만 테마**를 입힌다 — 브라우저가 포커
 - `App.vue`를 빈 데모 셸로 교체 (컴포넌트 추가 시 여기서 미리보기)
 - Pretendard 폰트는 라이브러리가 특정 폰트를 강제하지 않는다는 원칙에 따라
   삭제하기로 결정함 (소비 프로젝트 폰트를 그대로 상속)
+
+## 13. 색상 토큰 체계 정리 (2026-10-02)
+
+디자인 확정 전에 색상 구조를 먼저 잡아두기 위해, 색을 역할(semantic) 기준 토큰으로
+정리했다. 상세 명세와 디자이너 확인 항목은 [COLOR-TOKENS.md](COLOR-TOKENS.md) 참고.
+
+- 이름 규칙: `--lib-color-<역할>[-<상태/변형>]`. 색 이름(blue 등)은 쓰지 않는다.
+- 그룹: Brand / Text / Surface / Border / Feedback
+- 기존 토큰 이름은 그대로 두고 값도 바꾸지 않았다. 빌드된 CSS에서 모든 var()를
+  실제 값으로 치환해 비교한 결과 선언 442개가 전부 동일함을 확인했다(화면 변화 없음).
+- 의미가 섞여 있던 두 곳을 분리했다 (기본값이 같아 겉모습은 동일).
+  - Select 옵션의 hover/활성 배경: `--lib-color-bg-disabled` → `--lib-color-bg-hover`
+  - Radio/Checkbox의 hover 테두리: `--lib-color-border-focus` → `--lib-color-border-hover`
+  - 비활성 테두리: `--lib-color-border` → `--lib-color-border-disabled`
+  - 포커스 링: `--lib-color-border-focus` → `--lib-color-focus-ring`
+  - placeholder/비활성 글자: `--lib-color-text-muted` → `-placeholder` / `-disabled`
+  - 드롭다운·bottomSheet 배경: `--lib-color-bg` → `--lib-color-bg-raised`
+- Modal/Toast에서 쓸 색(success/warning/info, text-inverse, bg-subtle 등)은 값만
+  미리 정의해두고 아직 사용하지 않는다. 디자인 확정 시 값만 교체하면 된다.
+- 검증 스크립트: 빌드 CSS의 var()를 재귀 치환해 선언 단위로 정렬 비교하는 방식.
+  브라우저 렌더링에 의존하지 않아 토큰 리팩터링마다 재사용할 수 있다.

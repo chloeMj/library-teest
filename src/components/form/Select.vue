@@ -484,7 +484,7 @@ defineExpose({
 }
 
 .lib-select__value--placeholder {
-  color: var(--lib-color-text-muted);
+  color: var(--lib-color-text-placeholder);
 }
 
 .lib-select__arrow {
@@ -530,7 +530,7 @@ defineExpose({
   margin: 0;
   padding: var(--lib-spacing-xs) 0;
   list-style: none;
-  background: var(--lib-color-bg);
+  background: var(--lib-color-bg-raised);
   border: 1px solid var(--lib-color-border);
   border-radius: var(--lib-radius-sm);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -545,7 +545,7 @@ defineExpose({
 }
 
 .lib-select__option--active {
-  background: var(--lib-color-bg-disabled);
+  background: var(--lib-color-bg-hover);
 }
 
 .lib-select__option--selected {
@@ -566,7 +566,7 @@ defineExpose({
   z-index: var(--lib-z-index-overlay);
   display: flex;
   align-items: flex-end;
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--lib-color-backdrop);
 }
 
 .lib-select__sheet {
@@ -574,7 +574,7 @@ defineExpose({
   max-height: 70vh;
   display: flex;
   flex-direction: column;
-  background: var(--lib-color-bg);
+  background: var(--lib-color-bg-raised);
   border-radius: var(--lib-radius-md) var(--lib-radius-md) 0 0;
   padding-bottom: env(safe-area-inset-bottom, 0);
   overflow: hidden;
@@ -624,7 +624,7 @@ defineExpose({
 }
 
 .lib-select__sheet-option--active {
-  background: var(--lib-color-bg-disabled);
+  background: var(--lib-color-bg-hover);
 }
 
 .lib-select__sheet-option--selected {

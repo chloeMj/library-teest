@@ -314,7 +314,7 @@ defineExpose({ validate })
 }
 
 .lib-checkbox-group__option:not(.lib-checkbox-group__option--disabled):hover .lib-checkbox-group__control {
-  border-color: var(--lib-color-border-focus);
+  border-color: var(--lib-color-border-hover);
 }
 
 .lib-checkbox-group__input:checked ~ .lib-checkbox-group__control {
@@ -327,13 +327,13 @@ defineExpose({ validate })
 }
 
 .lib-checkbox-group__input:focus-visible ~ .lib-checkbox-group__control {
-  outline: 2px solid var(--lib-color-border-focus);
+  outline: 2px solid var(--lib-color-focus-ring);
   outline-offset: 2px;
 }
 
 .lib-checkbox-group__input:disabled ~ .lib-checkbox-group__control {
   background: var(--lib-color-bg-disabled);
-  border-color: var(--lib-color-border);
+  border-color: var(--lib-color-border-disabled);
 }
 
 .lib-checkbox-group__option-icon {
@@ -378,7 +378,7 @@ defineExpose({ validate })
 }
 
 .lib-checkbox-group__options--button .lib-checkbox-group__option:not(.lib-checkbox-group__option--disabled):hover {
-  border-color: var(--lib-color-border-focus);
+  border-color: var(--lib-color-border-hover);
 }
 
 .lib-checkbox-group__options--button .lib-checkbox-group__option--selected {
@@ -403,7 +403,7 @@ defineExpose({ validate })
 }
 
 .lib-checkbox-group__options--button .lib-checkbox-group__option:focus-within {
-  outline: 2px solid var(--lib-color-border-focus);
+  outline: 2px solid var(--lib-color-focus-ring);
   outline-offset: 2px;
 }
 </style>

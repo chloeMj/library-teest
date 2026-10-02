@@ -284,7 +284,7 @@ defineExpose({ validate })
 }
 
 .lib-radio-group__option:not(.lib-radio-group__option--disabled):hover .lib-radio-group__control {
-  border-color: var(--lib-color-border-focus);
+  border-color: var(--lib-color-border-hover);
 }
 
 .lib-radio-group__input:checked ~ .lib-radio-group__control {
@@ -296,13 +296,13 @@ defineExpose({ validate })
 }
 
 .lib-radio-group__input:focus-visible ~ .lib-radio-group__control {
-  outline: 2px solid var(--lib-color-border-focus);
+  outline: 2px solid var(--lib-color-focus-ring);
   outline-offset: 2px;
 }
 
 .lib-radio-group__input:disabled ~ .lib-radio-group__control {
   background: var(--lib-color-bg-disabled);
-  border-color: var(--lib-color-border);
+  border-color: var(--lib-color-border-disabled);
 }
 
 .lib-radio-group__option-icon {
@@ -347,7 +347,7 @@ defineExpose({ validate })
 }
 
 .lib-radio-group__options--button .lib-radio-group__option:not(.lib-radio-group__option--disabled):hover {
-  border-color: var(--lib-color-border-focus);
+  border-color: var(--lib-color-border-hover);
 }
 
 .lib-radio-group__options--button .lib-radio-group__option--selected {
@@ -373,7 +373,7 @@ defineExpose({ validate })
 }
 
 .lib-radio-group__options--button .lib-radio-group__option:focus-within {
-  outline: 2px solid var(--lib-color-border-focus);
+  outline: 2px solid var(--lib-color-focus-ring);
   outline-offset: 2px;
 }
 </style>

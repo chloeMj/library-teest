@@ -295,7 +295,7 @@ defineExpose({
 }
 
 .lib-input__field:disabled {
-  color: var(--lib-color-text-muted);
+  color: var(--lib-color-text-disabled);
   cursor: not-allowed;
 }
 
