@@ -1,126 +1,170 @@
-# 색상 토큰 명세 (디자인 확정용)
+# 색상 토큰 명세 (디자이너 요청서)
 
-이 라이브러리의 모든 색은 아래 토큰으로만 지정됩니다. 디자인이 확정되면
-**토큰 이름은 그대로 두고 값만 교체**하면 전체 컴포넌트에 반영됩니다.
+컴포넌트 라이브러리에서 쓸 색 체계입니다. 이 문서의 형식대로 Figma 변수를 만들어
+주시면, 시안에 적힌 변수 이름을 그대로 코드로 옮길 수 있습니다.
 
-- 정의 위치: [src/styles/tokens.scss](../src/styles/tokens.scss)
-- 현재 값은 디자인 확정 전까지 쓰는 **임시값**입니다.
-- 소비 프로젝트에서 바꿀 때는 라이브러리 CSS를 불러온 뒤 `:root`에서 재정의합니다.
-
-```css
-:root {
-  --lib-color-primary: #ff5722;
-  --lib-color-border: #cccccc;
-}
-```
-
-## 토큰 층 구조
-
-색은 세 층으로 나눠 관리합니다. 이 문서가 다루는 건 **2층(역할 토큰)**입니다.
-
-| 층 | 예시 | 들어가는 곳 | 상태 |
-|---|---|---|---|
-| 1. 팔레트 | `--gray-100`, `--primary` | 라이브러리의 회사 테마 파일 | **예정** (별도 작업) |
-| 2. 역할 | `--lib-color-border` | `src/styles/tokens.scss` | 이 문서 |
-| 3. 프로젝트 예외 | 프로젝트에서 2층을 재정의 | 각 소비 프로젝트 | 프로젝트 담당 |
-
-컴포넌트는 **2층만** 참조합니다. 1층이 생기면 2층의 값이 `var(--gray-300)`처럼
-팔레트를 가리키도록 바뀌고, 컴포넌트와 토큰 이름은 그대로 유지됩니다.
-
-## 이름 규칙
-
-```
---lib-color-<역할>[-<상태/변형>]
-```
-
-- **역할**: `primary`, `text`, `bg`, `border`, `error` 등 쓰임새로 부릅니다.
-  "blue", "gray" 같은 색 이름은 쓰지 않습니다. 디자인이 바뀌어도 이름이 유지되도록.
-- **상태**: `hover`, `active`, `focus`, `disabled`
-- **변형**: `subtle`(옅은 배경), `strong`(진한), `inverse`(반전), `on-*`(그 배경 위 글자색)
+- 코드상 정의: [src/styles/tokens.scss](../src/styles/tokens.scss) (Semantic),
+  [src/styles/palette.scss](../src/styles/palette.scss) (Primitive)
+- 현재 색값은 디자인 확정 전까지 쓰는 임시값입니다.
 
 ---
 
-## 1. Brand — 주요 액션·강조
+## 1. 컬렉션 구조
 
-| 토큰 | 현재값 | 쓰이는 곳 |
+Figma Variables에 **컬렉션 2개**를 만듭니다.
+
+| | Primitives | Semantic |
 |---|---|---|
-| `--lib-color-primary` | `#2563eb` | 포커스 테두리, 선택된 항목, 체크 표시 배경 |
-| `--lib-color-primary-hover` | `#1d4ed8` | (예정) 버튼 hover |
-| `--lib-color-primary-active` | `#1e40af` | (예정) 버튼 누름 |
-| `--lib-color-primary-subtle` | `#eff6ff` | 선택 항목 배경 등 옅은 강조 |
-| `--lib-color-on-primary` | `#ffffff` | primary 배경 위 글자·체크 표시 |
+| 예시 이름 | `Gray/100`, `Brand/500` | `surface/default`, `text/muted` |
+| 값 | 실제 색값 (`#eff1f5`) | 다른 변수를 가리킴 (→ `Gray/100`) |
+| 모드 | 없음 (한 벌 고정) | **Light / Dark 2개** |
+| 시안 레이어에 적용 | 사용하지 않음 | 이것만 사용 |
 
-## 2. Text — 글자
+### 규칙
 
-| 토큰 | 현재값 | 쓰이는 곳 |
-|---|---|---|
-| `--lib-color-text` | `#18181b` | 본문, 라벨, 입력값 |
-| `--lib-color-text-muted` | `#71717a` | 보조 설명, 아이콘, 단위 |
-| `--lib-color-text-placeholder` | muted와 동일 | 입력 전 안내 문구 |
-| `--lib-color-text-disabled` | muted와 동일 | 비활성 입력값 |
-| `--lib-color-text-inverse` | `#ffffff` | (예정) 어두운 배경 위 글자 (Toast) |
-
-## 3. Surface — 배경
-
-| 토큰 | 현재값 | 쓰이는 곳 |
-|---|---|---|
-| `--lib-color-bg` | `#ffffff` | 입력 박스, 기본 표면 |
-| `--lib-color-bg-subtle` | `#fafafa` | (예정) 영역 구분, 헤더 |
-| `--lib-color-bg-hover` | `#f4f4f5` | 목록 항목 hover·키보드 이동 |
-| `--lib-color-bg-selected` | primary-subtle와 동일 | (예정) 선택된 항목 배경 |
-| `--lib-color-bg-disabled` | `#f4f4f5` | 비활성 입력 박스 |
-| `--lib-color-bg-raised` | bg와 동일 | 드롭다운, bottomSheet, (예정) Modal·Toast |
-| `--lib-color-backdrop` | `rgba(0,0,0,0.4)` | 오버레이 뒤 딤 |
-
-## 4. Border — 테두리
-
-| 토큰 | 현재값 | 쓰이는 곳 |
-|---|---|---|
-| `--lib-color-border` | `#d4d4d8` | 입력 박스, 구분선 |
-| `--lib-color-border-strong` | `#a1a1aa` | (예정) 강조 테두리 |
-| `--lib-color-border-focus` | primary와 동일 | 포커스·열림 상태 테두리 |
-| `--lib-color-border-hover` | focus와 동일 | 마우스 올렸을 때 테두리 |
-| `--lib-color-border-disabled` | border와 동일 | 비활성 테두리 |
-| `--lib-color-focus-ring` | focus와 동일 | 키보드 포커스 링(outline) |
-
-## 5. Feedback — 상태 전달
-
-| 토큰 | 현재값 | 쓰이는 곳 |
-|---|---|---|
-| `--lib-color-error` | `#dc2626` | 에러 메시지, 필수 표시, 에러 테두리 |
-| `--lib-color-error-subtle` | `#fef2f2` | (예정) 에러 배경 |
-| `--lib-color-success` | `#16a34a` | (예정) 성공 Toast |
-| `--lib-color-success-subtle` | `#f0fdf4` | (예정) 성공 배경 |
-| `--lib-color-warning` | `#d97706` | (예정) 경고 |
-| `--lib-color-warning-subtle` | `#fffbeb` | (예정) 경고 배경 |
-| `--lib-color-info` | `#0284c7` | (예정) 안내 |
-| `--lib-color-info-subtle` | `#f0f9ff` | (예정) 안내 배경 |
+1. **시안 레이어에는 Semantic 변수만 적용합니다.** Primitive를 직접 칠하거나 색값을
+   직접 입력하면, 다크 모드에서 어떤 색이 되어야 하는지 알 수 없습니다.
+2. **Primitive 값은 모드에 따라 바뀌지 않습니다.** `Gray/900`은 라이트에서도
+   다크에서도 같은 색입니다. 모드에 따라 달라지는 것은 "어느 단계를 가리키는가"입니다.
+3. 다크 모드는 명도 반전이 아닙니다. 아래 Semantic 표의 Dark 열대로 단계를 지정합니다.
 
 ---
 
-## 디자인 요청 시 체크리스트
+## 2. Primitives — 채워 주실 색
 
-디자이너에게 확인받을 항목입니다. **(예정)** 표시는 아직 쓰는 컴포넌트가 없고,
-Modal·Toast 등이 추가되면 사용됩니다.
+### 이름 규칙
 
-1. **Primary 계열 3단계** — 기본 / hover / 누름 색이 각각 필요합니다.
-2. **글자색 단계** — 본문, 보조 설명, placeholder가 같은 색인지 다른지.
-3. **hover와 focus 구분** — 지금은 같은 색입니다. 다르게 할지 결정이 필요합니다.
-4. **선택 항목 표시 방식** — 지금은 글자색만 바뀝니다. 배경까지 칠할지.
-5. **상태 색 4종** — 에러 / 성공 / 경고 / 안내. 각각 글자색과 옅은 배경색.
-6. **다크 모드 지원 여부** — 지원한다면 위 토큰의 다크 버전 값이 한 벌 더 필요합니다.
-7. **색 대비** — 글자와 배경의 대비가 WCAG AA(4.5:1) 이상인지. 특히 muted 계열.
-8. **팔레트 단계** — 1층 팔레트를 만들 때 필요합니다. 아래 단위로 요청합니다.
+```
+<계열>/<단계>        예) Gray/100, Brand/500, Red/50
+```
 
-| 요청 항목 | 보통 필요한 단계 |
+단계는 숫자가 클수록 어둡습니다. 단계별 쓰임새는 모든 계열이 동일합니다.
+
+| 단계 | 쓰임 |
 |---|---|
-| 회색(중립) | 5~7단계 — 배경 2, 테두리 2, 글자 2~3 |
-| 브랜드 색 | 3~4단계 — 기본, hover, 누름, 옅은 배경 |
-| 상태 색 | 각 2단계 — 본색 + 옅은 배경 (에러/성공/경고/안내) |
+| 0 | 흰색 (Gray 계열에만) |
+| 50 | 가장 옅은 배경 |
+| 100 | 옅은 배경 / 옅은 테두리 |
+| 200 | 테두리 |
+| 300 | 진한 테두리 / 다크 모드 보조 글자 |
+| 400 | 보조 요소 / 다크 모드 기본색 |
+| **500** | **기본색** |
+| 600 | hover |
+| 700 | 누름(active) |
+| 800 | 본문 글자 |
+| 900 | 가장 진한 글자 / 다크 모드 배경 |
 
-## 아직 토큰으로 열지 않은 것
+### 필요한 계열
 
-- **그림자 색** — `--lib-shadow-*`로 그림자 전체를 토큰화할 때 함께 다룹니다.
-- **다크 모드 전용 토큰 세트** — 지원 여부 확정 후 구조를 정합니다.
-- **컴포넌트 전용 색 토큰**(예: `--lib-input-border-color`) — 전역 토큰으로
-  부족한 경우가 생기면 그때 한 겹 더 둡니다. 지금은 토큰 수를 늘리지 않습니다.
+| 계열 | 단계 | 비고 |
+|---|---|---|
+| Gray | 0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900 | 배경·테두리·글자 |
+| Brand | 50 ~ 900 | 주조색 |
+| Red | 50 ~ 900 | 에러 |
+| Amber | 50 ~ 900 | 경고 |
+| Green | 50 ~ 900 | 성공 |
+| Blue | 50 ~ 900 | 안내 |
+| 확장 (Orange, Teal, Navy, Purple 등) | 500만 | 차트·뱃지 항목 구분용 |
+
+### 조건
+
+- 같은 계열 안에서 색조(hue)를 일정하게 유지합니다. 중간 단계만 중립 회색이 되는 식은
+  연속된 배경·테두리에서 색감이 튑니다.
+- `500` 단계는 흰 글자를 올렸을 때 대비 **4.5:1 이상**이어야 합니다 (WCAG AA).
+  버튼 배경으로 쓰이기 때문입니다.
+- 옅은 배경(50, 100)은 투명도(rgba) 대신 **불투명 값**으로 주세요. 투명도는 배경이
+  흰색이 아닌 곳에서 색이 달라집니다.
+- 중간값(150, 250 등)은 두지 않습니다. 단계가 부족하면 전 계열에 동일하게 추가합니다.
+
+---
+
+## 3. Semantic — 모드별 연결
+
+각 변수에 Light / Dark 모드별로 가리킬 Primitive를 지정합니다.
+오른쪽 CSS 변수는 개발에서 쓰는 이름이며 1:1로 대응합니다.
+
+### Surface (배경)
+
+| Figma 변수 | Light | Dark | CSS 변수 |
+|---|---|---|---|
+| `surface/default` | Gray/0 | Gray/900 | `--ui-surface-default` |
+| `surface/subtle` | Gray/50 | Gray/800 | `--ui-surface-subtle` |
+| `surface/hover` | Gray/100 | Gray/700 | `--ui-surface-hover` |
+| `surface/selected` | Brand/50 | Brand/900 | `--ui-surface-selected` |
+| `surface/disabled` | Gray/100 | Gray/700 | `--ui-surface-disabled` |
+| `surface/raised` | Gray/0 | Gray/800 | `--ui-surface-raised` |
+
+> `surface/raised`는 드롭다운·모달처럼 떠 있는 레이어입니다. 라이트에서는 그림자로,
+> 다크에서는 배경보다 밝은 색으로 띄웁니다.
+
+### Border (테두리)
+
+| Figma 변수 | Light | Dark | CSS 변수 |
+|---|---|---|---|
+| `border/default` | Gray/200 | Gray/600 | `--ui-border-default` |
+| `border/strong` | Gray/400 | Gray/400 | `--ui-border-strong` |
+| `border/focus` | Brand/500 | Brand/400 | `--ui-border-focus` |
+
+### Text (글자)
+
+| Figma 변수 | Light | Dark | CSS 변수 |
+|---|---|---|---|
+| `text/default` | Gray/900 | Gray/0 | `--ui-text-default` |
+| `text/muted` | Gray/500 | Gray/300 | `--ui-text-muted` |
+| `text/placeholder` | Gray/500 | Gray/400 | `--ui-text-placeholder` |
+| `text/disabled` | Gray/500 | Gray/500 | `--ui-text-disabled` |
+| `text/inverse` | Gray/0 | Gray/900 | `--ui-text-inverse` |
+
+### Primary (주요 액션)
+
+| Figma 변수 | Light | Dark | CSS 변수 |
+|---|---|---|---|
+| `primary/default` | Brand/500 | Brand/400 | `--ui-primary-default` |
+| `primary/hover` | Brand/600 | Brand/300 | `--ui-primary-hover` |
+| `primary/active` | Brand/700 | Brand/500 | `--ui-primary-active` |
+| `primary/subtle` | Brand/50 | Brand/900 | `--ui-primary-subtle` |
+| `primary/on` | Gray/0 | Gray/900 | `--ui-primary-on` |
+
+> `primary/on`은 primary 배경 위에 올라가는 글자색입니다.
+
+### Feedback (상태)
+
+| Figma 변수 | Light | Dark | CSS 변수 |
+|---|---|---|---|
+| `danger/default` | Red/500 | Red/300 | `--ui-danger-default` |
+| `danger/subtle` | Red/50 | Red/900 | `--ui-danger-subtle` |
+| `success/default` | Green/500 | Green/300 | `--ui-success-default` |
+| `success/subtle` | Green/50 | Green/900 | `--ui-success-subtle` |
+| `warning/default` | Amber/500 | Amber/300 | `--ui-warning-default` |
+| `warning/subtle` | Amber/50 | Amber/900 | `--ui-warning-subtle` |
+| `info/default` | Blue/500 | Blue/300 | `--ui-info-default` |
+| `info/subtle` | Blue/50 | Blue/900 | `--ui-info-subtle` |
+
+---
+
+## 4. 확인이 필요한 사항
+
+1. **Gray 단계 수** — 11단계가 적정한지. 부족하거나 과한지
+2. **Brand와 Success** — 둘 다 초록 계열이면 구분이 어렵습니다. 분리할지, 합칠지
+3. **hover / active** — Brand의 600 / 700 단계로 충분한지, 별도 색이 필요한지
+4. **다크 모드 대비** — 위 표의 Dark 열 조합이 시안 의도와 맞는지
+5. **확장 계열** — 차트·뱃지에 필요한 색 수
+
+---
+
+## 5. 전달 방식
+
+아래 중 편한 방식이면 됩니다.
+
+- Figma 파일 공유 (Variables 패널에서 확인)
+- Variables 내보내기 (JSON)
+- 표 형태 (계열 × 단계 색값 + Semantic 연결)
+
+## 6. 체크리스트
+
+- [ ] Primitives 컬렉션 생성 (모드 없음)
+- [ ] Semantic 컬렉션 생성 (Light / Dark 2개 모드)
+- [ ] Semantic 변수가 Primitive를 가리키도록 연결
+- [ ] 시안 레이어에 Semantic 변수 적용 (직접 색값 입력 없음)
+- [ ] Brand/500 흰 글자 대비 4.5:1 이상 확인
+- [ ] 다크 모드 시안에서 본문 글자 대비 4.5:1 이상 확인
