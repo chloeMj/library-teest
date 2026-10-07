@@ -1,89 +1,127 @@
 // library-test 디자인 토큰
 //
-// 소비 프로젝트는 :root(또는 원하는 스코프)에서 아래 변수를 재정의하는 것만으로
-// 컴포넌트 스타일을 커스텀할 수 있습니다. CSS 변수이므로 선택자 명시도
-// 경쟁 없이 값만 덮어씁니다.
+// 색상 토큰은 Figma의 Semantic 컬렉션과 1:1로 대응합니다.
+//   Figma  surface/default (Light: Gray/0,  Dark: Gray/900)
+//   CSS    --ui-surface-default
+// 명세: docs/COLOR-TOKENS.md
+//
+// var(--ui-gray-0, #ffffff) 형태는 "팔레트가 있으면 그 값, 없으면 기본값"을 뜻합니다.
+// palette.scss를 함께 불러오면 회사 색으로, 아니면 중립 톤으로 동작합니다.
+//
+// 다크 모드 적용 조건은 styles/mixins/_theme.scss 참고.
+
+@use 'mixins/theme' as theme;
 
 :root {
   // ---------------------------------------------------------------------------
-  // Color
-  //
-  // 역할(semantic) 기준으로 이름을 붙입니다. "파란색"이 아니라 "주요 액션 색"처럼
-  // 쓰임새로 부르기 때문에, 디자인이 바뀌어도 토큰 이름은 그대로 두고 값만 바꿉니다.
-  // 아래 값은 디자인 확정 전까지 쓰는 임시값입니다 (docs/COLOR-TOKENS.md 참고).
+  // Color — Light
   // ---------------------------------------------------------------------------
 
-  // --- Brand: 주요 액션/강조 ---
-  --lib-color-primary: #2563eb;
-  // primary 요소에 마우스를 올렸을 때 / 누르고 있을 때
-  --lib-color-primary-hover: #1d4ed8;
-  --lib-color-primary-active: #1e40af;
-  // primary의 옅은 배경 (선택된 항목 배경, 강조 영역 등)
-  --lib-color-primary-subtle: #eff6ff;
-  // primary 배경 위에 올라가는 텍스트/아이콘 색
-  --lib-color-on-primary: #ffffff;
+  // Primary
+  --ui-primary-default: var(--ui-brand-500, #2563eb);
+  --ui-primary-hover: var(--ui-brand-600, #1d4ed8);
+  --ui-primary-active: var(--ui-brand-700, #1e40af);
+  --ui-primary-subtle: var(--ui-brand-50, #eff6ff);
+  // primary 배경 위에 올라가는 글자/아이콘
+  --ui-primary-on: var(--ui-gray-0, #ffffff);
 
-  // --- Text ---
-  --lib-color-text: #18181b;
-  // 보조 설명, 단위, 아이콘 등
-  --lib-color-text-muted: #71717a;
-  // 입력 전 안내 문구
-  --lib-color-text-placeholder: var(--lib-color-text-muted);
-  --lib-color-text-disabled: var(--lib-color-text-muted);
-  // 어두운 배경 위 텍스트 (Toast 등)
-  --lib-color-text-inverse: #ffffff;
+  // Text
+  --ui-text-default: var(--ui-gray-900, #18181b);
+  --ui-text-muted: var(--ui-gray-500, #71717a);
+  --ui-text-placeholder: var(--ui-gray-500, #71717a);
+  --ui-text-disabled: var(--ui-gray-500, #71717a);
+  // 어두운 배경 위 글자 (Toast 등)
+  --ui-text-inverse: var(--ui-gray-0, #ffffff);
 
-  // --- Surface: 배경 ---
-  // 기본 표면 (입력 박스, 카드)
-  --lib-color-bg: #ffffff;
-  // 한 단계 눌린 배경 (영역 구분, 헤더)
-  --lib-color-bg-subtle: #fafafa;
-  // 목록 항목에 마우스를 올렸을 때 / 키보드로 이동했을 때
-  --lib-color-bg-hover: #f4f4f5;
-  // 선택된 항목 배경
-  --lib-color-bg-selected: var(--lib-color-primary-subtle);
-  --lib-color-bg-disabled: #f4f4f5;
+  // Surface
+  --ui-surface-default: var(--ui-gray-0, #ffffff);
+  --ui-surface-subtle: var(--ui-gray-50, #fafafa);
+  --ui-surface-hover: var(--ui-gray-100, #f4f4f5);
+  --ui-surface-selected: var(--ui-primary-subtle);
+  --ui-surface-disabled: var(--ui-gray-100, #f4f4f5);
   // 떠 있는 레이어 (드롭다운, Modal, Toast, bottomSheet)
-  --lib-color-bg-raised: var(--lib-color-bg);
-  // 오버레이 뒤를 덮는 딤
-  --lib-color-backdrop: rgba(0, 0, 0, 0.4);
+  --ui-surface-raised: var(--ui-gray-0, #ffffff);
+  --ui-surface-backdrop: rgba(0, 0, 0, 0.4);
 
-  // --- Border ---
-  --lib-color-border: #d4d4d8;
-  // 구분선보다 진한 테두리 (강조가 필요한 영역)
-  --lib-color-border-strong: #a1a1aa;
-  --lib-color-border-focus: var(--lib-color-primary);
-  // 마우스를 올렸을 때. 기본은 focus와 같은 색이며, 다르게 하려면 여기만 바꿉니다
-  --lib-color-border-hover: var(--lib-color-border-focus);
-  --lib-color-border-disabled: var(--lib-color-border);
-  // 키보드 포커스 링 (outline). 테두리와 다른 색을 쓰고 싶을 때 분리해서 지정
-  --lib-color-focus-ring: var(--lib-color-border-focus);
+  // Border
+  --ui-border-default: var(--ui-gray-200, #d4d4d8);
+  --ui-border-strong: var(--ui-gray-400, #a1a1aa);
+  --ui-border-focus: var(--ui-primary-default);
+  --ui-border-hover: var(--ui-border-focus);
+  --ui-border-disabled: var(--ui-border-default);
+  --ui-border-focus-ring: var(--ui-border-focus);
 
-  // --- Feedback: 상태 전달 (validation, Toast) ---
-  --lib-color-error: #dc2626;
-  --lib-color-error-subtle: #fef2f2;
-  --lib-color-success: #16a34a;
-  --lib-color-success-subtle: #f0fdf4;
-  --lib-color-warning: #d97706;
-  --lib-color-warning-subtle: #fffbeb;
-  --lib-color-info: #0284c7;
-  --lib-color-info-subtle: #f0f9ff;
+  // Feedback
+  --ui-danger-default: var(--ui-red-500, #dc2626);
+  --ui-danger-subtle: var(--ui-red-50, #fef2f2);
+  --ui-success-default: var(--ui-green-500, #16a34a);
+  --ui-success-subtle: var(--ui-green-50, #f0fdf4);
+  --ui-warning-default: var(--ui-amber-500, #d97706);
+  --ui-warning-subtle: var(--ui-amber-50, #fffbeb);
+  --ui-info-default: var(--ui-blue-500, #0284c7);
+  --ui-info-subtle: var(--ui-blue-50, #f0f9ff);
 
   // Spacing
-  --lib-spacing-xs: 4px;
-  --lib-spacing-sm: 8px;
-  --lib-spacing-md: 12px;
-  --lib-spacing-lg: 16px;
+  --ui-spacing-xs: 4px;
+  --ui-spacing-sm: 8px;
+  --ui-spacing-md: 12px;
+  --ui-spacing-lg: 16px;
 
   // Radius
-  --lib-radius-sm: 4px;
-  --lib-radius-md: 8px;
+  --ui-radius-sm: 4px;
+  --ui-radius-md: 8px;
 
   // Font
-  --lib-font-size-sm: 12px;
-  --lib-font-size-md: 14px;
-  --lib-font-size-lg: 16px;
+  --ui-font-size-sm: 12px;
+  --ui-font-size-md: 14px;
+  --ui-font-size-lg: 16px;
 
   // Z-index (Select의 모바일 bottomSheet, Modal, Toast 등 오버레이류가 공유)
-  --lib-z-index-overlay: 1000;
+  --ui-z-index-overlay: 1000;
+}
+
+// =============================================================================
+// Color — Dark
+//
+// Figma Semantic 컬렉션의 Dark 모드와 1:1로 대응합니다.
+// 팔레트(Primitive) 값은 모드와 무관하게 고정이고, 여기서 가리키는 단계만 바뀝니다.
+// =============================================================================
+
+@include theme.dark {
+  // Primary — 어두운 배경에서는 밝은 단계를 씁니다
+  --ui-primary-default: var(--ui-brand-400, #60a5fa);
+  --ui-primary-hover: var(--ui-brand-300, #93c5fd);
+  --ui-primary-active: var(--ui-brand-500, #3b82f6);
+  --ui-primary-subtle: var(--ui-brand-900, #1e3a5f);
+  --ui-primary-on: var(--ui-gray-900, #18181b);
+
+  // Text
+  --ui-text-default: var(--ui-gray-0, #ffffff);
+  --ui-text-muted: var(--ui-gray-300, #a1a1aa);
+  --ui-text-placeholder: var(--ui-gray-400, #8f8f99);
+  --ui-text-disabled: var(--ui-gray-500, #71717a);
+  --ui-text-inverse: var(--ui-gray-900, #18181b);
+
+  // Surface
+  --ui-surface-default: var(--ui-gray-900, #18181b);
+  --ui-surface-subtle: var(--ui-gray-800, #27272a);
+  --ui-surface-hover: var(--ui-gray-700, #3f3f46);
+  --ui-surface-disabled: var(--ui-gray-700, #3f3f46);
+  // 떠 있는 레이어는 그림자 대신 밝기로 구분합니다
+  --ui-surface-raised: var(--ui-gray-800, #27272a);
+  --ui-surface-backdrop: rgba(0, 0, 0, 0.6);
+
+  // Border
+  --ui-border-default: var(--ui-gray-600, #52525b);
+  --ui-border-strong: var(--ui-gray-400, #a1a1aa);
+
+  // Feedback
+  --ui-danger-default: var(--ui-red-300, #f87171);
+  --ui-danger-subtle: var(--ui-red-900, #3f1d1d);
+  --ui-success-default: var(--ui-green-300, #4ade80);
+  --ui-success-subtle: var(--ui-green-900, #14321f);
+  --ui-warning-default: var(--ui-amber-300, #fbbf24);
+  --ui-warning-subtle: var(--ui-amber-900, #3a2c0a);
+  --ui-info-default: var(--ui-blue-300, #38bdf8);
+  --ui-info-subtle: var(--ui-blue-900, #0c2c3f);
 }

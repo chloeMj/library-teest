@@ -76,40 +76,40 @@ const validateEmail = (value: FieldValue) => {
 
     <section>
       <h2>라벨 위치</h2>
-      <LibInput v-model="name" label="이름 (top)" label-position="top" placeholder="홍길동" />
-      <LibInput v-model="nickname" label="닉네임 (left)" label-position="left" placeholder="길동이" />
-      <LibInput v-model="bio" label="한줄소개 (inside)" label-position="inside" />
+      <UiInput v-model="name" label="이름 (top)" label-position="top" placeholder="홍길동" />
+      <UiInput v-model="nickname" label="닉네임 (left)" label-position="left" placeholder="길동이" />
+      <UiInput v-model="bio" label="한줄소개 (inside)" label-position="inside" />
     </section>
 
     <section>
       <h2>Validation</h2>
-      <LibInput v-model="name" label="필수 + 최대 10자" required :max="10" />
-      <LibInput v-model="email" label="이메일 (커스텀 validator)" :validator="validateEmail" />
+      <UiInput v-model="name" label="필수 + 최대 10자" required :max="10" />
+      <UiInput v-model="email" label="이메일 (커스텀 validator)" :validator="validateEmail" />
     </section>
 
     <section>
       <h2>숫자 + 스테퍼</h2>
-      <LibInput v-model="age" type="number" label="나이" :max="120" :min="0" show-stepper />
+      <UiInput v-model="age" type="number" label="나이" :max="120" :min="0" show-stepper />
     </section>
 
     <section>
       <h2>아이콘 슬롯</h2>
-      <LibInput v-model="name" label="검색">
+      <UiInput v-model="name" label="검색">
         <template #prefix>🔍</template>
-      </LibInput>
+      </UiInput>
     </section>
 
     <section>
       <h2>Select</h2>
-      <LibSelect v-model="fruit" label="좋아하는 과일" placeholder="선택하세요" :options="fruitOptions" />
-      <LibSelect
+      <UiSelect v-model="fruit" label="좋아하는 과일" placeholder="선택하세요" :options="fruitOptions" />
+      <UiSelect
         v-model="city"
         label="거주 도시 (필수, inside)"
         label-position="inside"
         required
         :options="cityOptions"
       />
-      <LibSelect
+      <UiSelect
         v-model="country"
         label="국가 (label/value/영문 키워드로 검색, 좁은 화면이면 bottomSheet)"
         placeholder="예: kr, korea, 대한"
@@ -121,16 +121,16 @@ const validateEmail = (value: FieldValue) => {
 
     <section>
       <h2>Radio</h2>
-      <LibRadio v-model="gender" label="성별 (필수, 가로)" required direction="horizontal" :options="genderOptions" />
-      <LibRadio v-model="plan" label="요금제 (옵션별 disabled)" :options="planOptions" />
-      <LibRadio v-model="plan" label="요금제 (토글 버튼)" variant="button" :options="planOptions" />
+      <UiRadio v-model="gender" label="성별 (필수, 가로)" required direction="horizontal" :options="genderOptions" />
+      <UiRadio v-model="plan" label="요금제 (옵션별 disabled)" :options="planOptions" />
+      <UiRadio v-model="plan" label="요금제 (토글 버튼)" variant="button" :options="planOptions" />
     </section>
 
     <section>
       <h2>Checkbox</h2>
-      <LibCheckbox v-model="agree" label="이용약관에 동의합니다 (필수, 단일)" required />
-      <LibCheckbox v-model="interests" label="관심사 (다중 선택, 가로)" direction="horizontal" :options="interestOptions" />
-      <LibCheckbox v-model="interests" label="관심사 (토글 버튼)" variant="button" :options="interestOptions" />
+      <UiCheckbox v-model="agree" label="이용약관에 동의합니다 (필수, 단일)" required />
+      <UiCheckbox v-model="interests" label="관심사 (다중 선택, 가로)" direction="horizontal" :options="interestOptions" />
+      <UiCheckbox v-model="interests" label="관심사 (토글 버튼)" variant="button" :options="interestOptions" />
     </section>
   </main>
 </template>
