@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import dts from 'vite-plugin-dts'
 import { resolve } from 'path';
 import { fileURLToPath, URL } from 'node:url'
 
@@ -11,6 +12,16 @@ export default ({ mode }: { mode: string }) => {
   return defineConfig({
     plugins: [
       vue(),
+      // 설치한 프로젝트에서 props 자동완성·타입 검사가 되도록 .d.ts를 생성합니다.
+      // 데모(App.vue, demo/, main.ts)는 라이브러리가 아니므로 제외합니다.
+      dts({
+        tsconfigPath: './tsconfig.app.json',
+        include: ['src/**/*.ts', 'src/**/*.vue'],
+        exclude: ['src/App.vue', 'src/demo/**', 'src/main.ts'],
+        // package.json이 가리킬 타입 진입점(dist/library-test.d.ts)을 만듭니다.
+        // 하나로 묶는 bundleTypes는 @microsoft/api-extractor가 필요해 쓰지 않습니다.
+        insertTypesEntry: true,
+      }),
     ],
     resolve: {
       alias: {
