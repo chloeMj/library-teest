@@ -32,6 +32,51 @@ import 'library-test/dist/library-test.css'
 app.use(LibraryTest)
 ```
 
+`app.use`로 전역 등록하면 `<UiInput>` `<UiSelect>` `<UiRadio>` `<UiCheckbox>`를
+import 없이 쓸 수 있습니다. 개별 import도 가능합니다.
+
+```ts
+import { UiInput } from 'library-test'
+```
+
+## TypeScript
+
+빌드 시 타입 선언(`dist/*.d.ts`)이 함께 생성되므로 추가 설정 없이 동작합니다.
+
+### v-model 값 타입
+
+컴포넌트가 받을 수 있는 값의 범위에 맞춰 ref를 선언하세요. 좁게 선언하면
+`strictTemplates`를 켠 프로젝트에서 타입 오류가 납니다.
+
+```ts
+// Input — text/number를 모두 받으므로
+const name = ref<string | number | null>('')
+
+// Select / Radio — 옵션 value의 타입
+const city = ref<string | number | null>(null)
+
+// Checkbox — options 없으면 boolean, 있으면 배열
+const agree = ref(false)
+const interests = ref<(string | number)[]>([])
+```
+
+> 라이브러리가 `string | number | null`처럼 넓은 타입을 쓰는 이유는 하나의
+> 컴포넌트가 여러 입력 타입을 처리하기 때문입니다. 좁은 타입(`ref('')`)으로
+> 쓰고 싶다면 템플릿 검사를 끄거나(`strictTemplates: false`, Vue 기본값)
+> 위처럼 넓게 선언하면 됩니다.
+
+### 템플릿 검사 권장 설정
+
+props 오타나 잘못된 값을 잡으려면 소비 프로젝트의 `tsconfig.app.json`에
+아래를 추가하세요. Vue 기본값은 꺼져 있어서 `variant="없는값"` 같은 실수가
+그냥 통과합니다.
+
+```json
+{
+  "vueCompilerOptions": { "strictTemplates": true }
+}
+```
+
 ## 스타일 커스터마이징
 
 디자인이 바뀌어도 컴포넌트를 새로 만들지 않고 대응할 수 있도록, 커스터마이징을
