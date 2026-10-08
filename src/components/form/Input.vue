@@ -6,10 +6,16 @@ import { useFloatingLabel } from '../../composables/useFloatingLabel'
 import type { ErrorPosition, LabelPosition } from '../../types/form'
 
 type InputType = 'text' | 'number' | 'email' | 'password' | 'tel' | 'search'
+/**
+ * 입력 박스의 모양. 색·간격 같은 값은 토큰으로 바꿀 수 있지만,
+ * 아래 셋은 테두리 구조 자체가 달라 토큰으로 표현되지 않으므로 variant로 둡니다.
+ */
+type InputVariant = 'outlined' | 'filled' | 'underline'
 
 interface Props {
   modelValue?: string | number | null
   type?: InputType
+  variant?: InputVariant
   label?: string
   labelPosition?: LabelPosition
   placeholder?: string
@@ -34,6 +40,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   modelValue: '',
   type: 'text',
+  variant: 'outlined',
   labelPosition: 'top',
   required: false,
   showStepper: false,
@@ -131,7 +138,7 @@ defineExpose({
 </script>
 
 <template>
-  <div class="ui-input" :class="rootClasses">
+  <div class="ui-input" :class="[rootClasses, `ui-input--${variant}`]">
     <label v-if="label && labelPosition !== 'inside'" class="ui-input__label" :for="inputId">
       <slot name="label">{{ label }}<span v-if="required" class="ui-input__required-mark">*</span></slot>
     </label>
@@ -359,5 +366,47 @@ defineExpose({
 .ui-input__stepper-btn:disabled {
   cursor: not-allowed;
   opacity: 0.5;
+}
+
+// --- variant: 테두리 구조가 달라 토큰으로 표현되지 않는 부분만 분기합니다 ---
+// outlined(기본)는 위의 .ui-input__control 규칙을 그대로 씁니다.
+
+// filled: 테두리 대신 배경으로 입력 영역을 표시
+.ui-input--filled .ui-input__control {
+  background: var(--ui-surface-hover);
+  border-color: transparent;
+}
+
+.ui-input--filled .ui-input__control--focused {
+  border-color: var(--ui-border-focus);
+}
+
+.ui-input--filled.ui-input--invalid .ui-input__control {
+  border-color: var(--ui-danger-default);
+}
+
+.ui-input--filled.ui-input--disabled .ui-input__control {
+  background: var(--ui-surface-disabled);
+}
+
+// underline: 아래쪽 선만 남김
+.ui-input--underline .ui-input__control {
+  border-width: 0 0 1px 0;
+  border-radius: 0;
+  background: transparent;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.ui-input--underline.ui-input--disabled .ui-input__control {
+  background: transparent;
+  opacity: 0.6;
+}
+
+// 좌우 패딩이 없어졌으므로 inside 라벨도 왼쪽 끝에 맞춥니다
+.ui-input--underline .ui-input__label--inside {
+  left: 0;
+  padding-left: 0;
+  background: transparent;
 }
 </style>

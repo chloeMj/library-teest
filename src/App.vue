@@ -1,153 +1,226 @@
 <script setup lang="ts">
-// 로컬 개발/데모용 화면입니다. 새 컴포넌트를 추가하면 여기서 바로 미리보기 하세요.
-import { ref } from 'vue'
-import type { FieldValue } from './composables/useFieldValidation'
+// 로컬 개발용 데모 카탈로그의 셸입니다.
+// 컴포넌트를 추가하면 demo/ 에 섹션 파일을 만들고 아래 두 곳(sections, 템플릿)에만 추가하세요.
+import { ref, watchEffect } from 'vue'
+// 팔레트는 소비 프로젝트가 선택적으로 불러오는 파일입니다(dist/palette.css).
+// 데모에서는 켜고 끌 수 있도록 문자열로 가져와 <style>로 넣고 뺍니다.
+import paletteCss from './styles/palette.scss?inline'
+import InputSection from './demo/InputSection.vue'
+import SelectSection from './demo/SelectSection.vue'
+import RadioSection from './demo/RadioSection.vue'
+import CheckboxSection from './demo/CheckboxSection.vue'
 
-const name = ref('')
-const nickname = ref('')
-const bio = ref('')
-const age = ref<number | null>(null)
-const email = ref('')
+type Theme = 'system' | 'light' | 'dark'
+const themes: { value: Theme; label: string }[] = [
+  { value: 'system', label: '시스템' },
+  { value: 'light', label: '라이트' },
+  { value: 'dark', label: '다크' },
+]
+const theme = ref<Theme>('system')
 
-const fruit = ref<string | null>(null)
-const city = ref<string | null>(null)
-const fruitOptions = [
-  { label: '사과', value: 'apple' },
-  { label: '바나나', value: 'banana' },
-  { label: '포도', value: 'grape' },
-]
-const cityOptions = [
-  { label: '서울', value: 'seoul' },
-  { label: '부산', value: 'busan' },
-  { label: '대구', value: 'daegu' },
-]
-const country = ref<string | null>(null)
-const countryOptions = [
-  { label: '대한민국', value: 'kr', keywords: 'korea republic' },
-  { label: '미국', value: 'us', keywords: 'usa united states america' },
-  { label: '일본', value: 'jp', keywords: 'japan' },
-  { label: '중국', value: 'cn', keywords: 'china' },
-  { label: '독일', value: 'de', keywords: 'germany deutschland' },
-  { label: '프랑스', value: 'fr', keywords: 'france' },
-  { label: '영국', value: 'gb', keywords: 'uk united kingdom britain' },
-  { label: '캐나다', value: 'ca', keywords: 'canada' },
-]
+watchEffect(() => {
+  const root = document.documentElement
+  if (theme.value === 'system') delete root.dataset.theme
+  else root.dataset.theme = theme.value
+})
 
-const gender = ref<string | null>(null)
-const genderOptions = [
-  { label: '남성', value: 'male' },
-  { label: '여성', value: 'female' },
-  { label: '선택 안 함', value: 'none' },
-]
+// 팔레트 on/off — 소비 프로젝트가 palette.css를 불러왔을 때와 아닐 때를 비교합니다
+const PALETTE_STYLE_ID = 'ui-palette'
+const paletteOn = ref(true)
 
-const plan = ref<string | null>(null)
-const planOptions = [
-  { label: '무료', value: 'free', icon: '🆓' },
-  {
-    label: '프로 (이미지 아이콘)',
-    value: 'pro',
-    icon: {
-      src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Ccircle cx='8' cy='8' r='8' fill='%23f59e0b'/%3E%3C/svg%3E",
-      alt: '프로 플랜',
-    },
-  },
-  { label: '엔터프라이즈 (품절)', value: 'enterprise', icon: '🏢', disabled: true },
-]
+watchEffect(() => {
+  const existing = document.getElementById(PALETTE_STYLE_ID)
+  if (!paletteOn.value) {
+    existing?.remove()
+    return
+  }
+  if (existing) return
+  const style = document.createElement('style')
+  style.id = PALETTE_STYLE_ID
+  style.textContent = paletteCss
+  // 코어 CSS보다 뒤에 와야 값이 덮어씌워집니다
+  document.head.append(style)
+})
 
-const agree = ref(false)
-const interests = ref<string[]>([])
-const interestOptions = [
-  { label: '스포츠', value: 'sports', icon: '⚽' },
-  { label: '음악', value: 'music', icon: '🎵' },
-  { label: '영화', value: 'movie', icon: '🎬' },
-  { label: '독서', value: 'reading', icon: '📚' },
+// 목차 — 섹션을 추가하면 여기에 한 줄 더합니다
+const sections = [
+  { id: 'input', label: 'Input' },
+  { id: 'select', label: 'Select' },
+  { id: 'radio', label: 'Radio' },
+  { id: 'checkbox', label: 'Checkbox' },
 ]
-
-const validateEmail = (value: FieldValue) => {
-  if (!value) return null
-  const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value))
-  return isValid ? null : '올바른 이메일 형식이 아닙니다.'
-}
 </script>
 
 <template>
-  <main class="demo">
-    <h1>library-test</h1>
+  <div class="demo">
+    <header class="demo__header">
+      <div>
+        <h1 class="demo__title">UI 컴포넌트 카탈로그</h1>
+        <nav class="demo__nav">
+          <a v-for="section in sections" :key="section.id" :href="`#${section.id}`">
+            {{ section.label }}
+          </a>
+        </nav>
+      </div>
 
-    <section>
-      <h2>라벨 위치</h2>
-      <UiInput v-model="name" label="이름 (top)" label-position="top" placeholder="홍길동" />
-      <UiInput v-model="nickname" label="닉네임 (left)" label-position="left" placeholder="길동이" />
-      <UiInput v-model="bio" label="한줄소개 (inside)" label-position="inside" />
-    </section>
+      <div class="demo__controls">
+        <div class="demo__theme" role="group" aria-label="테마">
+          <button
+            v-for="option in themes"
+            :key="option.value"
+            class="demo__theme-btn"
+            :class="{ 'demo__theme-btn--active': theme === option.value }"
+            @click="theme = option.value"
+          >
+            {{ option.label }}
+          </button>
+        </div>
 
-    <section>
-      <h2>Validation</h2>
-      <UiInput v-model="name" label="필수 + 최대 10자" required :max="10" />
-      <UiInput v-model="email" label="이메일 (커스텀 validator)" :validator="validateEmail" />
-    </section>
+        <label class="demo__switch">
+          <input v-model="paletteOn" type="checkbox" />
+          <span>팔레트</span>
+        </label>
+      </div>
+    </header>
 
-    <section>
-      <h2>숫자 + 스테퍼</h2>
-      <UiInput v-model="age" type="number" label="나이" :max="120" :min="0" show-stepper />
-    </section>
-
-    <section>
-      <h2>아이콘 슬롯</h2>
-      <UiInput v-model="name" label="검색">
-        <template #prefix>🔍</template>
-      </UiInput>
-    </section>
-
-    <section>
-      <h2>Select</h2>
-      <UiSelect v-model="fruit" label="좋아하는 과일" placeholder="선택하세요" :options="fruitOptions" />
-      <UiSelect
-        v-model="city"
-        label="거주 도시 (필수, inside)"
-        label-position="inside"
-        required
-        :options="cityOptions"
-      />
-      <UiSelect
-        v-model="country"
-        label="국가 (label/value/영문 키워드로 검색, 좁은 화면이면 bottomSheet)"
-        placeholder="예: kr, korea, 대한"
-        searchable
-        :filter-keys="['label', 'value', 'keywords']"
-        :options="countryOptions"
-      />
-    </section>
-
-    <section>
-      <h2>Radio</h2>
-      <UiRadio v-model="gender" label="성별 (필수, 가로)" required direction="horizontal" :options="genderOptions" />
-      <UiRadio v-model="plan" label="요금제 (옵션별 disabled)" :options="planOptions" />
-      <UiRadio v-model="plan" label="요금제 (토글 버튼)" variant="button" :options="planOptions" />
-    </section>
-
-    <section>
-      <h2>Checkbox</h2>
-      <UiCheckbox v-model="agree" label="이용약관에 동의합니다 (필수, 단일)" required />
-      <UiCheckbox v-model="interests" label="관심사 (다중 선택, 가로)" direction="horizontal" :options="interestOptions" />
-      <UiCheckbox v-model="interests" label="관심사 (토글 버튼)" variant="button" :options="interestOptions" />
-    </section>
-  </main>
+    <InputSection />
+    <SelectSection />
+    <RadioSection />
+    <CheckboxSection />
+  </div>
 </template>
 
 <style>
-.demo {
-  max-width: 420px;
-  margin: 40px auto;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
+/* 데모 화면도 라이브러리 토큰으로 스타일링해, 토큰을 바꾸면 함께 바뀌는지 확인합니다. */
+body {
+  margin: 0;
+  background: var(--ui-surface-subtle);
+  color: var(--ui-text-default);
   font-family: system-ui, sans-serif;
 }
 
-.demo section {
+.demo {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
   display: flex;
   flex-direction: column;
+  gap: 32px;
+}
+
+.demo__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
   gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--ui-border-default);
+}
+
+.demo__title {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
+
+.demo__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: var(--ui-font-size-sm);
+}
+
+.demo__nav a {
+  color: var(--ui-text-muted);
+  text-decoration: none;
+}
+
+.demo__nav a:hover {
+  color: var(--ui-primary-default);
+}
+
+.demo__controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.demo__switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--ui-font-size-sm);
+  color: var(--ui-text-muted);
+  cursor: pointer;
+}
+
+.demo__switch input {
+  accent-color: var(--ui-primary-default);
+}
+
+.demo__theme {
+  display: flex;
+  border: 1px solid var(--ui-border-default);
+  border-radius: var(--ui-radius-md);
+  overflow: hidden;
+}
+
+.demo__theme-btn {
+  border: none;
+  background: var(--ui-surface-default);
+  color: var(--ui-text-muted);
+  padding: 6px 14px;
+  font: inherit;
+  font-size: var(--ui-font-size-sm);
+  cursor: pointer;
+}
+
+.demo__theme-btn--active {
+  background: var(--ui-primary-default);
+  color: var(--ui-primary-on);
+}
+
+/* --- 섹션 공통 (demo/DemoSection.vue, demo/DemoGroup.vue가 사용) --- */
+.demo__section {
+  scroll-margin-top: 16px;
+  background: var(--ui-surface-default);
+  border: 1px solid var(--ui-border-default);
+  border-radius: var(--ui-radius-md);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.demo__heading {
+  margin: 0;
+  font-size: 16px;
+}
+
+.demo__group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.demo__sub {
+  margin: 0;
+  font-size: var(--ui-font-size-sm);
+  font-weight: 600;
+  color: var(--ui-text-muted);
+}
+
+/* 한 줄에 여러 예시를 나열해 상태를 한눈에 비교합니다 */
+.demo__row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+.demo__note {
+  margin: 0;
+  font-size: var(--ui-font-size-sm);
+  color: var(--ui-text-muted);
 }
 </style>
