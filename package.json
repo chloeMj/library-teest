@@ -7,6 +7,7 @@
   "module": "./dist/library-test.js",
   "exports": {
     ".": {
+      "types": "./dist/library-test.d.ts",
       "import": "./dist/library-test.js",
       "require": "./dist/library-test.umd.js"
     },
@@ -18,10 +19,11 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build && npm run build:palette && npm run build:tokens",
+    "build": "vue-tsc -b && vite build && npm run build:palette && npm run build:tokens",
     "preview": "vite preview",
     "build:palette": "sass src/styles/palette.scss dist/palette.css --no-source-map --style=compressed",
-    "build:tokens": "node scripts/export-figma-tokens.mjs"
+    "build:tokens": "node scripts/export-figma-tokens.mjs",
+    "type-check": "vue-tsc -b --force"
   },
   "dependencies": {
     "vue": "^3.5.40"
@@ -33,6 +35,8 @@
     "sass-embedded": "^1.100.0",
     "typescript": "~6.0.2",
     "vite": "^8.2.0",
+    "vite-plugin-dts": "^5.1.2",
     "vue-tsc": "^3.3.8"
-  }
+  },
+  "types": "./dist/library-test.d.ts"
 }

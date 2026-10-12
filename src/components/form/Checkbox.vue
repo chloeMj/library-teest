@@ -55,10 +55,14 @@ const isGroup = computed(() => Array.isArray(props.options))
 
 /**
  * 단일 모드도 "옵션 하나짜리 그룹"으로 취급해서 렌더링/선택 로직을 하나로 통일합니다.
- * value는 그룹 모드에서 쓰이지 않으므로 아무 값(true)이어도 무방합니다.
+ * 단일 모드에서는 체크 여부를 modelValue(boolean)로만 판단하므로 value는 쓰이지 않습니다.
  */
+const SINGLE_VALUE = 'single'
+
 const normalizedOptions = computed<SelectOption[]>(() =>
-  isGroup.value ? (props.options as SelectOption[]) : [{ label: props.label ?? '', value: true }],
+  isGroup.value
+    ? (props.options as SelectOption[])
+    : [{ label: props.label ?? '', value: SINGLE_VALUE }],
 )
 
 const modelValueRef = toRef(props, 'modelValue')
