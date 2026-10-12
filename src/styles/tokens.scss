@@ -6,7 +6,7 @@
 // 명세: docs/COLOR-TOKENS.md
 //
 // var(--ui-gray-0, #ffffff) 형태는 "팔레트가 있으면 그 값, 없으면 기본값"을 뜻합니다.
-// palette.scss를 함께 불러오면 회사 색으로, 아니면 중립 톤으로 동작합니다.
+// palette.scss를 함께 불러오면 그 값으로, 아니면 중립 톤 기본값으로 동작합니다.
 //
 // 다크 모드 적용 조건은 styles/mixins/_theme.scss 참고.
 

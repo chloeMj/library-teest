@@ -105,14 +105,21 @@ app.use(LibraryTest)
 > 디자이너에게 색을 요청할 때는 [docs/COLOR-TOKENS.md](docs/COLOR-TOKENS.md)의
 > 단계 표를 그대로 전달하면 됩니다.
 
-#### 회사 기본 색을 쓰려면
+#### 세 가지 사용 방식
 
-디자인이 따로 없는 프로젝트라면 기본 팔레트를 불러와서 그대로 쓸 수 있습니다.
+| 상황 | 설정 |
+|---|---|
+| 디자인이 아직 없다 | 코어만 불러옴 — 중립 톤으로 동작 |
+| 기본 팔레트를 그대로 쓴다 | `palette.css`를 함께 불러옴 |
+| 프로젝트 색이 따로 있다 | `:root`에서 `--ui-brand-500` 등을 재정의 |
 
 ```ts
 import 'library-test/dist/library-test.css'
 import 'library-test/dist/palette.css'   // 선택 사항
 ```
+
+> `palette.css`의 값은 디자인 확정 전까지 쓰는 임시값입니다.
+> 디자이너에게 요청할 단계 구성은 [docs/COLOR-TOKENS.md](docs/COLOR-TOKENS.md)를 참고하세요.
 
 #### 다크 모드
 
