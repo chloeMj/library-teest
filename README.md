@@ -102,8 +102,7 @@ app.use(LibraryTest)
 }
 ```
 
-> 디자이너에게 색을 요청할 때는 [docs/COLOR-TOKENS.md](docs/COLOR-TOKENS.md)의
-> 단계 표를 그대로 전달하면 됩니다.
+> 바꿀 수 있는 토큰 전체 목록은 [docs/COLOR-TOKENS.md](docs/COLOR-TOKENS.md)에 있습니다.
 
 #### 세 가지 사용 방식
 
@@ -119,7 +118,7 @@ import 'library-test/dist/palette.css'   // 선택 사항
 ```
 
 > `palette.css`의 값은 디자인 확정 전까지 쓰는 임시값입니다.
-> 디자이너에게 요청할 단계 구성은 [docs/COLOR-TOKENS.md](docs/COLOR-TOKENS.md)를 참고하세요.
+> 토큰 목록은 [docs/COLOR-TOKENS.md](docs/COLOR-TOKENS.md)를 참고하세요.
 
 #### 다크 모드
 

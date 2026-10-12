@@ -3,7 +3,7 @@
 // 색상 토큰은 Figma의 Semantic 컬렉션과 1:1로 대응합니다.
 //   Figma  surface/default (Light: Gray/0,  Dark: Gray/900)
 //   CSS    --ui-surface-default
-// 명세: docs/COLOR-TOKENS.md
+// 토큰 목록: docs/COLOR-TOKENS.md
 //
 // var(--ui-gray-0, #ffffff) 형태는 "팔레트가 있으면 그 값, 없으면 기본값"을 뜻합니다.
 // palette.scss를 함께 불러오면 그 값으로, 아니면 중립 톤 기본값으로 동작합니다.

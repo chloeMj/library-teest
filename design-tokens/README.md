@@ -40,4 +40,4 @@
 - Semantic의 값이 색값이 아니라 **Primitive를 가리키는 별칭**인지
 - Semantic에 Light / Dark 두 모드가 있는지
 
-명세와 규칙은 [docs/COLOR-TOKENS.md](../docs/COLOR-TOKENS.md)를 참고하세요.
+토큰 목록은 [docs/COLOR-TOKENS.md](../docs/COLOR-TOKENS.md)를 참고하세요.
