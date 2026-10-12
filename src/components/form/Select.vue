@@ -98,7 +98,7 @@ const displayValue = computed(() => {
 })
 
 const { rootClasses, controlClasses: baseControlClasses } = useFieldClasses({
-  block: 'lib-select',
+  block: 'ui-select',
   labelPosition: toRef(props, 'labelPosition'),
   errorPosition: toRef(props, 'errorPosition'),
   invalid: computed(() => !!errorMessage.value),
@@ -110,7 +110,7 @@ const { rootClasses, controlClasses: baseControlClasses } = useFieldClasses({
 // Select만 갖는 open 상태 modifier를 공통 controlClasses 위에 얹음
 const controlClasses = computed(() => ({
   ...baseControlClasses.value,
-  'lib-select__control--open': isOpen.value,
+  'ui-select__control--open': isOpen.value,
 }))
 
 const openMenu = () => {
@@ -233,19 +233,19 @@ defineExpose({
 </script>
 
 <template>
-  <div class="lib-select" :class="rootClasses">
-    <label v-if="label && labelPosition !== 'inside'" class="lib-select__label" :for="triggerId">
-      <slot name="label">{{ label }}<span v-if="required" class="lib-select__required-mark">*</span></slot>
+  <div class="ui-select" :class="rootClasses">
+    <label v-if="label && labelPosition !== 'inside'" class="ui-select__label" :for="triggerId">
+      <slot name="label">{{ label }}<span v-if="required" class="ui-select__required-mark">*</span></slot>
     </label>
 
-    <div class="lib-select__body">
-      <div class="lib-select__control" :class="controlClasses">
+    <div class="ui-select__body">
+      <div class="ui-select__control" :class="controlClasses">
         <label
           v-if="label && labelPosition === 'inside'"
-          class="lib-select__label lib-select__label--inside"
+          class="ui-select__label ui-select__label--inside"
           :for="triggerId"
         >
-          <slot name="label">{{ label }}<span v-if="required" class="lib-select__required-mark">*</span></slot>
+          <slot name="label">{{ label }}<span v-if="required" class="ui-select__required-mark">*</span></slot>
         </label>
 
         <button
@@ -253,7 +253,7 @@ defineExpose({
           :id="triggerId"
           ref="triggerRef"
           type="button"
-          class="lib-select__trigger"
+          class="ui-select__trigger"
           :disabled="disabled"
           :aria-expanded="isOpen"
           aria-haspopup="listbox"
@@ -264,18 +264,18 @@ defineExpose({
           @focus="onFocus"
           @blur="onBlur"
         >
-          <span class="lib-select__value" :class="{ 'lib-select__value--placeholder': !selectedOption }">
+          <span class="ui-select__value" :class="{ 'ui-select__value--placeholder': !selectedOption }">
             {{ selectedOption ? selectedOption.label : (labelPosition === 'inside' ? '' : placeholder) }}
           </span>
-          <span class="lib-select__arrow" aria-hidden="true">▾</span>
+          <span class="ui-select__arrow" aria-hidden="true">▾</span>
         </button>
 
-        <div v-else class="lib-select__trigger lib-select__trigger--searchable">
+        <div v-else class="ui-select__trigger ui-select__trigger--searchable">
           <input
             :id="triggerId"
             ref="triggerRef"
             type="text"
-            class="lib-select__search-input"
+            class="ui-select__search-input"
             role="combobox"
             aria-autocomplete="list"
             :value="displayValue"
@@ -292,73 +292,73 @@ defineExpose({
             @focus="onFocus"
             @blur="onBlur"
           />
-          <span class="lib-select__arrow" aria-hidden="true">▾</span>
+          <span class="ui-select__arrow" aria-hidden="true">▾</span>
         </div>
 
-        <ul v-if="isOpen && !isMobile" :id="listboxId" class="lib-select__menu" role="listbox">
+        <ul v-if="isOpen && !isMobile" :id="listboxId" class="ui-select__menu" role="listbox">
           <li
             v-for="(option, index) in filteredOptions"
             :id="`${triggerId}-option-${index}`"
             :key="option.value"
             role="option"
             :aria-selected="option.value === modelValue"
-            class="lib-select__option"
+            class="ui-select__option"
             :class="{
-              'lib-select__option--selected': option.value === modelValue,
-              'lib-select__option--active': index === activeIndex,
+              'ui-select__option--selected': option.value === modelValue,
+              'ui-select__option--active': index === activeIndex,
             }"
             @mousedown.prevent="selectOption(option)"
             @mouseenter="activeIndex = index"
           >
             <slot name="option" :option="option">{{ option.label }}</slot>
           </li>
-          <li v-if="filteredOptions.length === 0" class="lib-select__empty">
+          <li v-if="filteredOptions.length === 0" class="ui-select__empty">
             <slot name="empty">{{ searchable && query ? '검색 결과가 없습니다.' : '표시할 항목이 없습니다.' }}</slot>
           </li>
         </ul>
       </div>
 
-      <p v-if="errorMessage" :id="errorId" class="lib-select__error" role="alert">
+      <p v-if="errorMessage" :id="errorId" class="ui-select__error" role="alert">
         <slot name="error" :message="errorMessage">{{ errorMessage }}</slot>
       </p>
     </div>
 
     <Teleport to="body">
-      <Transition name="lib-select-sheet">
-        <div v-if="isOpen && isMobile" class="lib-select__sheet-backdrop" @click="closeMenu">
-          <div class="lib-select__sheet" role="listbox" @click.stop>
-            <div class="lib-select__sheet-header">
-              <span class="lib-select__sheet-title">{{ label || placeholder }}</span>
-              <button type="button" class="lib-select__sheet-close" aria-label="닫기" @click="closeMenu">✕</button>
+      <Transition name="ui-select-sheet">
+        <div v-if="isOpen && isMobile" class="ui-select__sheet-backdrop" @click="closeMenu">
+          <div class="ui-select__sheet" role="listbox" @click.stop>
+            <div class="ui-select__sheet-header">
+              <span class="ui-select__sheet-title">{{ label || placeholder }}</span>
+              <button type="button" class="ui-select__sheet-close" aria-label="닫기" @click="closeMenu">✕</button>
             </div>
 
             <input
               v-if="searchable"
               ref="sheetSearchRef"
               type="text"
-              class="lib-select__sheet-search"
+              class="ui-select__sheet-search"
               placeholder="검색"
               :value="query"
               @input="onSearchInput"
               @keydown="onTriggerKeydown"
             />
 
-            <ul class="lib-select__sheet-list">
+            <ul class="ui-select__sheet-list">
               <li
                 v-for="(option, index) in filteredOptions"
                 :key="option.value"
                 role="option"
                 :aria-selected="option.value === modelValue"
-                class="lib-select__sheet-option"
+                class="ui-select__sheet-option"
                 :class="{
-                  'lib-select__sheet-option--selected': option.value === modelValue,
-                  'lib-select__sheet-option--active': index === activeIndex,
+                  'ui-select__sheet-option--selected': option.value === modelValue,
+                  'ui-select__sheet-option--active': index === activeIndex,
                 }"
                 @click="selectOption(option)"
               >
                 <slot name="option" :option="option">{{ option.label }}</slot>
               </li>
-              <li v-if="filteredOptions.length === 0" class="lib-select__sheet-empty">
+              <li v-if="filteredOptions.length === 0" class="ui-select__sheet-empty">
                 <slot name="empty">{{ searchable && query ? '검색 결과가 없습니다.' : '표시할 항목이 없습니다.' }}</slot>
               </li>
             </ul>
@@ -369,96 +369,96 @@ defineExpose({
   </div>
 </template>
 
-<!-- Input.vue와 동일한 이유로 scoped를 쓰지 않습니다 (lib-select BEM 클래스만으로 격리). -->
+<!-- Input.vue와 동일한 이유로 scoped를 쓰지 않습니다 (ui-select BEM 클래스만으로 격리). -->
 <style lang="scss">
 @use '../../styles/mixins/field-layout' as field;
 
-.lib-select {
+.ui-select {
   @include field.field-label-top;
-  font-size: var(--lib-font-size-md);
-  color: var(--lib-color-text);
+  font-size: var(--ui-font-size-md);
+  color: var(--ui-text-default);
 }
 
-.lib-select--label-left {
+.ui-select--label-left {
   @include field.field-label-left;
 }
 
-.lib-select--label-inside {
+.ui-select--label-inside {
   @include field.field-label-inside;
 }
 
-.lib-select__label {
-  font-size: var(--lib-font-size-sm);
-  color: var(--lib-color-text);
+.ui-select__label {
+  font-size: var(--ui-font-size-sm);
+  color: var(--ui-text-default);
 }
 
-.lib-select--label-left > .lib-select__label {
+.ui-select--label-left > .ui-select__label {
   flex: 0 0 auto;
 }
 
-.lib-select__required-mark {
-  color: var(--lib-color-error);
+.ui-select__required-mark {
+  color: var(--ui-danger-default);
   margin-left: 2px;
 }
 
-.lib-select__body {
+.ui-select__body {
   display: flex;
   flex-direction: column;
-  gap: var(--lib-spacing-xs);
+  gap: var(--ui-spacing-xs);
   flex: 1 1 auto;
   min-width: 0;
 }
 
-.lib-select__control {
+.ui-select__control {
   order: 1;
   position: relative;
 }
 
-.lib-select__error {
+.ui-select__error {
   order: 2;
   margin: 0;
-  font-size: var(--lib-font-size-sm);
-  color: var(--lib-color-error);
+  font-size: var(--ui-font-size-sm);
+  color: var(--ui-danger-default);
 }
 
-.lib-select--error-top .lib-select__control {
+.ui-select--error-top .ui-select__control {
   order: 2;
 }
 
-.lib-select--error-top .lib-select__error {
+.ui-select--error-top .ui-select__error {
   order: 1;
 }
 
-.lib-select--invalid .lib-select__trigger {
-  border-color: var(--lib-color-error);
+.ui-select--invalid .ui-select__trigger {
+  border-color: var(--ui-danger-default);
 }
 
-.lib-select--disabled .lib-select__trigger {
-  background: var(--lib-color-bg-disabled);
+.ui-select--disabled .ui-select__trigger {
+  background: var(--ui-surface-disabled);
   cursor: not-allowed;
 }
 
-.lib-select__trigger {
+.ui-select__trigger {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--lib-spacing-xs);
-  border: 1px solid var(--lib-color-border);
-  border-radius: var(--lib-radius-sm);
-  background: var(--lib-color-bg);
-  padding: var(--lib-spacing-sm);
+  gap: var(--ui-spacing-xs);
+  border: 1px solid var(--ui-border-default);
+  border-radius: var(--ui-radius-sm);
+  background: var(--ui-surface-default);
+  padding: var(--ui-spacing-sm);
   font: inherit;
   color: inherit;
   cursor: pointer;
   transition: border-color 0.15s ease;
 }
 
-.lib-select__trigger--searchable {
+.ui-select__trigger--searchable {
   cursor: text;
 }
 
-.lib-select__search-input {
+.ui-select__search-input {
   flex: 1 1 auto;
   min-width: 0;
   border: none;
@@ -469,12 +469,12 @@ defineExpose({
   padding: 0;
 }
 
-.lib-select__control--focused .lib-select__trigger,
-.lib-select__control--open .lib-select__trigger {
-  border-color: var(--lib-color-border-focus);
+.ui-select__control--focused .ui-select__trigger,
+.ui-select__control--open .ui-select__trigger {
+  border-color: var(--ui-border-focus);
 }
 
-.lib-select__value {
+.ui-select__value {
   flex: 1 1 auto;
   min-width: 0;
   text-align: left;
@@ -483,28 +483,28 @@ defineExpose({
   white-space: nowrap;
 }
 
-.lib-select__value--placeholder {
-  color: var(--lib-color-text-muted);
+.ui-select__value--placeholder {
+  color: var(--ui-text-placeholder);
 }
 
-.lib-select__arrow {
+.ui-select__arrow {
   flex: 0 0 auto;
-  color: var(--lib-color-text-muted);
+  color: var(--ui-text-muted);
   transition: transform 0.15s ease;
 }
 
-.lib-select__control--open .lib-select__arrow {
+.ui-select__control--open .ui-select__arrow {
   transform: rotate(180deg);
 }
 
-.lib-select__label--inside {
+.ui-select__label--inside {
   position: absolute;
-  left: var(--lib-spacing-sm);
+  left: var(--ui-spacing-sm);
   top: 50%;
   transform: translateY(-50%);
-  font-size: var(--lib-font-size-md);
-  color: var(--lib-color-text-muted);
-  background: var(--lib-color-bg);
+  font-size: var(--ui-font-size-md);
+  color: var(--ui-text-muted);
+  background: var(--ui-surface-default);
   padding: 0 4px;
   pointer-events: none;
   transition:
@@ -515,145 +515,145 @@ defineExpose({
   z-index: 1;
 }
 
-.lib-select__control--floated .lib-select__label--inside {
+.ui-select__control--floated .ui-select__label--inside {
   top: 0;
-  font-size: var(--lib-font-size-sm);
-  color: var(--lib-color-primary);
+  font-size: var(--ui-font-size-sm);
+  color: var(--ui-primary-default);
 }
 
-.lib-select__menu {
+.ui-select__menu {
   position: absolute;
-  top: calc(100% + var(--lib-spacing-xs));
+  top: calc(100% + var(--ui-spacing-xs));
   left: 0;
   right: 0;
-  z-index: var(--lib-z-index-overlay);
+  z-index: var(--ui-z-index-overlay);
   margin: 0;
-  padding: var(--lib-spacing-xs) 0;
+  padding: var(--ui-spacing-xs) 0;
   list-style: none;
-  background: var(--lib-color-bg);
-  border: 1px solid var(--lib-color-border);
-  border-radius: var(--lib-radius-sm);
+  background: var(--ui-surface-raised);
+  border: 1px solid var(--ui-border-default);
+  border-radius: var(--ui-radius-sm);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   max-height: 240px;
   overflow-y: auto;
 }
 
-.lib-select__option {
-  padding: var(--lib-spacing-sm);
+.ui-select__option {
+  padding: var(--ui-spacing-sm);
   cursor: pointer;
-  color: var(--lib-color-text);
+  color: var(--ui-text-default);
 }
 
-.lib-select__option--active {
-  background: var(--lib-color-bg-disabled);
+.ui-select__option--active {
+  background: var(--ui-surface-hover);
 }
 
-.lib-select__option--selected {
-  color: var(--lib-color-primary);
+.ui-select__option--selected {
+  color: var(--ui-primary-default);
   font-weight: 600;
 }
 
-.lib-select__empty {
-  padding: var(--lib-spacing-sm);
-  color: var(--lib-color-text-muted);
+.ui-select__empty {
+  padding: var(--ui-spacing-sm);
+  color: var(--ui-text-muted);
 }
 
 // --- 모바일 bottomSheet ---
 
-.lib-select__sheet-backdrop {
+.ui-select__sheet-backdrop {
   position: fixed;
   inset: 0;
-  z-index: var(--lib-z-index-overlay);
+  z-index: var(--ui-z-index-overlay);
   display: flex;
   align-items: flex-end;
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--ui-surface-backdrop);
 }
 
-.lib-select__sheet {
+.ui-select__sheet {
   width: 100%;
   max-height: 70vh;
   display: flex;
   flex-direction: column;
-  background: var(--lib-color-bg);
-  border-radius: var(--lib-radius-md) var(--lib-radius-md) 0 0;
+  background: var(--ui-surface-raised);
+  border-radius: var(--ui-radius-md) var(--ui-radius-md) 0 0;
   padding-bottom: env(safe-area-inset-bottom, 0);
   overflow: hidden;
 }
 
-.lib-select__sheet-header {
+.ui-select__sheet-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--lib-spacing-md);
-  border-bottom: 1px solid var(--lib-color-border);
-  font-size: var(--lib-font-size-lg);
-  color: var(--lib-color-text);
+  padding: var(--ui-spacing-md);
+  border-bottom: 1px solid var(--ui-border-default);
+  font-size: var(--ui-font-size-lg);
+  color: var(--ui-text-default);
 }
 
-.lib-select__sheet-close {
+.ui-select__sheet-close {
   border: none;
   background: transparent;
-  font-size: var(--lib-font-size-lg);
-  color: var(--lib-color-text-muted);
+  font-size: var(--ui-font-size-lg);
+  color: var(--ui-text-muted);
   cursor: pointer;
   line-height: 1;
 }
 
-.lib-select__sheet-search {
-  margin: var(--lib-spacing-sm) var(--lib-spacing-md) 0;
-  padding: var(--lib-spacing-sm);
-  border: 1px solid var(--lib-color-border);
-  border-radius: var(--lib-radius-sm);
+.ui-select__sheet-search {
+  margin: var(--ui-spacing-sm) var(--ui-spacing-md) 0;
+  padding: var(--ui-spacing-sm);
+  border: 1px solid var(--ui-border-default);
+  border-radius: var(--ui-radius-sm);
   font: inherit;
   color: inherit;
   outline: none;
 }
 
-.lib-select__sheet-list {
+.ui-select__sheet-list {
   margin: 0;
-  padding: var(--lib-spacing-xs) 0;
+  padding: var(--ui-spacing-xs) 0;
   list-style: none;
   overflow-y: auto;
 }
 
-.lib-select__sheet-option {
-  padding: var(--lib-spacing-md);
-  font-size: var(--lib-font-size-lg);
-  color: var(--lib-color-text);
+.ui-select__sheet-option {
+  padding: var(--ui-spacing-md);
+  font-size: var(--ui-font-size-lg);
+  color: var(--ui-text-default);
   cursor: pointer;
 }
 
-.lib-select__sheet-option--active {
-  background: var(--lib-color-bg-disabled);
+.ui-select__sheet-option--active {
+  background: var(--ui-surface-hover);
 }
 
-.lib-select__sheet-option--selected {
-  color: var(--lib-color-primary);
+.ui-select__sheet-option--selected {
+  color: var(--ui-primary-default);
   font-weight: 600;
 }
 
-.lib-select__sheet-empty {
-  padding: var(--lib-spacing-md);
-  color: var(--lib-color-text-muted);
+.ui-select__sheet-empty {
+  padding: var(--ui-spacing-md);
+  color: var(--ui-text-muted);
 }
 
-.lib-select-sheet-enter-active,
-.lib-select-sheet-leave-active {
+.ui-select-sheet-enter-active,
+.ui-select-sheet-leave-active {
   transition: opacity 0.2s ease;
 }
 
-.lib-select-sheet-enter-from,
-.lib-select-sheet-leave-to {
+.ui-select-sheet-enter-from,
+.ui-select-sheet-leave-to {
   opacity: 0;
 }
 
-.lib-select-sheet-enter-active .lib-select__sheet,
-.lib-select-sheet-leave-active .lib-select__sheet {
+.ui-select-sheet-enter-active .ui-select__sheet,
+.ui-select-sheet-leave-active .ui-select__sheet {
   transition: transform 0.2s ease;
 }
 
-.lib-select-sheet-enter-from .lib-select__sheet,
-.lib-select-sheet-leave-to .lib-select__sheet {
+.ui-select-sheet-enter-from .ui-select__sheet,
+.ui-select-sheet-leave-to .ui-select__sheet {
   transform: translateY(100%);
 }
 </style>

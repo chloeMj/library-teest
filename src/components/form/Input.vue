@@ -70,7 +70,7 @@ const { errorMessage } = useFieldValidation({
 const displayValue = computed(() => props.modelValue ?? '')
 
 const { rootClasses, controlClasses } = useFieldClasses({
-  block: 'lib-input',
+  block: 'ui-input',
   labelPosition: toRef(props, 'labelPosition'),
   errorPosition: toRef(props, 'errorPosition'),
   invalid: computed(() => !!errorMessage.value),
@@ -131,29 +131,29 @@ defineExpose({
 </script>
 
 <template>
-  <div class="lib-input" :class="rootClasses">
-    <label v-if="label && labelPosition !== 'inside'" class="lib-input__label" :for="inputId">
-      <slot name="label">{{ label }}<span v-if="required" class="lib-input__required-mark">*</span></slot>
+  <div class="ui-input" :class="rootClasses">
+    <label v-if="label && labelPosition !== 'inside'" class="ui-input__label" :for="inputId">
+      <slot name="label">{{ label }}<span v-if="required" class="ui-input__required-mark">*</span></slot>
     </label>
 
-    <div class="lib-input__body">
-      <div class="lib-input__control" :class="controlClasses">
-        <span v-if="$slots.prefix" class="lib-input__affix lib-input__affix--prefix">
+    <div class="ui-input__body">
+      <div class="ui-input__control" :class="controlClasses">
+        <span v-if="$slots.prefix" class="ui-input__affix ui-input__affix--prefix">
           <slot name="prefix" />
         </span>
 
         <label
           v-if="label && labelPosition === 'inside'"
-          class="lib-input__label lib-input__label--inside"
+          class="ui-input__label ui-input__label--inside"
           :for="inputId"
         >
-          <slot name="label">{{ label }}<span v-if="required" class="lib-input__required-mark">*</span></slot>
+          <slot name="label">{{ label }}<span v-if="required" class="ui-input__required-mark">*</span></slot>
         </label>
 
         <input
           :id="inputId"
           ref="inputRef"
-          class="lib-input__field"
+          class="ui-input__field"
           :type="type"
           :value="displayValue"
           :placeholder="labelPosition === 'inside' ? undefined : placeholder"
@@ -169,21 +169,21 @@ defineExpose({
           @blur="onBlur"
         />
 
-        <span v-if="$slots.suffix" class="lib-input__affix lib-input__affix--suffix">
+        <span v-if="$slots.suffix" class="ui-input__affix ui-input__affix--suffix">
           <slot name="suffix" />
         </span>
 
-        <span v-if="type === 'number' && showStepper" class="lib-input__stepper">
+        <span v-if="type === 'number' && showStepper" class="ui-input__stepper">
           <button
             type="button"
-            class="lib-input__stepper-btn"
+            class="ui-input__stepper-btn"
             tabindex="-1"
             :disabled="disabled || readonly"
             @click="handleStep(1)"
           >+</button>
           <button
             type="button"
-            class="lib-input__stepper-btn"
+            class="ui-input__stepper-btn"
             tabindex="-1"
             :disabled="disabled || readonly"
             @click="handleStep(-1)"
@@ -191,7 +191,7 @@ defineExpose({
         </span>
       </div>
 
-      <p v-if="errorMessage" :id="errorId" class="lib-input__error" role="alert">
+      <p v-if="errorMessage" :id="errorId" class="ui-input__error" role="alert">
         <slot name="error" :message="errorMessage">{{ errorMessage }}</slot>
       </p>
     </div>
@@ -202,88 +202,88 @@ defineExpose({
   이 스타일 블록은 의도적으로 `scoped`를 쓰지 않습니다.
   scoped를 쓰면 모든 선택자에 [data-v-xxxx] 속성이 붙어 명시도가 한 단계
   올라가고, 소비 프로젝트가 같은 명시도(단일 클래스)로 오버라이드할 수 없게
-  됩니다. 대신 `lib-input` 접두사 + BEM 네이밍만으로 충돌을 방지합니다.
+  됩니다. 대신 `ui-input` 접두사 + BEM 네이밍만으로 충돌을 방지합니다.
 -->
 <style lang="scss">
 @use '../../styles/mixins/field-layout' as field;
 
-.lib-input {
+.ui-input {
   @include field.field-label-top;
-  font-size: var(--lib-font-size-md);
-  color: var(--lib-color-text);
+  font-size: var(--ui-font-size-md);
+  color: var(--ui-text-default);
 }
 
-.lib-input--label-left {
+.ui-input--label-left {
   @include field.field-label-left;
 }
 
-.lib-input--label-inside {
+.ui-input--label-inside {
   @include field.field-label-inside;
 }
 
-.lib-input__label {
-  font-size: var(--lib-font-size-sm);
-  color: var(--lib-color-text);
+.ui-input__label {
+  font-size: var(--ui-font-size-sm);
+  color: var(--ui-text-default);
 }
 
-.lib-input--label-left > .lib-input__label {
+.ui-input--label-left > .ui-input__label {
   flex: 0 0 auto;
 }
 
-.lib-input__required-mark {
-  color: var(--lib-color-error);
+.ui-input__required-mark {
+  color: var(--ui-danger-default);
   margin-left: 2px;
 }
 
-.lib-input__body {
+.ui-input__body {
   display: flex;
   flex-direction: column;
-  gap: var(--lib-spacing-xs);
+  gap: var(--ui-spacing-xs);
   flex: 1 1 auto;
   min-width: 0;
 }
 
-.lib-input__control {
+.ui-input__control {
   order: 1;
   position: relative;
   display: flex;
   align-items: center;
-  gap: var(--lib-spacing-xs);
-  border: 1px solid var(--lib-color-border);
-  border-radius: var(--lib-radius-sm);
-  background: var(--lib-color-bg);
-  padding: 0 var(--lib-spacing-sm);
+  gap: var(--ui-spacing-xs);
+  border: 1px solid var(--ui-border-default);
+  border-radius: var(--ui-radius-sm);
+  background: var(--ui-surface-default);
+  padding: 0 var(--ui-spacing-sm);
   transition: border-color 0.15s ease;
 }
 
-.lib-input__error {
+.ui-input__error {
   order: 2;
   margin: 0;
-  font-size: var(--lib-font-size-sm);
-  color: var(--lib-color-error);
+  font-size: var(--ui-font-size-sm);
+  color: var(--ui-danger-default);
 }
 
-.lib-input--error-top .lib-input__control {
+.ui-input--error-top .ui-input__control {
   order: 2;
 }
 
-.lib-input--error-top .lib-input__error {
+.ui-input--error-top .ui-input__error {
   order: 1;
 }
 
-.lib-input__control--focused {
-  border-color: var(--lib-color-border-focus);
+.ui-input__control--focused {
+  border-color: var(--ui-border-focus);
 }
 
-.lib-input--invalid .lib-input__control {
-  border-color: var(--lib-color-error);
+.ui-input--invalid .ui-input__control {
+  border-color: var(--ui-danger-default);
 }
 
-.lib-input--disabled .lib-input__control {
-  background: var(--lib-color-bg-disabled);
+.ui-input--disabled .ui-input__control {
+  background: var(--ui-surface-disabled);
 }
 
-.lib-input__field {
+.ui-input__field {
   flex: 1 1 auto;
   min-width: 0;
   border: none;
@@ -291,42 +291,42 @@ defineExpose({
   background: transparent;
   font: inherit;
   color: inherit;
-  padding: var(--lib-spacing-sm) 0;
+  padding: var(--ui-spacing-sm) 0;
 }
 
-.lib-input__field:disabled {
-  color: var(--lib-color-text-muted);
+.ui-input__field:disabled {
+  color: var(--ui-text-disabled);
   cursor: not-allowed;
 }
 
 // type="number"의 브라우저 기본 스피너를 숨깁니다.
 // showStepper가 true면 우리 커스텀 버튼과 이중으로 보이고, false여도 브라우저마다
 // 생김새가 달라 디자인 통제가 안 되므로 항상 숨기고 showStepper로만 노출을 제어합니다.
-.lib-input__field[type='number']::-webkit-outer-spin-button,
-.lib-input__field[type='number']::-webkit-inner-spin-button {
+.ui-input__field[type='number']::-webkit-outer-spin-button,
+.ui-input__field[type='number']::-webkit-inner-spin-button {
   margin: 0;
   -webkit-appearance: none;
 }
 
-.lib-input__field[type='number'] {
+.ui-input__field[type='number'] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
 
-.lib-input__affix {
+.ui-input__affix {
   display: inline-flex;
   align-items: center;
-  color: var(--lib-color-text-muted);
+  color: var(--ui-text-muted);
 }
 
-.lib-input__label--inside {
+.ui-input__label--inside {
   position: absolute;
-  left: var(--lib-spacing-sm);
+  left: var(--ui-spacing-sm);
   top: 50%;
   transform: translateY(-50%);
-  font-size: var(--lib-font-size-md);
-  color: var(--lib-color-text-muted);
-  background: var(--lib-color-bg);
+  font-size: var(--ui-font-size-md);
+  color: var(--ui-text-muted);
+  background: var(--ui-surface-default);
   padding: 0 4px;
   pointer-events: none;
   transition:
@@ -336,27 +336,27 @@ defineExpose({
     color 0.15s ease;
 }
 
-.lib-input__control--floated .lib-input__label--inside {
+.ui-input__control--floated .ui-input__label--inside {
   top: 0;
-  font-size: var(--lib-font-size-sm);
-  color: var(--lib-color-primary);
+  font-size: var(--ui-font-size-sm);
+  color: var(--ui-primary-default);
 }
 
-.lib-input__stepper {
+.ui-input__stepper {
   display: inline-flex;
   flex-direction: column;
 }
 
-.lib-input__stepper-btn {
+.ui-input__stepper-btn {
   border: none;
   background: transparent;
-  color: var(--lib-color-text-muted);
+  color: var(--ui-text-muted);
   line-height: 1;
-  padding: 0 var(--lib-spacing-xs);
+  padding: 0 var(--ui-spacing-xs);
   cursor: pointer;
 }
 
-.lib-input__stepper-btn:disabled {
+.ui-input__stepper-btn:disabled {
   cursor: not-allowed;
   opacity: 0.5;
 }
