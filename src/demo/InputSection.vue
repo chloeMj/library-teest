@@ -10,6 +10,7 @@ const underline = ref('')
 const labelTop = ref('')
 const labelLeft = ref('')
 const labelInside = ref('')
+const labelInsideFilled = ref('')
 const required = ref('')
 const email = ref('')
 const age = ref<number | null>(null)
@@ -37,6 +38,12 @@ const validateEmail = (value: FieldValue) => {
       <UiInput v-model="labelTop" label="top (기본)" placeholder="홍길동" />
       <UiInput v-model="labelLeft" label="left" label-position="left" placeholder="홍길동" />
       <UiInput v-model="labelInside" label="inside (floating)" label-position="inside" />
+      <UiInput
+        v-model="labelInsideFilled"
+        label="inside + filled"
+        label-position="inside"
+        variant="filled"
+      />
     </DemoGroup>
 
     <DemoGroup title="상태">
