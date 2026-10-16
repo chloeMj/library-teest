@@ -88,6 +88,7 @@ var k = ["for"], A = {
 	props: {
 		modelValue: { default: "" },
 		type: { default: "text" },
+		variant: { default: "outlined" },
 		label: {},
 		labelPosition: { default: "top" },
 		placeholder: {},
@@ -160,7 +161,7 @@ var k = ["for"], A = {
 		return t({
 			focus: () => u.value?.focus(),
 			validate: () => (d.value = !0, !E.value)
-		}), (t, n) => (h(), o("div", { class: f(["ui-input", x(te)]) }, [e.label && e.labelPosition !== "inside" ? (h(), o("label", {
+		}), (t, n) => (h(), o("div", { class: f(["ui-input", [x(te), `ui-input--${e.variant}`]]) }, [e.label && e.labelPosition !== "inside" ? (h(), o("label", {
 			key: 0,
 			class: "ui-input__label",
 			for: m.value
