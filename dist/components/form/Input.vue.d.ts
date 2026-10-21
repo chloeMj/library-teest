@@ -18,7 +18,7 @@ interface Props {
     max?: number;
     /** type="number"에서만 사용 (스테퍼 하한, 네이티브 min 속성) */
     min?: number;
-    /** type="number" + showStepper에서 한 번에 증감할 값 */
+    /** type="number"에서 한 번에 증감할 값. 스테퍼 버튼과 화살표 키에 함께 적용됩니다 */
     step?: number;
     /** type="number"일 때만 의미 있는 증감 버튼 노출 여부 */
     showStepper?: boolean;

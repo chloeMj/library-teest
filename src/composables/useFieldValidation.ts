@@ -13,6 +13,8 @@ export interface UseFieldValidationOptions<T = FieldValue> {
   type: Ref<string>
   required?: Ref<boolean | undefined>
   max?: Ref<number | undefined>
+  /** type="number"에서만 쓰는 하한 */
+  min?: Ref<number | undefined>
   validator?: Ref<FieldValidator<T> | undefined>
   /** blur 등으로 사용자가 필드를 건드렸는지 여부. false면 에러를 노출하지 않습니다. */
   touched: Ref<boolean>
@@ -30,7 +32,7 @@ const defaultIsEmpty = (value: unknown) => value === null || value === undefined
  * 커스텀 validator를 함께 평가해 에러 메시지 하나를 계산합니다.
  */
 export function useFieldValidation<T = FieldValue>(options: UseFieldValidationOptions<T>) {
-  const { value, type, required, max, validator, touched } = options
+  const { value, type, required, max, min, validator, touched } = options
   const isEmpty = options.isEmpty ?? (defaultIsEmpty as (value: T) => boolean)
 
   const errorMessage = computed<string | null>(() => {
@@ -47,6 +49,13 @@ export function useFieldValidation<T = FieldValue>(options: UseFieldValidationOp
         }
       } else if (String(value.value).length > max.value) {
         return `최대 ${max.value}자까지 입력 가능합니다.`
+      }
+    }
+
+    // min은 숫자에만 의미가 있습니다(문자열 최소 길이는 쓰지 않습니다).
+    if (min?.value != null && !isEmpty(value.value) && type.value === 'number') {
+      if (Number(value.value) < min.value) {
+        return `${min.value} 이상으로 입력해주세요.`
       }
     }
 

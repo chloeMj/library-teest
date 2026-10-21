@@ -17,6 +17,7 @@ const email = ref('')
 const age = ref<number | null>(null)
 const search = ref('')
 const price = ref<number | null>(null)
+const ratio = ref<number | null>(0)
 const readonlyValue = ref('수정할 수 없는 값')
 const disabledValue = ref('비활성 상태')
 
@@ -67,6 +68,15 @@ const validateEmail = (value: FieldValue) => {
 
     <DemoGroup title="숫자 · 슬롯">
       <UiInput v-model="age" type="number" label="나이 (스테퍼)" :max="120" :min="0" show-stepper />
+      <UiInput
+        v-model="ratio"
+        type="number"
+        label="비율 (step 0.1)"
+        :step="0.1"
+        :min="0"
+        :max="1"
+        show-stepper
+      />
       <UiInput v-model="search" label="prefix 슬롯">
         <template #prefix>🔍</template>
       </UiInput>
