@@ -447,7 +447,9 @@ defineExpose({
   border: 1px solid var(--ui-border-default);
   border-radius: var(--ui-radius-sm);
   background: var(--ui-surface-default);
-  padding: var(--ui-spacing-sm);
+  // Input과 같은 조절점
+  min-height: var(--ui-field-height, auto);
+  padding: var(--ui-field-padding-y, var(--ui-spacing-sm)) var(--ui-spacing-sm);
   font: inherit;
   color: inherit;
   cursor: pointer;

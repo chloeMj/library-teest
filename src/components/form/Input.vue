@@ -260,6 +260,9 @@ defineExpose({
   border-radius: var(--ui-radius-sm);
   background: var(--ui-surface-default);
   padding: 0 var(--ui-spacing-sm);
+  // 높이 조절점. Select trigger(button)와 같은 높이가 나오도록 border-box로 맞춥니다.
+  box-sizing: border-box;
+  min-height: var(--ui-field-height, auto);
   transition: border-color 0.15s ease;
 }
 
@@ -298,7 +301,8 @@ defineExpose({
   background: transparent;
   font: inherit;
   color: inherit;
-  padding: var(--ui-spacing-sm) 0;
+  // 상하 여백 조절점
+  padding: var(--ui-field-padding-y, var(--ui-spacing-sm)) 0;
 }
 
 .ui-input__field:disabled {
@@ -408,7 +412,7 @@ defineExpose({
 
 // 라벨이 들어갈 자리만큼 위를 비우고, 전체 높이는 유지되도록 아래를 줄입니다
 .ui-input--filled.ui-input--label-inside .ui-input__field {
-  padding-top: calc(var(--ui-spacing-sm) + var(--ui-font-size-sm));
+  padding-top: calc(var(--ui-field-padding-y, var(--ui-spacing-sm)) + var(--ui-font-size-sm));
   padding-bottom: var(--ui-spacing-xs);
 }
 

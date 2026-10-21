@@ -131,10 +131,16 @@ app.use(LibraryTest)
 
   // --- 모양 ---
   --ui-radius-sm: 2px;
-  --ui-field-height: 40px;   // 입력 박스 높이 (기본 auto)
+  --ui-field-height: 40px;    // 입력 박스 최소 높이 (기본 auto)
+  --ui-field-padding-y: 10px; // 입력 영역 상하 여백 (기본 --ui-spacing-sm)
   --ui-font-size-md: 13px;
 }
 ```
+
+`--ui-field-*`는 Input과 Select의 입력 박스에만 적용되는 치수 토큰입니다.
+`--ui-spacing-sm`처럼 전역 값을 건드리면 Radio·Checkbox까지 함께 움직이므로,
+입력 박스만 조절하고 싶을 때 이 둘을 쓰세요. 토큰을 새로 늘릴 때의 기준은
+[docs/DESIGN.md](docs/DESIGN.md) 5장에 있습니다.
 
 색 단계를 다 뽑기 어렵다면 **기본 단계만 먼저** 지정해도 됩니다. hover가 티나지
 않는 것 외에는 문제없고, 나중에 디자인이 확정되면 나머지를 채우면 됩니다.

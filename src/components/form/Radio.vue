@@ -287,11 +287,12 @@ defineExpose({ validate })
   border-color: var(--ui-border-hover);
 }
 
-.ui-radio-group__input:checked ~ .ui-radio-group__control {
+// :checked는 v-model이 없어도 브라우저가 켜므로, Vue 상태로 그립니다.
+.ui-radio-group__option--selected .ui-radio-group__control {
   border-color: var(--ui-primary-default);
 }
 
-.ui-radio-group__input:checked ~ .ui-radio-group__control::after {
+.ui-radio-group__option--selected .ui-radio-group__control::after {
   transform: scale(1);
 }
 

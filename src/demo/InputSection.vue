@@ -11,6 +11,7 @@ const labelTop = ref('')
 const labelLeft = ref('')
 const labelInside = ref('')
 const labelInsideFilled = ref('')
+const labelInsideUnderline = ref('')
 const required = ref('')
 const email = ref('')
 const age = ref<number | null>(null)
@@ -43,6 +44,12 @@ const validateEmail = (value: FieldValue) => {
         label="inside + filled"
         label-position="inside"
         variant="filled"
+      />
+      <UiInput
+        v-model="labelInsideUnderline"
+        label="inside + underline"
+        label-position="inside"
+        variant="underline"
       />
     </DemoGroup>
 
