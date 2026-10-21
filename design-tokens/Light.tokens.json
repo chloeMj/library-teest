@@ -269,16 +269,16 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.4863,
-          0.5176,
-          0.5843
+          0.3647,
+          0.3922,
+          0.4471
         ],
         "alpha": 1,
-        "hex": "#7C8495"
+        "hex": "#5D6472"
       },
       "$extensions": {
         "com.figma.aliasData": {
-          "targetVariableName": "Gray/500",
+          "targetVariableName": "Gray/600",
           "targetVariableSetName": "Primitives"
         }
       }

@@ -7,6 +7,7 @@ const gender = ref<string | null>(null)
 const genderHorizontal = ref<string | null>('female')
 const plan = ref<string | null>('free')
 const planButton = ref<string | null>('pro')
+const genderRequired = ref<string | null>(null)
 
 const genderOptions = [
   { label: '남성', value: 'male' },
@@ -46,7 +47,12 @@ const planOptions = [
     </DemoGroup>
 
     <DemoGroup title="검증">
-      <UiRadio label="필수 (선택하지 않고 클릭해보세요)" required :options="genderOptions" />
+      <UiRadio
+        v-model="genderRequired"
+        label="필수 (선택하지 않고 Tab으로 지나가 보세요)"
+        required
+        :options="genderOptions"
+      />
     </DemoGroup>
   </DemoSection>
 </template>

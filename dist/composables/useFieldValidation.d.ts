@@ -10,6 +10,8 @@ export interface UseFieldValidationOptions<T = FieldValue> {
     type: Ref<string>;
     required?: Ref<boolean | undefined>;
     max?: Ref<number | undefined>;
+    /** type="number"에서만 쓰는 하한 */
+    min?: Ref<number | undefined>;
     validator?: Ref<FieldValidator<T> | undefined>;
     /** blur 등으로 사용자가 필드를 건드렸는지 여부. false면 에러를 노출하지 않습니다. */
     touched: Ref<boolean>;

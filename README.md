@@ -131,10 +131,16 @@ app.use(LibraryTest)
 
   // --- 모양 ---
   --ui-radius-sm: 2px;
-  --ui-field-height: 40px;   // 입력 박스 높이 (기본 auto)
+  --ui-field-height: 40px;    // 입력 박스 최소 높이 (기본 auto)
+  --ui-field-padding-y: 10px; // 입력 영역 상하 여백 (기본 --ui-spacing-sm)
   --ui-font-size-md: 13px;
 }
 ```
+
+`--ui-field-*`는 Input과 Select의 입력 박스에만 적용되는 치수 토큰입니다.
+`--ui-spacing-sm`처럼 전역 값을 건드리면 Radio·Checkbox까지 함께 움직이므로,
+입력 박스만 조절하고 싶을 때 이 둘을 쓰세요. 토큰을 새로 늘릴 때의 기준은
+[docs/DESIGN.md](docs/DESIGN.md) 5장에 있습니다.
 
 색 단계를 다 뽑기 어렵다면 **기본 단계만 먼저** 지정해도 됩니다. hover가 티나지
 않는 것 외에는 문제없고, 나중에 디자인이 확정되면 나머지를 채우면 됩니다.
@@ -148,6 +154,35 @@ app.use(LibraryTest)
 ```
 
 > 바꿀 수 있는 토큰 전체 목록은 [docs/COLOR-TOKENS.md](docs/COLOR-TOKENS.md)에 있습니다.
+
+#### 글자 크기와 루트 글꼴 — 루트 16px 전제
+
+글자 크기 토큰은 `rem`입니다. 사용자가 브라우저에서 글꼴 크기를 키우면 글자가
+따라 커지도록 하기 위해서입니다(간격·테두리는 `px`이라 레이아웃 비례는 유지됩니다).
+
+| 토큰 | 값 | 루트 16px 기준 |
+|---|---|---|
+| `--ui-font-size-sm` | `0.75rem` | 12px |
+| `--ui-font-size-md` | `0.875rem` | 14px |
+| `--ui-font-size-lg` | `1rem` | 16px |
+
+**브라우저 기본값인 루트 16px을 전제합니다.** 프로젝트가 `html`의 글꼴 크기를
+바꾸면 라이브러리 글자도 같은 비율로 변합니다. 예를 들어 `font-size: 62.5%`를
+쓰는 프로젝트(이른바 "10px 트릭")에서는 입력 글자가 **14px이 아니라 8.75px**로
+렌더되어 읽기 어려워집니다.
+
+그런 프로젝트라면 토큰을 `px`로 고정하세요. 세 줄이면 됩니다.
+
+```css
+:root {
+  --ui-font-size-sm: 12px;
+  --ui-font-size-md: 14px;
+  --ui-font-size-lg: 16px;
+}
+```
+
+고정하면 브라우저 글꼴 확대에는 반응하지 않게 되므로, 루트를 굳이 바꾸지 않는
+프로젝트라면 그대로 두는 쪽을 권합니다.
 
 #### 세 가지 사용 방식
 

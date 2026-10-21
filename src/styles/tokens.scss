@@ -27,7 +27,9 @@
 
   // Text
   --ui-text-default: var(--ui-gray-900, #18181b);
-  --ui-text-muted: var(--ui-gray-500, #71717a);
+  // 본문 대비 기준(WCAG 1.4.3, 4.5:1)을 넘기려고 한 단계 어둡게 씁니다.
+  // gray-500은 흰 배경에서 3.76:1로 미달입니다.
+  --ui-text-muted: var(--ui-gray-600, #52525b);
   --ui-text-placeholder: var(--ui-gray-500, #71717a);
   --ui-text-disabled: var(--ui-gray-500, #71717a);
   // 어두운 배경 위 글자 (Toast 등)
@@ -72,9 +74,11 @@
   --ui-radius-md: 8px;
 
   // Font
-  --ui-font-size-sm: 12px;
-  --ui-font-size-md: 14px;
-  --ui-font-size-lg: 16px;
+  // 브라우저의 글꼴 크기 설정에 따라 커지도록 rem을 씁니다(루트 16px 기준).
+  // 간격·테두리는 px로 두어, 글자만 커지고 레이아웃은 유지되게 합니다.
+  --ui-font-size-sm: 0.75rem; // 12px
+  --ui-font-size-md: 0.875rem; // 14px
+  --ui-font-size-lg: 1rem; // 16px
 
   // Z-index (Select의 모바일 bottomSheet, Modal, Toast 등 오버레이류가 공유)
   --ui-z-index-overlay: 1000;

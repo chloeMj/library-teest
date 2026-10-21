@@ -24,7 +24,7 @@ interface Props {
   max?: number
   /** type="number"에서만 사용 (스테퍼 하한, 네이티브 min 속성) */
   min?: number
-  /** type="number" + showStepper에서 한 번에 증감할 값 */
+  /** type="number"에서 한 번에 증감할 값. 스테퍼 버튼과 화살표 키에 함께 적용됩니다 */
   step?: number
   /** type="number"일 때만 의미 있는 증감 버튼 노출 여부 */
   showStepper?: boolean
@@ -70,6 +70,7 @@ const { errorMessage } = useFieldValidation({
   type: toRef(props, 'type'),
   required: toRef(props, 'required'),
   max: toRef(props, 'max'),
+  min: toRef(props, 'min'),
   validator: toRef(props, 'validator'),
   touched,
 })
@@ -117,7 +118,9 @@ const handleStep = (direction: 1 | -1) => {
   if (props.disabled || props.readonly) return
 
   const current = typeof props.modelValue === 'number' ? props.modelValue : Number(props.modelValue) || 0
-  let next = current + direction * props.step
+  // 0.1 + 0.2 = 0.30000000000000004 같은 부동소수점 찌꺼기를 step의 자릿수로 잘라냅니다.
+  const decimals = (String(props.step).split('.')[1] ?? '').length
+  let next = Number((current + direction * props.step).toFixed(decimals))
 
   if (props.max != null) next = Math.min(next, props.max)
   if (props.min != null) next = Math.max(next, props.min)
@@ -169,6 +172,7 @@ defineExpose({
           :name="name"
           :min="type === 'number' ? min : undefined"
           :max="type === 'number' ? max : undefined"
+          :step="type === 'number' ? step : undefined"
           :aria-invalid="!!errorMessage"
           :aria-describedby="errorMessage ? errorId : undefined"
           @input="onInput"
@@ -180,7 +184,19 @@ defineExpose({
           <slot name="suffix" />
         </span>
 
-        <span v-if="type === 'number' && showStepper" class="ui-input__stepper">
+        <!-- 화살표 키로 증감되므로 보조기술에는 노출하지 않습니다 -->
+        <span
+          v-if="type === 'number' && showStepper"
+          class="ui-input__stepper"
+          aria-hidden="true"
+        >
+          <button
+            type="button"
+            class="ui-input__stepper-btn"
+            tabindex="-1"
+            :disabled="disabled || readonly"
+            @click="handleStep(-1)"
+          >−</button>
           <button
             type="button"
             class="ui-input__stepper-btn"
@@ -188,13 +204,6 @@ defineExpose({
             :disabled="disabled || readonly"
             @click="handleStep(1)"
           >+</button>
-          <button
-            type="button"
-            class="ui-input__stepper-btn"
-            tabindex="-1"
-            :disabled="disabled || readonly"
-            @click="handleStep(-1)"
-          >-</button>
         </span>
       </div>
 
@@ -260,6 +269,9 @@ defineExpose({
   border-radius: var(--ui-radius-sm);
   background: var(--ui-surface-default);
   padding: 0 var(--ui-spacing-sm);
+  // 높이 조절점. Select trigger(button)와 같은 높이가 나오도록 border-box로 맞춥니다.
+  box-sizing: border-box;
+  min-height: var(--ui-field-height, auto);
   transition: border-color 0.15s ease;
 }
 
@@ -298,7 +310,8 @@ defineExpose({
   background: transparent;
   font: inherit;
   color: inherit;
-  padding: var(--ui-spacing-sm) 0;
+  // 상하 여백 조절점
+  padding: var(--ui-field-padding-y, var(--ui-spacing-sm)) 0;
 }
 
 .ui-input__field:disabled {
@@ -352,13 +365,22 @@ defineExpose({
 
 .ui-input__stepper {
   display: inline-flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .ui-input__stepper-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // WCAG 2.5.8(최소 24x24). 가로로 놓아 입력 박스 높이는 그대로 둡니다.
+  min-width: 24px;
+  min-height: 24px;
   border: none;
   background: transparent;
   color: var(--ui-text-muted);
+  // button은 브라우저 기본 글꼴(13.3px)을 쓰므로, 사용자가 글꼴 크기를 키울 때
+  // 같이 커지도록 부모 글꼴을 물려받습니다.
+  font: inherit;
   line-height: 1;
   padding: 0 var(--ui-spacing-xs);
   cursor: pointer;
@@ -367,6 +389,15 @@ defineExpose({
 .ui-input__stepper-btn:disabled {
   cursor: not-allowed;
   opacity: 0.5;
+}
+
+// 손가락으로 쓰는 기기에서는 44x44로 키웁니다. 화면 너비가 아니라 입력 장치를
+// 기준으로 하므로, 좁은 창으로 줄인 데스크톱에서는 그대로 24px입니다.
+@media (pointer: coarse) {
+  .ui-input__stepper-btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
 }
 
 // --- variant: 테두리 구조가 달라 토큰으로 표현되지 않는 부분만 분기합니다 ---
@@ -408,7 +439,7 @@ defineExpose({
 
 // 라벨이 들어갈 자리만큼 위를 비우고, 전체 높이는 유지되도록 아래를 줄입니다
 .ui-input--filled.ui-input--label-inside .ui-input__field {
-  padding-top: calc(var(--ui-spacing-sm) + var(--ui-font-size-sm));
+  padding-top: calc(var(--ui-field-padding-y, var(--ui-spacing-sm)) + var(--ui-font-size-sm));
   padding-bottom: var(--ui-spacing-xs);
 }
 

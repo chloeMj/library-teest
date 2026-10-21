@@ -21,17 +21,18 @@ function T(e) {
 //#region src/composables/useFieldValidation.ts
 var E = (e) => e == null || e === "";
 function D(e) {
-	let { value: t, type: n, required: i, max: a, validator: o, touched: s } = e, c = e.isEmpty ?? E;
+	let { value: t, type: n, required: i, max: a, min: o, validator: s, touched: c } = e, l = e.isEmpty ?? E;
 	return { errorMessage: r(() => {
-		if (!s.value) return null;
-		if (i?.value && c(t.value)) return "필수 입력값입니다.";
-		if (a?.value != null && !c(t.value)) {
+		if (!c.value) return null;
+		if (i?.value && l(t.value)) return "필수 입력값입니다.";
+		if (a?.value != null && !l(t.value)) {
 			if (n.value === "number") {
 				if (Number(t.value) > a.value) return `${a.value} 이하로 입력해주세요.`;
 			} else if (String(t.value).length > a.value) return `최대 ${a.value}자까지 입력 가능합니다.`;
 		}
-		if (o?.value) {
-			let e = o.value(t.value);
+		if (o?.value != null && !l(t.value) && n.value === "number" && Number(t.value) < o.value) return `${o.value} 이상으로 입력해주세요.`;
+		if (s?.value) {
+			let e = s.value(t.value);
 			if (typeof e == "string") return e;
 			if (e === !1) return "입력값을 확인해주세요.";
 		}
@@ -75,6 +76,7 @@ var k = ["for"], A = {
 	"name",
 	"min",
 	"max",
+	"step",
 	"aria-invalid",
 	"aria-describedby"
 ], I = {
@@ -82,7 +84,8 @@ var k = ["for"], A = {
 	class: "ui-input__affix ui-input__affix--suffix"
 }, ee = {
 	key: 3,
-	class: "ui-input__stepper"
+	class: "ui-input__stepper",
+	"aria-hidden": "true"
 }, L = ["disabled"], R = ["disabled"], z = ["id"], B = /* @__PURE__ */ u({
 	__name: "Input",
 	props: {
@@ -127,6 +130,7 @@ var k = ["for"], A = {
 			type: b(i, "type"),
 			required: b(i, "required"),
 			max: b(i, "max"),
+			min: b(i, "min"),
 			validator: b(i, "validator"),
 			touched: d
 		}), B = r(() => i.modelValue ?? ""), { rootClasses: te, controlClasses: ne } = T({
@@ -155,8 +159,8 @@ var k = ["for"], A = {
 			w.onBlur(), d.value = !0, l("blur", e);
 		}, V = (e) => {
 			if (i.disabled || i.readonly) return;
-			let t = (typeof i.modelValue == "number" ? i.modelValue : Number(i.modelValue) || 0) + e * i.step;
-			i.max != null && (t = Math.min(t, i.max)), i.min != null && (t = Math.max(t, i.min)), l("update:modelValue", t);
+			let t = typeof i.modelValue == "number" ? i.modelValue : Number(i.modelValue) || 0, n = (String(i.step).split(".")[1] ?? "").length, r = Number((t + e * i.step).toFixed(n));
+			i.max != null && (r = Math.min(r, i.max)), i.min != null && (r = Math.max(r, i.min)), l("update:modelValue", r);
 		};
 		return t({
 			focus: () => u.value?.focus(),
@@ -185,6 +189,7 @@ var k = ["for"], A = {
 				name: e.name,
 				min: e.type === "number" ? e.min : void 0,
 				max: e.type === "number" ? e.max : void 0,
+				step: e.type === "number" ? e.step : void 0,
 				"aria-invalid": !!x(E),
 				"aria-describedby": x(E) ? _.value : void 0,
 				onInput: re,
@@ -197,14 +202,14 @@ var k = ["for"], A = {
 				class: "ui-input__stepper-btn",
 				tabindex: "-1",
 				disabled: e.disabled || e.readonly,
-				onClick: n[0] ||= (e) => V(1)
-			}, "+", 8, L), s("button", {
+				onClick: n[0] ||= (e) => V(-1)
+			}, "−", 8, L), s("button", {
 				type: "button",
 				class: "ui-input__stepper-btn",
 				tabindex: "-1",
 				disabled: e.disabled || e.readonly,
-				onClick: n[1] ||= (e) => V(-1)
-			}, "-", 8, R)])) : a("", !0)
+				onClick: n[1] ||= (e) => V(1)
+			}, "+", 8, R)])) : a("", !0)
 		], 2), x(E) ? (h(), o("p", {
 			key: 0,
 			id: _.value,
