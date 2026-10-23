@@ -1,134 +1,147 @@
 <script setup lang="ts">
-import { computed, ref, toRef, useId } from 'vue'
-import { useFieldClasses } from '../../composables/useFieldClasses'
-import { useFieldValidation, type FieldValidator } from '../../composables/useFieldValidation'
-import { isImageIcon, type ErrorPosition, type LabelPosition, type SelectOption } from '../../types/form'
+import { computed, ref, toRef, useId } from "vue";
+import { useFieldClasses } from "../../composables/useFieldClasses";
+import {
+  useFieldValidation,
+  type FieldValidator,
+} from "../../composables/useFieldValidation";
+import {
+  isImageIcon,
+  type ErrorPosition,
+  type LabelPosition,
+  type SelectOption,
+} from "../../types/form";
 
-type CheckboxDirection = 'vertical' | 'horizontal'
+type CheckboxDirection = "vertical" | "horizontal";
 /** 체크된 사각형(box, 기본) 또는 토글 버튼처럼 보이는 스타일(button) */
-type CheckboxVariant = 'box' | 'button'
+type CheckboxVariant = "box" | "button";
 /** options를 생략하면 boolean 단일 체크박스, 주면 다중 선택 그룹 */
-type CheckboxValue = boolean | (string | number)[]
+type CheckboxValue = boolean | (string | number)[];
 
 interface Props {
-  modelValue?: CheckboxValue
+  modelValue?: CheckboxValue;
   /** 지정하면 다중 선택 그룹(v-model: 배열), 생략하면 label 하나짜리 단일 체크박스(v-model: boolean) */
-  options?: SelectOption[]
-  label?: string
-  labelPosition?: LabelPosition
-  direction?: CheckboxDirection
-  variant?: CheckboxVariant
-  required?: boolean
-  errorPosition?: ErrorPosition
+  options?: SelectOption[];
+  label?: string;
+  labelPosition?: LabelPosition;
+  direction?: CheckboxDirection;
+  variant?: CheckboxVariant;
+  required?: boolean;
+  errorPosition?: ErrorPosition;
   /** 내장 required 검증 외에 추가로 실행할 커스텀 검증 함수 */
-  validator?: FieldValidator<CheckboxValue>
-  disabled?: boolean
-  name?: string
-  id?: string
+  validator?: FieldValidator<CheckboxValue>;
+  disabled?: boolean;
+  name?: string;
+  id?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   modelValue: false,
   // options는 기본값을 주지 않습니다 — undefined여야 "단일 체크박스 모드"로 판단합니다.
-  labelPosition: 'top',
-  direction: 'vertical',
-  variant: 'box',
+  labelPosition: "top",
+  direction: "vertical",
+  variant: "box",
   required: false,
-  errorPosition: 'bottom',
+  errorPosition: "bottom",
   disabled: false,
-})
+});
 
 const emit = defineEmits<{
-  'update:modelValue': [value: CheckboxValue]
-  blur: [event: FocusEvent]
-}>()
+  "update:modelValue": [value: CheckboxValue];
+  blur: [event: FocusEvent];
+}>();
 
-const touched = ref(false)
+const touched = ref(false);
 
-const generatedId = useId()
-const groupId = computed(() => props.id ?? generatedId)
+const generatedId = useId();
+const groupId = computed(() => props.id ?? generatedId);
 // 같은 그룹의 체크박스는 name을 공유하는 게 표준 시맨틱입니다 (다중 값 필드).
-const groupName = computed(() => props.name ?? groupId.value)
-const errorId = computed(() => `${groupId.value}-error`)
+const groupName = computed(() => props.name ?? groupId.value);
+const errorId = computed(() => `${groupId.value}-error`);
 
-const isGroup = computed(() => Array.isArray(props.options))
+const isGroup = computed(() => Array.isArray(props.options));
 
 /**
  * 단일 모드도 "옵션 하나짜리 그룹"으로 취급해서 렌더링/선택 로직을 하나로 통일합니다.
  * 단일 모드에서는 체크 여부를 modelValue(boolean)로만 판단하므로 value는 쓰이지 않습니다.
  */
-const SINGLE_VALUE = 'single'
+const SINGLE_VALUE = "single";
 
 const normalizedOptions = computed<SelectOption[]>(() =>
   isGroup.value
     ? (props.options as SelectOption[])
-    : [{ label: props.label ?? '', value: SINGLE_VALUE }],
-)
+    : [{ label: props.label ?? "", value: SINGLE_VALUE }],
+);
 
-const modelValueRef = toRef(props, 'modelValue')
+const modelValueRef = toRef(props, "modelValue");
 const { errorMessage } = useFieldValidation<CheckboxValue>({
   value: modelValueRef,
   // max 개념이 없으므로 'number'가 아닌 임의의 타입으로 고정
-  type: computed(() => 'checkbox'),
-  required: toRef(props, 'required'),
-  validator: toRef(props, 'validator'),
+  type: computed(() => "checkbox"),
+  required: toRef(props, "required"),
+  validator: toRef(props, "validator"),
   touched,
-  isEmpty: (value) => (Array.isArray(value) ? value.length === 0 : value !== true),
-})
+  isEmpty: (value) =>
+    Array.isArray(value) ? value.length === 0 : value !== true,
+});
 
 const { rootClasses } = useFieldClasses({
-  block: 'ui-checkbox-group',
-  labelPosition: toRef(props, 'labelPosition'),
-  errorPosition: toRef(props, 'errorPosition'),
+  block: "ui-checkbox-group",
+  labelPosition: toRef(props, "labelPosition"),
+  errorPosition: toRef(props, "errorPosition"),
   invalid: computed(() => !!errorMessage.value),
-  disabled: toRef(props, 'disabled'),
+  disabled: toRef(props, "disabled"),
   // 체크박스 그룹은 하나의 포커스/floating 개념이 없어 항상 false
   focused: computed(() => false),
   floated: computed(() => false),
-})
+});
 
-const isOptionDisabled = (option: SelectOption) => props.disabled || !!option.disabled
+const isOptionDisabled = (option: SelectOption) =>
+  props.disabled || !!option.disabled;
 
 const isChecked = (option: SelectOption) => {
-  if (!isGroup.value) return props.modelValue === true
-  const current = Array.isArray(props.modelValue) ? props.modelValue : []
-  return current.includes(option.value)
-}
+  if (!isGroup.value) return props.modelValue === true;
+  const current = Array.isArray(props.modelValue) ? props.modelValue : [];
+  return current.includes(option.value);
+};
 
 const toggleOption = (option: SelectOption) => {
-  if (isOptionDisabled(option)) return
-  touched.value = true
+  if (isOptionDisabled(option)) return;
+  touched.value = true;
 
   if (!isGroup.value) {
-    emit('update:modelValue', !isChecked(option))
-    return
+    emit("update:modelValue", !isChecked(option));
+    return;
   }
 
-  const current = Array.isArray(props.modelValue) ? props.modelValue : []
+  const current = Array.isArray(props.modelValue) ? props.modelValue : [];
   const next = isChecked(option)
     ? current.filter((value) => value !== option.value)
-    : [...current, option.value]
-  emit('update:modelValue', next)
-}
+    : [...current, option.value];
+  emit("update:modelValue", next);
+};
 
 const onBlur = (event: FocusEvent) => {
-  touched.value = true
-  emit('blur', event)
-}
+  touched.value = true;
+  emit("blur", event);
+};
 
 /** 폼 제출 시 강제로 validation을 노출시키고 유효 여부를 받고 싶을 때 사용 */
 const validate = () => {
-  touched.value = true
-  return !errorMessage.value
-}
+  touched.value = true;
+  return !errorMessage.value;
+};
 
-defineExpose({ validate })
+defineExpose({ validate });
 </script>
 
 <template>
   <div class="ui-checkbox-group" :class="rootClasses">
     <span v-if="isGroup && label" class="ui-checkbox-group__label">
-      <slot name="label">{{ label }}<span v-if="required" class="ui-checkbox-group__required-mark">*</span></slot>
+      <slot name="label">
+        {{ label }}
+        <span v-if="required" class="ui-checkbox-group__required-mark">*</span>
+      </slot>
     </span>
 
     <div class="ui-checkbox-group__body">
@@ -136,7 +149,10 @@ defineExpose({ validate })
         class="ui-checkbox-group__options"
         :class="[
           `ui-checkbox-group__options--${variant}`,
-          { 'ui-checkbox-group__options--horizontal': direction === 'horizontal' },
+          {
+            'ui-checkbox-group__options--horizontal':
+              direction === 'horizontal',
+          },
         ]"
         :role="isGroup ? 'group' : undefined"
         :aria-label="isGroup ? label : undefined"
@@ -165,7 +181,11 @@ defineExpose({ validate })
           <span class="ui-checkbox-group__control" aria-hidden="true"></span>
           <span class="ui-checkbox-group__option-label">
             <slot name="option" :option="option" :index="index">
-              <span v-if="option.icon" class="ui-checkbox-group__option-icon" aria-hidden="true">
+              <span
+                v-if="option.icon"
+                class="ui-checkbox-group__option-icon"
+                aria-hidden="true"
+              >
                 <img
                   v-if="isImageIcon(option.icon)"
                   class="ui-checkbox-group__option-icon-img"
@@ -174,17 +194,31 @@ defineExpose({ validate })
                 />
                 <template v-else>{{ option.icon }}</template>
               </span>
-              {{ option.label }}<span v-if="!isGroup && required" class="ui-checkbox-group__required-mark">*</span>
+              {{ option.label }}
+              <span
+                v-if="!isGroup && required"
+                class="ui-checkbox-group__required-mark"
+              >
+                *
+              </span>
             </slot>
           </span>
         </label>
 
-        <p v-if="isGroup && normalizedOptions.length === 0" class="ui-checkbox-group__empty">
+        <p
+          v-if="isGroup && normalizedOptions.length === 0"
+          class="ui-checkbox-group__empty"
+        >
           <slot name="empty">표시할 항목이 없습니다.</slot>
         </p>
       </div>
 
-      <p v-if="errorMessage" :id="errorId" class="ui-checkbox-group__error" role="alert">
+      <p
+        v-if="errorMessage"
+        :id="errorId"
+        class="ui-checkbox-group__error"
+        role="alert"
+      >
         <slot name="error" :message="errorMessage">{{ errorMessage }}</slot>
       </p>
     </div>
@@ -193,7 +227,7 @@ defineExpose({ validate })
 
 <!-- Input.vue와 동일한 이유로 scoped를 쓰지 않습니다 (ui-checkbox-group BEM 클래스만으로 격리). -->
 <style lang="scss">
-@use '../../styles/mixins/field-layout' as field;
+@use "../../styles/mixins/field-layout" as field;
 
 .ui-checkbox-group {
   @include field.field-label-top;
@@ -297,7 +331,7 @@ defineExpose({ validate })
   justify-content: center;
   width: 18px;
   height: 18px;
-  border-radius: var(--ui-radius-sm);
+  border-radius: var(--ui-radius-xs);
   border: 1.5px solid var(--ui-border-default);
   background: var(--ui-surface-default);
   transition:
@@ -307,7 +341,7 @@ defineExpose({ validate })
 }
 
 .ui-checkbox-group__control::after {
-  content: '';
+  content: "";
   width: 5px;
   height: 9px;
   margin-bottom: 2px;
@@ -317,7 +351,8 @@ defineExpose({ validate })
   transition: transform 0.12s ease;
 }
 
-.ui-checkbox-group__option:not(.ui-checkbox-group__option--disabled):hover .ui-checkbox-group__control {
+.ui-checkbox-group__option:not(.ui-checkbox-group__option--disabled):hover
+  .ui-checkbox-group__control {
   border-color: var(--ui-border-hover);
 }
 
@@ -381,7 +416,8 @@ defineExpose({ validate })
     color 0.15s ease;
 }
 
-.ui-checkbox-group__options--button .ui-checkbox-group__option:not(.ui-checkbox-group__option--disabled):hover {
+.ui-checkbox-group__options--button
+  .ui-checkbox-group__option:not(.ui-checkbox-group__option--disabled):hover {
   border-color: var(--ui-border-hover);
 }
 

@@ -1,241 +1,264 @@
 <script setup lang="ts">
-import { computed, nextTick, ref, toRef, useId } from 'vue'
-import { useFieldClasses } from '../../composables/useFieldClasses'
-import { useFieldValidation, type FieldValidator } from '../../composables/useFieldValidation'
-import { useFloatingLabel } from '../../composables/useFloatingLabel'
-import { useIsMobile } from '../../composables/useIsMobile'
-import type { ErrorPosition, LabelPosition, SelectOption } from '../../types/form'
+import { computed, nextTick, ref, toRef, useId } from "vue";
+import { useFieldClasses } from "../../composables/useFieldClasses";
+import {
+  useFieldValidation,
+  type FieldValidator,
+} from "../../composables/useFieldValidation";
+import { useFloatingLabel } from "../../composables/useFloatingLabel";
+import { useIsMobile } from "../../composables/useIsMobile";
+import type {
+  ErrorPosition,
+  LabelPosition,
+  SelectOption,
+} from "../../types/form";
 
 interface Props {
-  modelValue?: string | number | null
-  options?: SelectOption[]
-  label?: string
-  labelPosition?: LabelPosition
-  placeholder?: string
-  required?: boolean
-  errorPosition?: ErrorPosition
+  modelValue?: string | number | null;
+  options?: SelectOption[];
+  label?: string;
+  labelPosition?: LabelPosition;
+  placeholder?: string;
+  required?: boolean;
+  errorPosition?: ErrorPosition;
   /** 내장 required 검증 외에 추가로 실행할 커스텀 검증 함수 */
-  validator?: FieldValidator
-  disabled?: boolean
+  validator?: FieldValidator;
+  disabled?: boolean;
   /** 검색어로 옵션을 필터링할 수 있는 콤보박스 모드 */
-  searchable?: boolean
+  searchable?: boolean;
   /** searchable일 때 검색 대상으로 볼 SelectOption의 필드명 목록 (기본: label, value) */
-  filterKeys?: string[]
+  filterKeys?: string[];
   /** 검색 매칭 로직을 완전히 직접 구현하고 싶을 때 사용. 지정하면 filterKeys는 무시됨 */
-  filterOption?: (option: SelectOption, query: string) => boolean
+  filterOption?: (option: SelectOption, query: string) => boolean;
   /** 이 너비(px) 이하에서는 드롭다운 대신 bottomSheet로 열림 */
-  mobileBreakpoint?: number
-  name?: string
-  id?: string
+  mobileBreakpoint?: number;
+  name?: string;
+  id?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   modelValue: null,
   options: () => [],
-  labelPosition: 'top',
+  labelPosition: "top",
   required: false,
-  errorPosition: 'bottom',
+  errorPosition: "bottom",
   disabled: false,
   searchable: false,
-  filterKeys: () => ['label', 'value'],
+  filterKeys: () => ["label", "value"],
   mobileBreakpoint: 640,
-})
+});
 
 const emit = defineEmits<{
-  'update:modelValue': [value: string | number | null]
-  focus: [event: FocusEvent]
-  blur: [event: FocusEvent]
-}>()
+  "update:modelValue": [value: string | number | null];
+  focus: [event: FocusEvent];
+  blur: [event: FocusEvent];
+}>();
 
-const triggerRef = ref<HTMLButtonElement | HTMLInputElement | null>(null)
-const sheetSearchRef = ref<HTMLInputElement | null>(null)
-const touched = ref(false)
-const isOpen = ref(false)
-const activeIndex = ref(-1)
-const query = ref('')
+const triggerRef = ref<HTMLButtonElement | HTMLInputElement | null>(null);
+const sheetSearchRef = ref<HTMLInputElement | null>(null);
+const touched = ref(false);
+const isOpen = ref(false);
+const activeIndex = ref(-1);
+const query = ref("");
 
-const isMobile = useIsMobile(props.mobileBreakpoint)
+const isMobile = useIsMobile(props.mobileBreakpoint);
 
-const generatedId = useId()
-const triggerId = computed(() => props.id ?? generatedId)
-const errorId = computed(() => `${triggerId.value}-error`)
-const listboxId = computed(() => `${triggerId.value}-listbox`)
+const generatedId = useId();
+const triggerId = computed(() => props.id ?? generatedId);
+const errorId = computed(() => `${triggerId.value}-error`);
+const listboxId = computed(() => `${triggerId.value}-listbox`);
 
-const modelValueRef = toRef(props, 'modelValue')
-const floating = useFloatingLabel(modelValueRef)
+const modelValueRef = toRef(props, "modelValue");
+const floating = useFloatingLabel(modelValueRef);
 const { errorMessage } = useFieldValidation({
   value: modelValueRef,
   // maxLength 개념이 없으므로 'number'가 아닌 임의의 타입으로 고정
-  type: computed(() => 'select'),
-  required: toRef(props, 'required'),
-  validator: toRef(props, 'validator'),
+  type: computed(() => "select"),
+  required: toRef(props, "required"),
+  validator: toRef(props, "validator"),
   touched,
-})
+});
 
 const selectedOption = computed(
-  () => props.options.find((option) => option.value === props.modelValue) ?? null,
-)
+  () =>
+    props.options.find((option) => option.value === props.modelValue) ?? null,
+);
 
 /** searchable일 때 query로 걸러진 목록. 아니면 options 그대로 */
 const filteredOptions = computed(() => {
-  if (!props.searchable || !query.value.trim()) return props.options
-  const q = query.value.trim().toLowerCase()
+  if (!props.searchable || !query.value.trim()) return props.options;
+  const q = query.value.trim().toLowerCase();
 
   if (props.filterOption) {
-    return props.options.filter((option) => props.filterOption!(option, q))
+    return props.options.filter((option) => props.filterOption!(option, q));
   }
 
-  const keys = props.filterKeys.length > 0 ? props.filterKeys : ['label', 'value']
+  const keys =
+    props.filterKeys.length > 0 ? props.filterKeys : ["label", "value"];
   return props.options.filter((option) =>
-    keys.some((key) => String(option[key] ?? '').toLowerCase().includes(q)),
-  )
-})
+    keys.some((key) =>
+      String(option[key] ?? "")
+        .toLowerCase()
+        .includes(q),
+    ),
+  );
+});
 
 /** searchable input에 실제로 표시할 값: 열려있는 동안은 입력 중인 query, 닫히면 선택된 라벨 */
 const displayValue = computed(() => {
-  if (isOpen.value) return query.value
-  return selectedOption.value?.label ?? ''
-})
+  if (isOpen.value) return query.value;
+  return selectedOption.value?.label ?? "";
+});
 
 const { rootClasses, controlClasses: baseControlClasses } = useFieldClasses({
-  block: 'ui-select',
-  labelPosition: toRef(props, 'labelPosition'),
-  errorPosition: toRef(props, 'errorPosition'),
+  block: "ui-select",
+  labelPosition: toRef(props, "labelPosition"),
+  errorPosition: toRef(props, "errorPosition"),
   invalid: computed(() => !!errorMessage.value),
-  disabled: toRef(props, 'disabled'),
+  disabled: toRef(props, "disabled"),
   focused: floating.isFocused,
   floated: floating.isFloated,
-})
+});
 
 // Select만 갖는 open 상태 modifier를 공통 controlClasses 위에 얹음
 const controlClasses = computed(() => ({
   ...baseControlClasses.value,
-  'ui-select__control--open': isOpen.value,
-}))
+  "ui-select__control--open": isOpen.value,
+}));
 
 const openMenu = () => {
-  if (props.disabled || isOpen.value) return
-  isOpen.value = true
-  if (props.searchable) query.value = ''
+  if (props.disabled || isOpen.value) return;
+  isOpen.value = true;
+  if (props.searchable) query.value = "";
 
-  const list = filteredOptions.value
-  const currentIndex = list.findIndex((option) => option.value === props.modelValue)
-  activeIndex.value = currentIndex >= 0 ? currentIndex : list.length > 0 ? 0 : -1
+  const list = filteredOptions.value;
+  const currentIndex = list.findIndex(
+    (option) => option.value === props.modelValue,
+  );
+  activeIndex.value =
+    currentIndex >= 0 ? currentIndex : list.length > 0 ? 0 : -1;
 
   if (props.searchable) {
     // 모바일은 bottomSheet 안의 검색 input이 이번 렌더에서 새로 마운트되므로 nextTick에서 포커스
     nextTick(() => {
-      if (isMobile.value) sheetSearchRef.value?.focus()
-      else triggerRef.value?.focus()
-    })
+      if (isMobile.value) sheetSearchRef.value?.focus();
+      else triggerRef.value?.focus();
+    });
   }
-}
+};
 
 const closeMenu = () => {
-  isOpen.value = false
-  activeIndex.value = -1
-  touched.value = true
-  if (props.searchable) query.value = ''
-}
+  isOpen.value = false;
+  activeIndex.value = -1;
+  touched.value = true;
+  if (props.searchable) query.value = "";
+};
 
 const toggleOpen = () => {
-  if (props.disabled) return
-  if (isOpen.value) closeMenu()
-  else openMenu()
-}
+  if (props.disabled) return;
+  if (isOpen.value) closeMenu();
+  else openMenu();
+};
 
 const selectOption = (option: SelectOption) => {
-  if (props.disabled) return
-  emit('update:modelValue', option.value)
-  closeMenu()
-  triggerRef.value?.focus()
-}
+  if (props.disabled) return;
+  emit("update:modelValue", option.value);
+  closeMenu();
+  triggerRef.value?.focus();
+};
 
 const onSearchInput = (event: Event) => {
-  const target = event.target as HTMLInputElement
-  query.value = target.value
-  isOpen.value = true
-  activeIndex.value = filteredOptions.value.length > 0 ? 0 : -1
-}
+  const target = event.target as HTMLInputElement;
+  query.value = target.value;
+  isOpen.value = true;
+  activeIndex.value = filteredOptions.value.length > 0 ? 0 : -1;
+};
 
 const onFocus = (event: FocusEvent) => {
-  floating.onFocus()
-  if (props.searchable) openMenu()
-  emit('focus', event)
-}
+  floating.onFocus();
+  if (props.searchable) openMenu();
+  emit("focus", event);
+};
 
 const onBlur = (event: FocusEvent) => {
-  floating.onBlur()
+  floating.onBlur();
   // 모바일 bottomSheet는 explicit하게(바깥탭/닫기버튼/선택) 닫아야 하므로 blur로는 닫지 않음
-  if (!isMobile.value) closeMenu()
-  else touched.value = true
-  emit('blur', event)
-}
+  if (!isMobile.value) closeMenu();
+  else touched.value = true;
+  emit("blur", event);
+};
 
 const onTriggerKeydown = (event: KeyboardEvent) => {
-  if (props.disabled) return
+  if (props.disabled) return;
 
-  const list = filteredOptions.value
+  const list = filteredOptions.value;
 
   switch (event.key) {
-    case 'ArrowDown':
-      event.preventDefault()
+    case "ArrowDown":
+      event.preventDefault();
       if (!isOpen.value) {
-        openMenu()
-        return
+        openMenu();
+        return;
       }
-      activeIndex.value = Math.min(activeIndex.value + 1, list.length - 1)
-      break
-    case 'ArrowUp':
-      event.preventDefault()
+      activeIndex.value = Math.min(activeIndex.value + 1, list.length - 1);
+      break;
+    case "ArrowUp":
+      event.preventDefault();
       if (!isOpen.value) {
-        openMenu()
-        return
+        openMenu();
+        return;
       }
-      activeIndex.value = Math.max(activeIndex.value - 1, 0)
-      break
-    case 'Enter':
-      event.preventDefault()
+      activeIndex.value = Math.max(activeIndex.value - 1, 0);
+      break;
+    case "Enter":
+      event.preventDefault();
       if (isOpen.value && activeIndex.value >= 0 && list[activeIndex.value]) {
-        selectOption(list[activeIndex.value])
+        selectOption(list[activeIndex.value]);
       } else if (!props.searchable) {
-        toggleOpen()
+        toggleOpen();
       }
-      break
-    case ' ':
+      break;
+    case " ":
       // searchable 모드에서는 스페이스가 검색어 입력이어야 함
       if (!props.searchable) {
-        event.preventDefault()
+        event.preventDefault();
         if (isOpen.value && activeIndex.value >= 0 && list[activeIndex.value]) {
-          selectOption(list[activeIndex.value])
+          selectOption(list[activeIndex.value]);
         } else {
-          toggleOpen()
+          toggleOpen();
         }
       }
-      break
-    case 'Escape':
-      closeMenu()
-      triggerRef.value?.focus()
-      break
+      break;
+    case "Escape":
+      closeMenu();
+      triggerRef.value?.focus();
+      break;
   }
-}
+};
 
 /** 폼 제출 시 강제로 validation을 노출시키고 유효 여부를 받고 싶을 때 사용 */
 const validate = () => {
-  touched.value = true
-  return !errorMessage.value
-}
+  touched.value = true;
+  return !errorMessage.value;
+};
 
 defineExpose({
   focus: () => triggerRef.value?.focus(),
   validate,
-})
+});
 </script>
 
 <template>
   <div class="ui-select" :class="rootClasses">
-    <label v-if="label && labelPosition !== 'inside'" class="ui-select__label" :for="triggerId">
-      <slot name="label">{{ label }}<span v-if="required" class="ui-select__required-mark">*</span></slot>
+    <label
+      v-if="label && labelPosition !== 'inside'"
+      class="ui-select__label"
+      :for="triggerId"
+    >
+      <slot name="label">
+        {{ label }}
+        <span v-if="required" class="ui-select__required-mark">*</span>
+      </slot>
     </label>
 
     <div class="ui-select__body">
@@ -245,7 +268,10 @@ defineExpose({
           class="ui-select__label ui-select__label--inside"
           :for="triggerId"
         >
-          <slot name="label">{{ label }}<span v-if="required" class="ui-select__required-mark">*</span></slot>
+          <slot name="label">
+            {{ label }}
+            <span v-if="required" class="ui-select__required-mark">*</span>
+          </slot>
         </label>
 
         <button
@@ -264,8 +290,17 @@ defineExpose({
           @focus="onFocus"
           @blur="onBlur"
         >
-          <span class="ui-select__value" :class="{ 'ui-select__value--placeholder': !selectedOption }">
-            {{ selectedOption ? selectedOption.label : (labelPosition === 'inside' ? '' : placeholder) }}
+          <span
+            class="ui-select__value"
+            :class="{ 'ui-select__value--placeholder': !selectedOption }"
+          >
+            {{
+              selectedOption
+                ? selectedOption.label
+                : labelPosition === "inside"
+                  ? ""
+                  : placeholder
+            }}
           </span>
           <span class="ui-select__arrow" aria-hidden="true">▾</span>
         </button>
@@ -284,7 +319,11 @@ defineExpose({
             :aria-expanded="isOpen"
             aria-haspopup="listbox"
             :aria-controls="listboxId"
-            :aria-activedescendant="activeIndex >= 0 ? `${triggerId}-option-${activeIndex}` : undefined"
+            :aria-activedescendant="
+              activeIndex >= 0
+                ? `${triggerId}-option-${activeIndex}`
+                : undefined
+            "
             :aria-describedby="errorMessage ? errorId : undefined"
             autocomplete="off"
             @input="onSearchInput"
@@ -295,7 +334,12 @@ defineExpose({
           <span class="ui-select__arrow" aria-hidden="true">▾</span>
         </div>
 
-        <ul v-if="isOpen && !isMobile" :id="listboxId" class="ui-select__menu" role="listbox">
+        <ul
+          v-if="isOpen && !isMobile"
+          :id="listboxId"
+          class="ui-select__menu"
+          role="listbox"
+        >
           <li
             v-for="(option, index) in filteredOptions"
             :id="`${triggerId}-option-${index}`"
@@ -313,23 +357,47 @@ defineExpose({
             <slot name="option" :option="option">{{ option.label }}</slot>
           </li>
           <li v-if="filteredOptions.length === 0" class="ui-select__empty">
-            <slot name="empty">{{ searchable && query ? '검색 결과가 없습니다.' : '표시할 항목이 없습니다.' }}</slot>
+            <slot name="empty">
+              {{
+                searchable && query
+                  ? "검색 결과가 없습니다."
+                  : "표시할 항목이 없습니다."
+              }}
+            </slot>
           </li>
         </ul>
       </div>
 
-      <p v-if="errorMessage" :id="errorId" class="ui-select__error" role="alert">
+      <p
+        v-if="errorMessage"
+        :id="errorId"
+        class="ui-select__error"
+        role="alert"
+      >
         <slot name="error" :message="errorMessage">{{ errorMessage }}</slot>
       </p>
     </div>
 
     <Teleport to="body">
       <Transition name="ui-select-sheet">
-        <div v-if="isOpen && isMobile" class="ui-select__sheet-backdrop" @click="closeMenu">
+        <div
+          v-if="isOpen && isMobile"
+          class="ui-select__sheet-backdrop"
+          @click="closeMenu"
+        >
           <div class="ui-select__sheet" role="listbox" @click.stop>
             <div class="ui-select__sheet-header">
-              <span class="ui-select__sheet-title">{{ label || placeholder }}</span>
-              <button type="button" class="ui-select__sheet-close" aria-label="닫기" @click="closeMenu">✕</button>
+              <span class="ui-select__sheet-title">
+                {{ label || placeholder }}
+              </span>
+              <button
+                type="button"
+                class="ui-select__sheet-close"
+                aria-label="닫기"
+                @click="closeMenu"
+              >
+                ✕
+              </button>
             </div>
 
             <input
@@ -351,15 +419,25 @@ defineExpose({
                 :aria-selected="option.value === modelValue"
                 class="ui-select__sheet-option"
                 :class="{
-                  'ui-select__sheet-option--selected': option.value === modelValue,
+                  'ui-select__sheet-option--selected':
+                    option.value === modelValue,
                   'ui-select__sheet-option--active': index === activeIndex,
                 }"
                 @click="selectOption(option)"
               >
                 <slot name="option" :option="option">{{ option.label }}</slot>
               </li>
-              <li v-if="filteredOptions.length === 0" class="ui-select__sheet-empty">
-                <slot name="empty">{{ searchable && query ? '검색 결과가 없습니다.' : '표시할 항목이 없습니다.' }}</slot>
+              <li
+                v-if="filteredOptions.length === 0"
+                class="ui-select__sheet-empty"
+              >
+                <slot name="empty">
+                  {{
+                    searchable && query
+                      ? "검색 결과가 없습니다."
+                      : "표시할 항목이 없습니다."
+                  }}
+                </slot>
               </li>
             </ul>
           </div>
@@ -371,7 +449,7 @@ defineExpose({
 
 <!-- Input.vue와 동일한 이유로 scoped를 쓰지 않습니다 (ui-select BEM 클래스만으로 격리). -->
 <style lang="scss">
-@use '../../styles/mixins/field-layout' as field;
+@use "../../styles/mixins/field-layout" as field;
 
 .ui-select {
   @include field.field-label-top;
@@ -445,7 +523,7 @@ defineExpose({
   justify-content: space-between;
   gap: var(--ui-spacing-xs);
   border: 1px solid var(--ui-border-default);
-  border-radius: var(--ui-radius-sm);
+  border-radius: var(--ui-radius-xs);
   background: var(--ui-surface-default);
   // Input과 같은 조절점
   min-height: var(--ui-field-height, auto);
@@ -534,7 +612,7 @@ defineExpose({
   list-style: none;
   background: var(--ui-surface-raised);
   border: 1px solid var(--ui-border-default);
-  border-radius: var(--ui-radius-sm);
+  border-radius: var(--ui-radius-xs);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   max-height: 240px;
   overflow-y: auto;
@@ -577,7 +655,7 @@ defineExpose({
   display: flex;
   flex-direction: column;
   background: var(--ui-surface-raised);
-  border-radius: var(--ui-radius-md) var(--ui-radius-md) 0 0;
+  border-radius: var(--ui-radius-sm) var(--ui-radius-sm) 0 0;
   padding-bottom: env(safe-area-inset-bottom, 0);
   overflow: hidden;
 }
@@ -605,7 +683,7 @@ defineExpose({
   margin: var(--ui-spacing-sm) var(--ui-spacing-md) 0;
   padding: var(--ui-spacing-sm);
   border: 1px solid var(--ui-border-default);
-  border-radius: var(--ui-radius-sm);
+  border-radius: var(--ui-radius-xs);
   font: inherit;
   color: inherit;
   outline: none;

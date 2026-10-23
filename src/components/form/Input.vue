@@ -1,154 +1,170 @@
 <script setup lang="ts">
-import { computed, ref, toRef, useId } from 'vue'
-import { useFieldClasses } from '../../composables/useFieldClasses'
-import { useFieldValidation, type FieldValidator } from '../../composables/useFieldValidation'
-import { useFloatingLabel } from '../../composables/useFloatingLabel'
-import type { ErrorPosition, LabelPosition } from '../../types/form'
+import { computed, ref, toRef, useId } from "vue";
+import { useFieldClasses } from "../../composables/useFieldClasses";
+import {
+  useFieldValidation,
+  type FieldValidator,
+} from "../../composables/useFieldValidation";
+import { useFloatingLabel } from "../../composables/useFloatingLabel";
+import type { ErrorPosition, LabelPosition } from "../../types/form";
 
-type InputType = 'text' | 'number' | 'email' | 'password' | 'tel' | 'search'
+type InputType = "text" | "number" | "email" | "password" | "tel" | "search";
 /**
  * 입력 박스의 모양. 색·간격 같은 값은 토큰으로 바꿀 수 있지만,
  * 아래 셋은 테두리 구조 자체가 달라 토큰으로 표현되지 않으므로 variant로 둡니다.
  */
-type InputVariant = 'outlined' | 'filled' | 'underline'
+type InputVariant = "outlined" | "filled" | "underline";
 
 interface Props {
-  modelValue?: string | number | null
-  type?: InputType
-  variant?: InputVariant
-  label?: string
-  labelPosition?: LabelPosition
-  placeholder?: string
-  required?: boolean
+  modelValue?: string | number | null;
+  type?: InputType;
+  variant?: InputVariant;
+  label?: string;
+  labelPosition?: LabelPosition;
+  placeholder?: string;
+  required?: boolean;
   /** 문자열 입력이면 최대 글자 수, type="number"면 최댓값 */
-  max?: number
+  max?: number;
   /** type="number"에서만 사용 (스테퍼 하한, 네이티브 min 속성) */
-  min?: number
+  min?: number;
   /** type="number"에서 한 번에 증감할 값. 스테퍼 버튼과 화살표 키에 함께 적용됩니다 */
-  step?: number
+  step?: number;
   /** type="number"일 때만 의미 있는 증감 버튼 노출 여부 */
-  showStepper?: boolean
-  errorPosition?: ErrorPosition
+  showStepper?: boolean;
+  errorPosition?: ErrorPosition;
   /** 내장 required/max 검증 외에 추가로 실행할 커스텀 검증 함수 */
-  validator?: FieldValidator
-  disabled?: boolean
-  readonly?: boolean
-  name?: string
-  id?: string
+  validator?: FieldValidator;
+  disabled?: boolean;
+  readonly?: boolean;
+  name?: string;
+  id?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: '',
-  type: 'text',
-  variant: 'outlined',
-  labelPosition: 'top',
+  modelValue: "",
+  type: "text",
+  variant: "outlined",
+  labelPosition: "top",
   required: false,
   showStepper: false,
-  errorPosition: 'bottom',
+  errorPosition: "bottom",
   step: 1,
   disabled: false,
   readonly: false,
-})
+});
 
 const emit = defineEmits<{
-  'update:modelValue': [value: string | number | null]
-  focus: [event: FocusEvent]
-  blur: [event: FocusEvent]
-}>()
+  "update:modelValue": [value: string | number | null];
+  focus: [event: FocusEvent];
+  blur: [event: FocusEvent];
+}>();
 
-const inputRef = ref<HTMLInputElement | null>(null)
-const touched = ref(false)
+const inputRef = ref<HTMLInputElement | null>(null);
+const touched = ref(false);
 
-const generatedId = useId()
-const inputId = computed(() => props.id ?? generatedId)
-const errorId = computed(() => `${inputId.value}-error`)
+const generatedId = useId();
+const inputId = computed(() => props.id ?? generatedId);
+const errorId = computed(() => `${inputId.value}-error`);
 
-const modelValueRef = toRef(props, 'modelValue')
-const floating = useFloatingLabel(modelValueRef)
+const modelValueRef = toRef(props, "modelValue");
+const floating = useFloatingLabel(modelValueRef);
 const { errorMessage } = useFieldValidation({
   value: modelValueRef,
-  type: toRef(props, 'type'),
-  required: toRef(props, 'required'),
-  max: toRef(props, 'max'),
-  min: toRef(props, 'min'),
-  validator: toRef(props, 'validator'),
+  type: toRef(props, "type"),
+  required: toRef(props, "required"),
+  max: toRef(props, "max"),
+  min: toRef(props, "min"),
+  validator: toRef(props, "validator"),
   touched,
-})
+});
 
-const displayValue = computed(() => props.modelValue ?? '')
+const displayValue = computed(() => props.modelValue ?? "");
 
 const { rootClasses, controlClasses } = useFieldClasses({
-  block: 'ui-input',
-  labelPosition: toRef(props, 'labelPosition'),
-  errorPosition: toRef(props, 'errorPosition'),
+  block: "ui-input",
+  labelPosition: toRef(props, "labelPosition"),
+  errorPosition: toRef(props, "errorPosition"),
   invalid: computed(() => !!errorMessage.value),
-  disabled: toRef(props, 'disabled'),
+  disabled: toRef(props, "disabled"),
   focused: floating.isFocused,
   floated: floating.isFloated,
-})
+});
 
 const onInput = (event: Event) => {
-  const target = event.target as HTMLInputElement
+  const target = event.target as HTMLInputElement;
 
-  if (props.type === 'number') {
-    if (target.value === '') {
-      emit('update:modelValue', null)
-      return
+  if (props.type === "number") {
+    if (target.value === "") {
+      emit("update:modelValue", null);
+      return;
     }
-    const parsed = Number(target.value)
-    emit('update:modelValue', Number.isNaN(parsed) ? target.value : parsed)
-    return
+    const parsed = Number(target.value);
+    emit("update:modelValue", Number.isNaN(parsed) ? target.value : parsed);
+    return;
   }
 
-  emit('update:modelValue', target.value)
-}
+  emit("update:modelValue", target.value);
+};
 
 const onFocus = (event: FocusEvent) => {
-  floating.onFocus()
-  emit('focus', event)
-}
+  floating.onFocus();
+  emit("focus", event);
+};
 
 const onBlur = (event: FocusEvent) => {
-  floating.onBlur()
-  touched.value = true
-  emit('blur', event)
-}
+  floating.onBlur();
+  touched.value = true;
+  emit("blur", event);
+};
 
 const handleStep = (direction: 1 | -1) => {
-  if (props.disabled || props.readonly) return
+  if (props.disabled || props.readonly) return;
 
-  const current = typeof props.modelValue === 'number' ? props.modelValue : Number(props.modelValue) || 0
+  const current =
+    typeof props.modelValue === "number"
+      ? props.modelValue
+      : Number(props.modelValue) || 0;
   // 0.1 + 0.2 = 0.30000000000000004 같은 부동소수점 찌꺼기를 step의 자릿수로 잘라냅니다.
-  const decimals = (String(props.step).split('.')[1] ?? '').length
-  let next = Number((current + direction * props.step).toFixed(decimals))
+  const decimals = (String(props.step).split(".")[1] ?? "").length;
+  let next = Number((current + direction * props.step).toFixed(decimals));
 
-  if (props.max != null) next = Math.min(next, props.max)
-  if (props.min != null) next = Math.max(next, props.min)
+  if (props.max != null) next = Math.min(next, props.max);
+  if (props.min != null) next = Math.max(next, props.min);
 
-  emit('update:modelValue', next)
-}
+  emit("update:modelValue", next);
+};
 
 /** 폼 제출 시 강제로 validation을 노출시키고 유효 여부를 받고 싶을 때 사용 */
 const validate = () => {
-  touched.value = true
-  return !errorMessage.value
-}
+  touched.value = true;
+  return !errorMessage.value;
+};
 
 defineExpose({
   focus: () => inputRef.value?.focus(),
   validate,
-})
+});
 </script>
 
 <template>
   <div class="ui-input" :class="[rootClasses, `ui-input--${variant}`]">
-    <label v-if="label && labelPosition !== 'inside'" class="ui-input__label" :for="inputId">
-      <slot name="label">{{ label }}<span v-if="required" class="ui-input__required-mark">*</span></slot>
+    <label
+      v-if="label && labelPosition !== 'inside'"
+      class="ui-input__label"
+      :for="inputId"
+    >
+      <slot name="label">
+        {{ label }}
+        <span v-if="required" class="ui-input__required-mark">*</span>
+      </slot>
     </label>
 
     <div class="ui-input__body">
       <div class="ui-input__control" :class="controlClasses">
-        <span v-if="$slots.prefix" class="ui-input__affix ui-input__affix--prefix">
+        <span
+          v-if="$slots.prefix"
+          class="ui-input__affix ui-input__affix--prefix"
+        >
           <slot name="prefix" />
         </span>
 
@@ -157,7 +173,10 @@ defineExpose({
           class="ui-input__label ui-input__label--inside"
           :for="inputId"
         >
-          <slot name="label">{{ label }}<span v-if="required" class="ui-input__required-mark">*</span></slot>
+          <slot name="label">
+            {{ label }}
+            <span v-if="required" class="ui-input__required-mark">*</span>
+          </slot>
         </label>
 
         <input
@@ -180,7 +199,10 @@ defineExpose({
           @blur="onBlur"
         />
 
-        <span v-if="$slots.suffix" class="ui-input__affix ui-input__affix--suffix">
+        <span
+          v-if="$slots.suffix"
+          class="ui-input__affix ui-input__affix--suffix"
+        >
           <slot name="suffix" />
         </span>
 
@@ -196,14 +218,18 @@ defineExpose({
             tabindex="-1"
             :disabled="disabled || readonly"
             @click="handleStep(-1)"
-          >−</button>
+          >
+            −
+          </button>
           <button
             type="button"
             class="ui-input__stepper-btn"
             tabindex="-1"
             :disabled="disabled || readonly"
             @click="handleStep(1)"
-          >+</button>
+          >
+            +
+          </button>
         </span>
       </div>
 
@@ -221,7 +247,7 @@ defineExpose({
   됩니다. 대신 `ui-input` 접두사 + BEM 네이밍만으로 충돌을 방지합니다.
 -->
 <style lang="scss">
-@use '../../styles/mixins/field-layout' as field;
+@use "../../styles/mixins/field-layout" as field;
 
 .ui-input {
   @include field.field-label-top;
@@ -266,7 +292,7 @@ defineExpose({
   align-items: center;
   gap: var(--ui-spacing-xs);
   border: 1px solid var(--ui-border-default);
-  border-radius: var(--ui-radius-sm);
+  border-radius: var(--ui-radius-xs);
   background: var(--ui-surface-default);
   padding: 0 var(--ui-spacing-sm);
   // 높이 조절점. Select trigger(button)와 같은 높이가 나오도록 border-box로 맞춥니다.
@@ -322,13 +348,13 @@ defineExpose({
 // type="number"의 브라우저 기본 스피너를 숨깁니다.
 // showStepper가 true면 우리 커스텀 버튼과 이중으로 보이고, false여도 브라우저마다
 // 생김새가 달라 디자인 통제가 안 되므로 항상 숨기고 showStepper로만 노출을 제어합니다.
-.ui-input__field[type='number']::-webkit-outer-spin-button,
-.ui-input__field[type='number']::-webkit-inner-spin-button {
+.ui-input__field[type="number"]::-webkit-outer-spin-button,
+.ui-input__field[type="number"]::-webkit-inner-spin-button {
   margin: 0;
   -webkit-appearance: none;
 }
 
-.ui-input__field[type='number'] {
+.ui-input__field[type="number"] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
@@ -439,7 +465,9 @@ defineExpose({
 
 // 라벨이 들어갈 자리만큼 위를 비우고, 전체 높이는 유지되도록 아래를 줄입니다
 .ui-input--filled.ui-input--label-inside .ui-input__field {
-  padding-top: calc(var(--ui-field-padding-y, var(--ui-spacing-sm)) + var(--ui-font-size-sm));
+  padding-top: calc(
+    var(--ui-field-padding-y, var(--ui-spacing-sm)) + var(--ui-font-size-sm)
+  );
   padding-bottom: var(--ui-spacing-xs);
 }
 

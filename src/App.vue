@@ -1,54 +1,54 @@
 <script setup lang="ts">
 // 로컬 개발용 데모 카탈로그의 셸입니다.
 // 컴포넌트를 추가하면 demo/ 에 섹션 파일을 만들고 아래 두 곳(sections, 템플릿)에만 추가하세요.
-import { ref, watchEffect } from 'vue'
+import { ref, watchEffect } from "vue";
 // 팔레트는 소비 프로젝트가 선택적으로 불러오는 파일입니다(dist/palette.css).
 // 데모에서는 켜고 끌 수 있도록 문자열로 가져와 <style>로 넣고 뺍니다.
-import paletteCss from './styles/palette.scss?inline'
-import InputSection from './demo/InputSection.vue'
-import SelectSection from './demo/SelectSection.vue'
-import RadioSection from './demo/RadioSection.vue'
-import CheckboxSection from './demo/CheckboxSection.vue'
+import paletteCss from "./styles/palette.scss?inline";
+import InputSection from "./demo/InputSection.vue";
+import SelectSection from "./demo/SelectSection.vue";
+import RadioSection from "./demo/RadioSection.vue";
+import CheckboxSection from "./demo/CheckboxSection.vue";
 
-type Theme = 'system' | 'light' | 'dark'
+type Theme = "system" | "light" | "dark";
 const themes: { value: Theme; label: string }[] = [
-  { value: 'system', label: '시스템' },
-  { value: 'light', label: '라이트' },
-  { value: 'dark', label: '다크' },
-]
-const theme = ref<Theme>('system')
+  { value: "system", label: "시스템" },
+  { value: "light", label: "라이트" },
+  { value: "dark", label: "다크" },
+];
+const theme = ref<Theme>("system");
 
 watchEffect(() => {
-  const root = document.documentElement
-  if (theme.value === 'system') delete root.dataset.theme
-  else root.dataset.theme = theme.value
-})
+  const root = document.documentElement;
+  if (theme.value === "system") delete root.dataset.theme;
+  else root.dataset.theme = theme.value;
+});
 
 // 팔레트 on/off — 소비 프로젝트가 palette.css를 불러왔을 때와 아닐 때를 비교합니다
-const PALETTE_STYLE_ID = 'ui-palette'
-const paletteOn = ref(true)
+const PALETTE_STYLE_ID = "ui-palette";
+const paletteOn = ref(true);
 
 watchEffect(() => {
-  const existing = document.getElementById(PALETTE_STYLE_ID)
+  const existing = document.getElementById(PALETTE_STYLE_ID);
   if (!paletteOn.value) {
-    existing?.remove()
-    return
+    existing?.remove();
+    return;
   }
-  if (existing) return
-  const style = document.createElement('style')
-  style.id = PALETTE_STYLE_ID
-  style.textContent = paletteCss
+  if (existing) return;
+  const style = document.createElement("style");
+  style.id = PALETTE_STYLE_ID;
+  style.textContent = paletteCss;
   // 코어 CSS보다 뒤에 와야 값이 덮어씌워집니다
-  document.head.append(style)
-})
+  document.head.append(style);
+});
 
 // 목차 — 섹션을 추가하면 여기에 한 줄 더합니다
 const sections = [
-  { id: 'input', label: 'Input' },
-  { id: 'select', label: 'Select' },
-  { id: 'radio', label: 'Radio' },
-  { id: 'checkbox', label: 'Checkbox' },
-]
+  { id: "input", label: "Input" },
+  { id: "select", label: "Select" },
+  { id: "radio", label: "Radio" },
+  { id: "checkbox", label: "Checkbox" },
+];
 </script>
 
 <template>
@@ -57,7 +57,11 @@ const sections = [
       <div>
         <h1 class="demo__title">UI 컴포넌트 카탈로그</h1>
         <nav class="demo__nav">
-          <a v-for="section in sections" :key="section.id" :href="`#${section.id}`">
+          <a
+            v-for="section in sections"
+            :key="section.id"
+            :href="`#${section.id}`"
+          >
             {{ section.label }}
           </a>
         </nav>
@@ -161,7 +165,7 @@ body {
 .demo__theme {
   display: flex;
   border: 1px solid var(--ui-border-default);
-  border-radius: var(--ui-radius-md);
+  border-radius: var(--ui-radius-sm);
   overflow: hidden;
 }
 
@@ -185,7 +189,7 @@ body {
   scroll-margin-top: 16px;
   background: var(--ui-surface-default);
   border: 1px solid var(--ui-border-default);
-  border-radius: var(--ui-radius-md);
+  border-radius: var(--ui-radius-sm);
   padding: 24px;
   display: flex;
   flex-direction: column;
