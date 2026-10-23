@@ -1,0 +1,21 @@
+// px를 rem으로 바꾸는 계산을 한곳에 모읍니다.
+//
+//   @use '../functions/units' as *;
+//   font-size: rem(14px); // → 0.875rem
+//
+// 디자인에서 받은 px을 그대로 적으면 되고, 손으로 16으로 나눌 일이 없습니다.
+// 커스텀 속성(--ui-*) 안에서는 Sass가 값을 계산하지 않으므로 #{}로 감싸야 합니다.
+//
+//   --ui-font-size-md: #{rem(14px)};
+
+@use 'sass:math';
+
+// rem이 기준으로 삼는 루트 글자 크기. 토큰의 rem 값은 모두 이 값을 전제합니다.
+$root-font-size: 16px !default;
+
+@function rem($px) {
+  @if math.is-unitless($px) {
+    $px: $px * 1px;
+  }
+  @return math.div($px, $root-font-size) * 1rem;
+}

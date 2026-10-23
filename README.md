@@ -130,7 +130,7 @@ app.use(LibraryTest)
   --ui-green-500: #43a047;   // 성공
 
   // --- 모양 ---
-  --ui-radius-sm: 2px;
+  --ui-radius-xs: 2px;
   --ui-field-height: 40px;    // 입력 박스 최소 높이 (기본 auto)
   --ui-field-padding-y: 10px; // 입력 영역 상하 여백 (기본 --ui-spacing-sm)
   --ui-font-size-md: 13px;

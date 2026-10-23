@@ -10,7 +10,8 @@
 //
 // 다크 모드 적용 조건은 styles/mixins/_theme.scss 참고.
 
-@use 'mixins/theme' as theme;
+@use "mixins/theme" as theme;
+@use "functions/units" as *;
 
 :root {
   // ---------------------------------------------------------------------------
@@ -70,15 +71,19 @@
   --ui-spacing-lg: 16px;
 
   // Radius
-  --ui-radius-sm: 4px;
-  --ui-radius-md: 8px;
+  --ui-radius-xs: 4px;
+  --ui-radius-sm: 8px;
+  --ui-radius-md: 12px;
+  --ui-radius-lg: 16px;
 
   // Font
-  // 브라우저의 글꼴 크기 설정에 따라 커지도록 rem을 씁니다(루트 16px 기준).
+  // 브라우저의 글꼴 크기 설정에 따라 커지도록 rem을 씁니다.
+  // 기준 루트 크기는 functions/_units.scss의 $root-font-size에 있습니다.
+  // 값은 디자인에서 받은 px 그대로 적고, rem 변환은 rem()이 합니다.
   // 간격·테두리는 px로 두어, 글자만 커지고 레이아웃은 유지되게 합니다.
-  --ui-font-size-sm: 0.75rem; // 12px
-  --ui-font-size-md: 0.875rem; // 14px
-  --ui-font-size-lg: 1rem; // 16px
+  --ui-font-size-sm: #{rem(12px)};
+  --ui-font-size-md: #{rem(14px)};
+  --ui-font-size-lg: #{rem(16px)};
 
   // Z-index (Select의 모바일 bottomSheet, Modal, Toast 등 오버레이류가 공유)
   --ui-z-index-overlay: 1000;
