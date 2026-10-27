@@ -6,37 +6,35 @@
 
 | 파일 | Figma 컬렉션 | 모드 |
 |---|---|---|
-| `primitives.json` | Primitives | 없음 |
-| `semantic.light.json` | Semantic | Light |
-| `semantic.dark.json` | Semantic | Dark |
+| `primitives.tokens.json` | Primitives | Mode 1 |
+| `Light.tokens.json` | Semantic | Light |
+| `Dark.tokens.json` | Semantic | Dark |
 
-형식은 W3C Design Tokens(DTCG)입니다. `{gray.0}` 형태의 값은 Primitive를 가리키는
-별칭이라, 가져오면 Figma 변수끼리 연결된 상태가 됩니다.
+형식은 **Figma가 변수를 Export할 때 내보내는 것과 같습니다.** 파일 하나가
+"컬렉션의 모드 하나"에 대응하고, 가져올 때 파일 이름이 그대로 모드 이름이
+됩니다. 그래서 파일 이름을 바꾸지 마세요.
+
+색은 `$value: { colorSpace, components, alpha, hex }`로, 별칭은
+`$extensions."com.figma.aliasData"`에 대상 변수 이름으로 들어갑니다.
 
 ## 가져오는 순서
 
-**반드시 Primitives를 먼저 가져옵니다.** Semantic이 Primitive를 참조하기 때문입니다.
+**반드시 Primitives를 먼저 가져옵니다.** Semantic이 Primitive를 별칭으로
+참조하기 때문에, 대상 변수가 없으면 연결이 끊긴 채로 들어옵니다.
 
-### Tokens Studio 플러그인
+1. `primitives.tokens.json` → Primitives 컬렉션
+2. `Light.tokens.json` → Semantic 컬렉션의 Light 모드
+3. `Dark.tokens.json` → Semantic 컬렉션의 Dark 모드
 
-1. 플러그인 실행 → Tokens → Import
-2. `primitives.json` 가져오기 → 토큰 세트 이름을 `primitives`로
-3. `semantic.light.json`, `semantic.dark.json` 가져오기
-4. Themes에서 Light 테마 = primitives + semantic.light,
-   Dark 테마 = primitives + semantic.dark로 구성
-5. Export to Figma → Variables로 내보내면 컬렉션과 모드가 생성됩니다
-
-### 변수 가져오기 계열 플러그인 (Variables Import/Export 등)
-
-1. Primitives 컬렉션을 만들고 `primitives.json` 가져오기
-2. Semantic 컬렉션을 만들고 모드 2개(Light, Dark)를 추가
-3. 각 모드에 `semantic.light.json` / `semantic.dark.json` 가져오기
+이미 컬렉션이 있으면 같은 순서로 다시 가져오면 됩니다. 이름이 같은 변수는
+값이 덮어써지고, 새 변수(예: `border/control`)는 추가됩니다. Figma에서
+지운 적이 없다면 기존 변수를 쓰던 디자인은 그대로 따라옵니다.
 
 ## 확인
 
 가져온 뒤 아래가 맞는지 보면 됩니다.
 
-- Primitives에 모드가 없고, 값이 모두 실제 색값인지
+- Primitives의 값이 모두 실제 색값인지
 - Semantic의 값이 색값이 아니라 **Primitive를 가리키는 별칭**인지
 - Semantic에 Light / Dark 두 모드가 있는지
 

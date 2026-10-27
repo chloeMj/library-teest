@@ -51,11 +51,12 @@
 
 | 토큰 | 용도 | 기본 팔레트 (Light / Dark) |
 |---|---|---|
-| `--ui-border-default` | 입력 박스, 구분선 | Gray/500 · Gray/500 |
-| `--ui-border-strong` | 강조 테두리 | Gray/600 · Gray/400 |
+| `--ui-border-default` | 카드, 구분선, 드롭다운 패널 (장식) | Gray/200 · Gray/600 |
+| `--ui-border-control` | 입력 박스, 체크박스, 라디오, 버튼 경계 | Gray/400 · Gray/400 |
+| `--ui-border-strong` | 강조 테두리 | Gray/600 · Gray/300 |
 | `--ui-border-focus` | 포커스·열림 상태 | Brand/700 · Brand/400 |
 | `--ui-border-hover` | 마우스 올렸을 때 (기본은 focus와 같음) | Brand/700 · Brand/400 |
-| `--ui-border-disabled` | 비활성 테두리 | Gray/500 · Gray/500 |
+| `--ui-border-disabled` | 비활성 테두리 | Gray/200 · Gray/600 |
 | `--ui-border-focus-ring` | 키보드 포커스 링(outline) | Brand/700 · Brand/400 |
 
 ## Text — 글자

@@ -26,7 +26,8 @@ const CHECKS = [
   ['--ui-primary-on', '--ui-primary-default', 4.5, 'primary 버튼 글자'],
   ['--ui-primary-default', '--ui-surface-default', 4.5, 'primary 링크·아이콘'],
   ['--ui-danger-default', '--ui-surface-default', 4.5, '에러 글자'],
-  ['--ui-border-default', '--ui-surface-default', 3, '입력 박스 테두리'],
+  // --ui-border-default(구분선·카드)는 장식이라 1.4.11 대상이 아니므로 검사하지 않습니다.
+  ['--ui-border-control', '--ui-surface-default', 3, '입력 박스 테두리'],
   ['--ui-border-focus', '--ui-surface-default', 3, '포커스 테두리'],
 ]
 

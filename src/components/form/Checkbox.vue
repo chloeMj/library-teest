@@ -332,7 +332,7 @@ defineExpose({ validate });
   width: 18px;
   height: 18px;
   border-radius: var(--ui-radius-xs);
-  border: 1.5px solid var(--ui-border-default);
+  border: 1.5px solid var(--ui-border-control);
   background: var(--ui-surface-default);
   transition:
     border-color 0.15s ease,
@@ -407,7 +407,7 @@ defineExpose({ validate });
 
 .ui-checkbox-group__options--button .ui-checkbox-group__option {
   padding: var(--ui-spacing-sm) var(--ui-spacing-md);
-  border: 1px solid var(--ui-border-default);
+  border: 1px solid var(--ui-border-control);
   border-radius: 999px;
   background: var(--ui-surface-default);
   transition:

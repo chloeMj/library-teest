@@ -522,7 +522,7 @@ defineExpose({
   align-items: center;
   justify-content: space-between;
   gap: var(--ui-spacing-xs);
-  border: 1px solid var(--ui-border-default);
+  border: 1px solid var(--ui-border-control);
   border-radius: var(--ui-radius-xs);
   background: var(--ui-surface-default);
   // Input과 같은 조절점
@@ -682,7 +682,7 @@ defineExpose({
 .ui-select__sheet-search {
   margin: var(--ui-spacing-sm) var(--ui-spacing-md) 0;
   padding: var(--ui-spacing-sm);
-  border: 1px solid var(--ui-border-default);
+  border: 1px solid var(--ui-border-control);
   border-radius: var(--ui-radius-xs);
   font: inherit;
   color: inherit;

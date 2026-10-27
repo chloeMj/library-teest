@@ -31,6 +31,7 @@ const SEMANTIC_MAP = {
   '--ui-surface-raised': 'surface/raised',
   '--ui-surface-backdrop': 'surface/backdrop',
   '--ui-border-default': 'border/default',
+  '--ui-border-control': 'border/control',
   '--ui-border-strong': 'border/strong',
   '--ui-border-focus': 'border/focus',
   '--ui-border-hover': 'border/hover',

@@ -49,8 +49,12 @@
   --ui-surface-backdrop: rgba(0, 0, 0, 0.4);
 
   // Border
-  --ui-border-default: var(--ui-gray-500, #71717a);
-  // default보다 더 진한 선. default가 올라간 만큼 같이 내립니다.
+  // 구분선·카드처럼 "거기 선이 있다"는 것 외에 아무 뜻도 없는 테두리.
+  // 장식이라 명암비 기준(1.4.11)의 대상이 아니라서 연하게 둡니다.
+  --ui-border-default: var(--ui-gray-200, #d4d4d8);
+  // 입력 박스·체크박스처럼 테두리만으로 "조작할 수 있는 요소"임을 알리는 곳.
+  // 이 선이 사라지면 요소를 못 찾으므로 3:1이 필요합니다 (WCAG 1.4.11).
+  --ui-border-control: var(--ui-gray-400, #8b94a9);
   --ui-border-strong: var(--ui-gray-600, #52525b);
   --ui-border-focus: var(--ui-primary-default);
   --ui-border-hover: var(--ui-border-focus);
@@ -124,8 +128,9 @@
   --ui-surface-backdrop: rgba(0, 0, 0, 0.6);
 
   // Border
-  --ui-border-default: var(--ui-gray-500, #71717a);
-  --ui-border-strong: var(--ui-gray-400, #a1a1aa);
+  --ui-border-default: var(--ui-gray-600, #52525b);
+  --ui-border-control: var(--ui-gray-400, #8b94a9);
+  --ui-border-strong: var(--ui-gray-300, #c8ced9);
 
   // Feedback
   --ui-danger-default: var(--ui-red-300, #f87171);

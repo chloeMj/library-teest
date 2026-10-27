@@ -134,16 +134,35 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.4863,
-          0.5176,
-          0.5843
+          0.8745,
+          0.8902,
+          0.9176
         ],
         "alpha": 1,
-        "hex": "#7C8495"
+        "hex": "#DFE3EA"
       },
       "$extensions": {
         "com.figma.aliasData": {
-          "targetVariableName": "Gray/500",
+          "targetVariableName": "Gray/200",
+          "targetVariableSetName": "Primitives"
+        }
+      }
+    },
+    "control": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.5451,
+          0.5804,
+          0.6627
+        ],
+        "alpha": 1,
+        "hex": "#8B94A9"
+      },
+      "$extensions": {
+        "com.figma.aliasData": {
+          "targetVariableName": "Gray/400",
           "targetVariableSetName": "Primitives"
         }
       }
@@ -210,16 +229,16 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.4863,
-          0.5176,
-          0.5843
+          0.8745,
+          0.8902,
+          0.9176
         ],
         "alpha": 1,
-        "hex": "#7C8495"
+        "hex": "#DFE3EA"
       },
       "$extensions": {
         "com.figma.aliasData": {
-          "targetVariableName": "Gray/500",
+          "targetVariableName": "Gray/200",
           "targetVariableSetName": "Primitives"
         }
       }

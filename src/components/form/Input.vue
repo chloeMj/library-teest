@@ -291,7 +291,7 @@ defineExpose({
   display: flex;
   align-items: center;
   gap: var(--ui-spacing-xs);
-  border: 1px solid var(--ui-border-default);
+  border: 1px solid var(--ui-border-control);
   border-radius: var(--ui-radius-xs);
   background: var(--ui-surface-default);
   padding: 0 var(--ui-spacing-sm);
