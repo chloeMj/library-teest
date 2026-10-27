@@ -1,0 +1,9 @@
+{
+  "name": "library-test 토큰 넣기",
+  "id": "library-test-token-import",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "editorType": ["figma"],
+  "networkAccess": { "allowedDomains": ["none"] }
+}
