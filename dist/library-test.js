@@ -169,13 +169,13 @@ var k = ["for"], A = {
 			key: 0,
 			class: "ui-input__label",
 			for: m.value
-		}, [v(t.$slots, "label", {}, () => [c(y(e.label), 1), e.required ? (h(), o("span", A, "*")) : a("", !0)])], 8, k)) : a("", !0), s("div", j, [s("div", { class: f(["ui-input__control", x(ne)]) }, [
+		}, [v(t.$slots, "label", {}, () => [c(y(e.label) + " ", 1), e.required ? (h(), o("span", A, "*")) : a("", !0)])], 8, k)) : a("", !0), s("div", j, [s("div", { class: f(["ui-input__control", x(ne)]) }, [
 			t.$slots.prefix ? (h(), o("span", M, [v(t.$slots, "prefix")])) : a("", !0),
 			e.label && e.labelPosition === "inside" ? (h(), o("label", {
 				key: 1,
 				class: "ui-input__label ui-input__label--inside",
 				for: m.value
-			}, [v(t.$slots, "label", {}, () => [c(y(e.label), 1), e.required ? (h(), o("span", P, "*")) : a("", !0)])], 8, N)) : a("", !0),
+			}, [v(t.$slots, "label", {}, () => [c(y(e.label) + " ", 1), e.required ? (h(), o("span", P, "*")) : a("", !0)])], 8, N)) : a("", !0),
 			s("input", {
 				id: m.value,
 				ref_key: "inputRef",
@@ -203,13 +203,13 @@ var k = ["for"], A = {
 				tabindex: "-1",
 				disabled: e.disabled || e.readonly,
 				onClick: n[0] ||= (e) => V(-1)
-			}, "−", 8, L), s("button", {
+			}, " − ", 8, L), s("button", {
 				type: "button",
 				class: "ui-input__stepper-btn",
 				tabindex: "-1",
 				disabled: e.disabled || e.readonly,
 				onClick: n[1] ||= (e) => V(1)
-			}, "+", 8, R)])) : a("", !0)
+			}, " + ", 8, R)])) : a("", !0)
 		], 2), x(E) ? (h(), o("p", {
 			key: 0,
 			id: _.value,
@@ -379,13 +379,13 @@ var ne = ["for"], re = {
 				key: 0,
 				class: "ui-select__label",
 				for: L.value
-			}, [v(r.$slots, "label", {}, () => [c(y(u.label), 1), u.required ? (h(), o("span", re, "*")) : a("", !0)])], 8, ne)) : a("", !0),
+			}, [v(r.$slots, "label", {}, () => [c(y(u.label) + " ", 1), u.required ? (h(), o("span", re, "*")) : a("", !0)])], 8, ne)) : a("", !0),
 			s("div", ie, [s("div", { class: f(["ui-select__control", Se.value]) }, [
 				u.label && u.labelPosition === "inside" ? (h(), o("label", {
 					key: 0,
 					class: "ui-select__label ui-select__label--inside",
 					for: L.value
-				}, [v(r.$slots, "label", {}, () => [c(y(u.label), 1), u.required ? (h(), o("span", V, "*")) : a("", !0)])], 8, ae)) : a("", !0),
+				}, [v(r.$slots, "label", {}, () => [c(y(u.label) + " ", 1), u.required ? (h(), o("span", V, "*")) : a("", !0)])], 8, ae)) : a("", !0),
 				u.searchable ? (h(), o("div", se, [s("input", {
 					id: L.value,
 					ref_key: "triggerRef",
@@ -468,7 +468,7 @@ var ne = ["for"], re = {
 						class: "ui-select__sheet-close",
 						"aria-label": "닫기",
 						onClick: q
-					}, "✕")]),
+					}, " ✕ ")]),
 					u.searchable ? (h(), o("input", {
 						key: 0,
 						ref_key: "sheetSearchRef",
@@ -684,7 +684,7 @@ var ne = ["for"], re = {
 		}, P = (e) => {
 			d.value = !0, u("blur", e);
 		};
-		return n({ validate: () => (d.value = !0, !k.value) }), (n, r) => (h(), o("div", { class: f(["ui-checkbox-group", x(A)]) }, [E.value && t.label ? (h(), o("span", Z, [v(n.$slots, "label", {}, () => [c(y(t.label), 1), t.required ? (h(), o("span", Q, "*")) : a("", !0)])])) : a("", !0), s("div", $, [s("div", {
+		return n({ validate: () => (d.value = !0, !k.value) }), (n, r) => (h(), o("div", { class: f(["ui-checkbox-group", x(A)]) }, [E.value && t.label ? (h(), o("span", Z, [v(n.$slots, "label", {}, () => [c(y(t.label) + " ", 1), t.required ? (h(), o("span", Q, "*")) : a("", !0)])])) : a("", !0), s("div", $, [s("div", {
 			class: f(["ui-checkbox-group__options", [`ui-checkbox-group__options--${t.variant}`, { "ui-checkbox-group__options--horizontal": t.direction === "horizontal" }]]),
 			role: E.value ? "group" : void 0,
 			"aria-label": E.value ? t.label : void 0,
@@ -721,8 +721,8 @@ var ne = ["for"], re = {
 					src: i.icon.src,
 					alt: i.icon.alt ?? ""
 				}, null, 8, De)) : (h(), o(e, { key: 1 }, [c(y(i.icon), 1)], 64))])) : a("", !0),
-				c(" " + y(i.label), 1),
-				!E.value && t.required ? (h(), o("span", Oe, "*")) : a("", !0)
+				c(" " + y(i.label) + " ", 1),
+				!E.value && t.required ? (h(), o("span", Oe, " * ")) : a("", !0)
 			])])
 		], 2))), 128)), E.value && O.value.length === 0 ? (h(), o("p", ke, [v(n.$slots, "empty", {}, () => [r[1] ||= c("표시할 항목이 없습니다.", -1)])])) : a("", !0)], 10, Ce), x(k) ? (h(), o("p", {
 			key: 0,

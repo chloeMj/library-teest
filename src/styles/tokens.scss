@@ -19,9 +19,11 @@
   // ---------------------------------------------------------------------------
 
   // Primary
-  --ui-primary-default: var(--ui-brand-500, #2563eb);
-  --ui-primary-hover: var(--ui-brand-600, #1d4ed8);
-  --ui-primary-active: var(--ui-brand-700, #1e40af);
+  // brand-500은 흰 배경에서 3.20:1이라 글자·버튼에 못 씁니다. 4.5:1을 넘는
+  // 첫 단계가 700이라 default를 거기에 맞추고 hover/active를 한 칸씩 밀었습니다.
+  --ui-primary-default: var(--ui-brand-700, #1d4ed8);
+  --ui-primary-hover: var(--ui-brand-800, #1e3a8a);
+  --ui-primary-active: var(--ui-brand-900, #172554);
   --ui-primary-subtle: var(--ui-brand-50, #eff6ff);
   // primary 배경 위에 올라가는 글자/아이콘
   --ui-primary-on: var(--ui-gray-0, #ffffff);
@@ -31,7 +33,7 @@
   // 본문 대비 기준(WCAG 1.4.3, 4.5:1)을 넘기려고 한 단계 어둡게 씁니다.
   // gray-500은 흰 배경에서 3.76:1로 미달입니다.
   --ui-text-muted: var(--ui-gray-600, #52525b);
-  --ui-text-placeholder: var(--ui-gray-500, #71717a);
+  --ui-text-placeholder: var(--ui-gray-600, #52525b);
   --ui-text-disabled: var(--ui-gray-500, #71717a);
   // 어두운 배경 위 글자 (Toast 등)
   --ui-text-inverse: var(--ui-gray-0, #ffffff);
@@ -47,15 +49,16 @@
   --ui-surface-backdrop: rgba(0, 0, 0, 0.4);
 
   // Border
-  --ui-border-default: var(--ui-gray-200, #d4d4d8);
-  --ui-border-strong: var(--ui-gray-400, #a1a1aa);
+  --ui-border-default: var(--ui-gray-500, #71717a);
+  // default보다 더 진한 선. default가 올라간 만큼 같이 내립니다.
+  --ui-border-strong: var(--ui-gray-600, #52525b);
   --ui-border-focus: var(--ui-primary-default);
   --ui-border-hover: var(--ui-border-focus);
   --ui-border-disabled: var(--ui-border-default);
   --ui-border-focus-ring: var(--ui-border-focus);
 
   // Feedback
-  --ui-danger-default: var(--ui-red-500, #dc2626);
+  --ui-danger-default: var(--ui-red-700, #b91c1c);
   --ui-danger-subtle: var(--ui-red-50, #fef2f2);
   --ui-success-default: var(--ui-green-500, #16a34a);
   --ui-success-subtle: var(--ui-green-50, #f0fdf4);
@@ -121,7 +124,7 @@
   --ui-surface-backdrop: rgba(0, 0, 0, 0.6);
 
   // Border
-  --ui-border-default: var(--ui-gray-600, #52525b);
+  --ui-border-default: var(--ui-gray-500, #71717a);
   --ui-border-strong: var(--ui-gray-400, #a1a1aa);
 
   // Feedback

@@ -89,6 +89,8 @@ props 오타나 잘못된 값을 잡으려면 소비 프로젝트의 `tsconfig.a
 경쟁이 없어서 `!important` 없이 값만 덮어씁니다.
 
 전체 변수 목록은 [src/styles/tokens.scss](src/styles/tokens.scss)를 참고하세요.
+색을 바꾸면 명암비(WCAG AA)는 프로젝트가 직접 확인해야 합니다 —
+기준은 [docs/COLOR-TOKENS.md](docs/COLOR-TOKENS.md#명암비-기준)에 있습니다.
 아래는 프로젝트를 새로 시작할 때 쓰는 테마 파일 예시입니다.
 
 #### 프로젝트 테마 파일 만들기

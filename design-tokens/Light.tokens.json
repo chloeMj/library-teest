@@ -134,16 +134,16 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.8745,
-          0.8902,
-          0.9176
+          0.4863,
+          0.5176,
+          0.5843
         ],
         "alpha": 1,
-        "hex": "#DFE3EA"
+        "hex": "#7C8495"
       },
       "$extensions": {
         "com.figma.aliasData": {
-          "targetVariableName": "Gray/200",
+          "targetVariableName": "Gray/500",
           "targetVariableSetName": "Primitives"
         }
       }
@@ -153,16 +153,16 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.651,
-          0.6784,
-          0.7412
+          0.3647,
+          0.3922,
+          0.4471
         ],
         "alpha": 1,
-        "hex": "#A6ADBD"
+        "hex": "#5D6472"
       },
       "$extensions": {
         "com.figma.aliasData": {
-          "targetVariableName": "Gray/400",
+          "targetVariableName": "Gray/600",
           "targetVariableSetName": "Primitives"
         }
       }
@@ -173,15 +173,15 @@
         "colorSpace": "srgb",
         "components": [
           0,
-          0.6431,
-          0.4549
+          0.4431,
+          0.3098
         ],
         "alpha": 1,
-        "hex": "#00A474"
+        "hex": "#00714F"
       },
       "$extensions": {
         "com.figma.aliasData": {
-          "targetVariableName": "Brand/500",
+          "targetVariableName": "Brand/700",
           "targetVariableSetName": "Primitives"
         }
       }
@@ -192,15 +192,15 @@
         "colorSpace": "srgb",
         "components": [
           0,
-          0.6431,
-          0.4549
+          0.4431,
+          0.3098
         ],
         "alpha": 1,
-        "hex": "#00A474"
+        "hex": "#00714F"
       },
       "$extensions": {
         "com.figma.aliasData": {
-          "targetVariableName": "Brand/500",
+          "targetVariableName": "Brand/700",
           "targetVariableSetName": "Primitives"
         }
       }
@@ -210,16 +210,16 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.8745,
-          0.8902,
-          0.9176
+          0.4863,
+          0.5176,
+          0.5843
         ],
         "alpha": 1,
-        "hex": "#DFE3EA"
+        "hex": "#7C8495"
       },
       "$extensions": {
         "com.figma.aliasData": {
-          "targetVariableName": "Gray/200",
+          "targetVariableName": "Gray/500",
           "targetVariableSetName": "Primitives"
         }
       }
@@ -230,15 +230,15 @@
         "colorSpace": "srgb",
         "components": [
           0,
-          0.6431,
-          0.4549
+          0.4431,
+          0.3098
         ],
         "alpha": 1,
-        "hex": "#00A474"
+        "hex": "#00714F"
       },
       "$extensions": {
         "com.figma.aliasData": {
-          "targetVariableName": "Brand/500",
+          "targetVariableName": "Brand/700",
           "targetVariableSetName": "Primitives"
         }
       }
@@ -288,16 +288,16 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.4863,
-          0.5176,
-          0.5843
+          0.3647,
+          0.3922,
+          0.4471
         ],
         "alpha": 1,
-        "hex": "#7C8495"
+        "hex": "#5D6472"
       },
       "$extensions": {
         "com.figma.aliasData": {
-          "targetVariableName": "Gray/500",
+          "targetVariableName": "Gray/600",
           "targetVariableSetName": "Primitives"
         }
       }
@@ -348,15 +348,15 @@
         "colorSpace": "srgb",
         "components": [
           0,
-          0.6431,
-          0.4549
+          0.4431,
+          0.3098
         ],
         "alpha": 1,
-        "hex": "#00A474"
+        "hex": "#00714F"
       },
       "$extensions": {
         "com.figma.aliasData": {
-          "targetVariableName": "Brand/500",
+          "targetVariableName": "Brand/700",
           "targetVariableSetName": "Primitives"
         }
       }
@@ -367,15 +367,15 @@
         "colorSpace": "srgb",
         "components": [
           0,
-          0.549,
-          0.3882
+          0.3412,
+          0.2392
         ],
         "alpha": 1,
-        "hex": "#008C63"
+        "hex": "#00573D"
       },
       "$extensions": {
         "com.figma.aliasData": {
-          "targetVariableName": "Brand/600",
+          "targetVariableName": "Brand/800",
           "targetVariableSetName": "Primitives"
         }
       }
@@ -386,15 +386,15 @@
         "colorSpace": "srgb",
         "components": [
           0,
-          0.4431,
-          0.3098
+          0.2392,
+          0.1686
         ],
         "alpha": 1,
-        "hex": "#00714F"
+        "hex": "#003D2B"
       },
       "$extensions": {
         "com.figma.aliasData": {
-          "targetVariableName": "Brand/700",
+          "targetVariableName": "Brand/900",
           "targetVariableSetName": "Primitives"
         }
       }
@@ -444,16 +444,16 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.9961,
-          0.3216,
-          0.2745
+          0.7216,
+          0.1686,
+          0.1294
         ],
         "alpha": 1,
-        "hex": "#FE5246"
+        "hex": "#B82B21"
       },
       "$extensions": {
         "com.figma.aliasData": {
-          "targetVariableName": "Red/500",
+          "targetVariableName": "Red/700",
           "targetVariableSetName": "Primitives"
         }
       }

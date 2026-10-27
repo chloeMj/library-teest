@@ -1,8 +1,8 @@
 import { FieldValidator } from '../../composables/useFieldValidation';
 import { ErrorPosition, LabelPosition, SelectOption } from '../../types/form';
-type CheckboxDirection = 'vertical' | 'horizontal';
+type CheckboxDirection = "vertical" | "horizontal";
 /** 체크된 사각형(box, 기본) 또는 토글 버튼처럼 보이는 스타일(button) */
-type CheckboxVariant = 'box' | 'button';
+type CheckboxVariant = "box" | "button";
 /** options를 생략하면 boolean 단일 체크박스, 주면 다중 선택 그룹 */
 type CheckboxValue = boolean | (string | number)[];
 interface Props {
