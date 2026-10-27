@@ -201,7 +201,29 @@ const write = (file, data, modeName) => {
   )
 }
 
+// SEMANTIC_MAP은 손으로 관리하는 목록이라, 토큰을 새로 만들고 여기에 넣는 걸
+// 잊으면 Figma에서 조용히 빠집니다. 빌드를 멈추지는 않고 알려만 줍니다.
+const looksLikeColor = (raw, vars) => {
+  const resolved = String(resolveColor(raw, vars))
+  return resolved.startsWith('#') || resolved.startsWith('rgb')
+}
+
+const unmapped = Object.keys(light).filter(
+  (name) =>
+    !SEMANTIC_MAP[name] &&
+    // 팔레트(Primitive)는 이름 규칙으로 통째로 내보내므로 목록이 필요 없습니다
+    !/^--ui-[a-z]+-[0-9]+$/.test(name) &&
+    looksLikeColor(light[name], light),
+)
+
 console.log('Figma 토큰 JSON 생성')
 write('primitives.tokens.json', primitives, 'Mode 1')
 write('Light.tokens.json', semantic(light), 'Light')
 write('Dark.tokens.json', semantic(dark), 'Dark')
+
+if (unmapped.length > 0) {
+  console.log('')
+  console.log('  SEMANTIC_MAP에 없어 Figma로 나가지 않은 색상 토큰 ' + unmapped.length + '개')
+  for (const name of unmapped) console.log('    ' + name)
+  console.log('  scripts/export-figma-tokens.mjs의 SEMANTIC_MAP에 추가하세요.')
+}
