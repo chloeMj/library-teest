@@ -67,7 +67,7 @@ const interests = ref<(string | number)[]>([])
 
 ### 템플릿 검사 권장 설정
 
-props 오타나 잘못된 값을 잡으려면 소비 프로젝트의 `tsconfig.app.json`에
+props 오타나 잘못된 값을 잡으려면 설치한 프로젝트의 `tsconfig.app.json`에
 아래를 추가하세요. Vue 기본값은 꺼져 있어서 `variant="없는값"` 같은 실수가
 그냥 통과합니다.
 
@@ -185,22 +185,6 @@ app.use(LibraryTest)
 
 고정하면 브라우저 글꼴 확대에는 반응하지 않게 되므로, 루트를 굳이 바꾸지 않는
 프로젝트라면 그대로 두는 쪽을 권합니다.
-
-#### 세 가지 사용 방식
-
-| 상황 | 설정 |
-|---|---|
-| 디자인이 아직 없다 | 코어만 불러옴 — 중립 톤으로 동작 |
-| 기본 팔레트를 그대로 쓴다 | `palette.css`를 함께 불러옴 |
-| 프로젝트 색이 따로 있다 | `:root`에서 `--ui-brand-500` 등을 재정의 |
-
-```ts
-import 'library-test/dist/library-test.css'
-import 'library-test/dist/palette.css'   // 선택 사항
-```
-
-> `palette.css`의 값은 디자인 확정 전까지 쓰는 임시값입니다.
-> 토큰 목록은 [docs/COLOR-TOKENS.md](docs/COLOR-TOKENS.md)를 참고하세요.
 
 #### 다크 모드
 

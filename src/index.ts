@@ -8,10 +8,8 @@ import Select from './components/form/Select.vue'
 import Radio from './components/form/Radio.vue'
 import Checkbox from './components/form/Checkbox.vue'
 
-// 소비 프로젝트의 전역 컴포넌트와 이름이 겹치지 않도록 Ui 접두사를 붙입니다.
-// (glob으로 자동 수집하던 방식에서 명시적 나열로 바꿨습니다 — 자동 수집은 타입을
-//  any로 만들어 설치한 쪽에서 props 자동완성·검사가 되지 않습니다)
-// 전역 등록용 목록. 개별 타입은 아래 named export와 GlobalComponents 선언이 제공합니다.
+// 전역 등록용 목록. 설치한 프로젝트의 컴포넌트와 겹치지 않도록 Ui 접두사를 붙입니다.
+// 컴포넌트를 추가하면 위 import와 이 목록에 한 줄씩 더하면 됩니다.
 export const allComponents: Record<string, Component> = {
   UiInput: Input,
   UiSelect: Select,
