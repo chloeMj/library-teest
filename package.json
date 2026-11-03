@@ -11,17 +11,15 @@
       "import": "./dist/library-test.js",
       "require": "./dist/library-test.umd.js"
     },
-    "./dist/library-test.css": "./dist/library-test.css",
-    "./dist/palette.css": "./dist/palette.css"
+    "./dist/library-test.css": "./dist/library-test.css"
   },
   "files": [
     "dist"
   ],
   "scripts": {
     "dev": "vite",
-    "build": "npm run check:contrast && vue-tsc -b && vite build && npm run build:palette && npm run build:tokens",
+    "build": "npm run check:contrast && vue-tsc -b && vite build && npm run build:tokens",
     "preview": "vite preview",
-    "build:palette": "sass src/styles/palette.scss dist/palette.css --no-source-map --style=compressed",
     "build:tokens": "node scripts/export-figma-tokens.mjs",
     "type-check": "vue-tsc -b --force",
     "check:contrast": "node scripts/check-contrast.mjs"

@@ -96,10 +96,9 @@ const ratio = (a, b) => {
 const sass = (file) => compile(file, { loadPaths: ['src/styles'], style: 'compressed' }).css
 
 const tokensCss = sass('src/styles/tokens.scss')
-const paletteCss = sass('src/styles/palette.scss')
 
-const light = { ...rootBlock(paletteCss), ...rootBlock(tokensCss) }
-const dark = { ...light, ...darkBlock(paletteCss), ...darkBlock(tokensCss) }
+const light = rootBlock(tokensCss)
+const dark = { ...light, ...darkBlock(tokensCss) }
 
 let failed = 0
 
