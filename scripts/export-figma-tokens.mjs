@@ -16,7 +16,6 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 
 const CORE = 'dist/library-test.css'
-const PALETTE = 'dist/palette.css'
 const OUT_DIR = 'design-tokens'
 const PRIMITIVE_SET = 'Primitives'
 const SEMANTIC_SET = 'Semantic'
@@ -109,10 +108,10 @@ const toFigmaColor = (raw) => {
 }
 
 const core = readFileSync(CORE, 'utf8')
-const palette = readFileSync(PALETTE, 'utf8')
 
-const paletteVars = rootBlock(palette)
 const light = rootBlock(core)
+// 팔레트(--ui-<계열>-<단계>)도 같은 :root 블록에 있습니다. 모드와 무관하므로 light에서 뽑습니다.
+const paletteVars = light
 const dark = { ...light, ...darkBlock(core) }
 
 // var(--ui-gray-0, #ffffff) 에서 참조 변수명만 떼어냅니다
@@ -123,7 +122,7 @@ const resolveColor = (value, vars, depth = 0) => {
   if (depth > 20) return '#000000'
   const ref = refOf(value)
   if (!ref) return value
-  const next = paletteVars[ref] ?? vars[ref]
+  const next = vars[ref]
   if (next !== undefined) return resolveColor(next, vars, depth + 1)
   const fallback = value.match(/^var\([^,]+,\s*(.*)\)$/)?.[1]
   return fallback ? resolveColor(fallback.trim(), vars, depth + 1) : '#000000'
@@ -217,7 +216,7 @@ const unmapped = Object.keys(light).filter(
 )
 
 console.log('Figma 토큰 JSON 생성')
-write('primitives.tokens.json', primitives, 'Mode 1')
+write('primitives.tokens.json', primitives, 'primitives')
 write('Light.tokens.json', semantic(light), 'Light')
 write('Dark.tokens.json', semantic(dark), 'Dark')
 
