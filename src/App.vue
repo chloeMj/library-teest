@@ -2,9 +2,6 @@
 // 로컬 개발용 데모 카탈로그의 셸입니다.
 // 컴포넌트를 추가하면 demo/ 에 섹션 파일을 만들고 아래 두 곳(sections, 템플릿)에만 추가하세요.
 import { ref, watchEffect } from "vue";
-// 팔레트는 소비 프로젝트가 선택적으로 불러오는 파일입니다(dist/palette.css).
-// 데모에서는 켜고 끌 수 있도록 문자열로 가져와 <style>로 넣고 뺍니다.
-import paletteCss from "./styles/palette.scss?inline";
 import InputSection from "./demo/InputSection.vue";
 import SelectSection from "./demo/SelectSection.vue";
 import RadioSection from "./demo/RadioSection.vue";
@@ -22,24 +19,6 @@ watchEffect(() => {
   const root = document.documentElement;
   if (theme.value === "system") delete root.dataset.theme;
   else root.dataset.theme = theme.value;
-});
-
-// 팔레트 on/off — 소비 프로젝트가 palette.css를 불러왔을 때와 아닐 때를 비교합니다
-const PALETTE_STYLE_ID = "ui-palette";
-const paletteOn = ref(true);
-
-watchEffect(() => {
-  const existing = document.getElementById(PALETTE_STYLE_ID);
-  if (!paletteOn.value) {
-    existing?.remove();
-    return;
-  }
-  if (existing) return;
-  const style = document.createElement("style");
-  style.id = PALETTE_STYLE_ID;
-  style.textContent = paletteCss;
-  // 코어 CSS보다 뒤에 와야 값이 덮어씌워집니다
-  document.head.append(style);
 });
 
 // 목차 — 섹션을 추가하면 여기에 한 줄 더합니다
@@ -79,11 +58,6 @@ const sections = [
             {{ option.label }}
           </button>
         </div>
-
-        <label class="demo__switch">
-          <input v-model="paletteOn" type="checkbox" />
-          <span>팔레트</span>
-        </label>
       </div>
     </header>
 
@@ -147,19 +121,6 @@ body {
   display: flex;
   align-items: center;
   gap: 16px;
-}
-
-.demo__switch {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: var(--ui-font-size-sm);
-  color: var(--ui-text-muted);
-  cursor: pointer;
-}
-
-.demo__switch input {
-  accent-color: var(--ui-primary-default);
 }
 
 .demo__theme {

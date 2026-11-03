@@ -1,7 +1,6 @@
 # Figma 가져오기용 토큰 JSON
 
 `npm run build:tokens`으로 생성됩니다. 손으로 고치지 마세요 — 원본은
-[src/styles/palette.scss](../src/styles/palette.scss)와
 [src/styles/tokens.scss](../src/styles/tokens.scss)입니다.
 
 | 파일 | Figma 컬렉션 | 모드 |
