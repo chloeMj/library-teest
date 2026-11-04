@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import dts from 'vite-plugin-dts'
@@ -17,12 +18,20 @@ export default ({ mode }: { mode: string }) => {
       dts({
         tsconfigPath: './tsconfig.app.json',
         include: ['src/**/*.ts', 'src/**/*.vue'],
-        exclude: ['src/App.vue', 'src/demo/**', 'src/main.ts'],
+        // 테스트 파일(*.test.ts)도 라이브러리 사용자에게 필요 없으므로 제외합니다.
+        exclude: ['src/App.vue', 'src/demo/**', 'src/main.ts', 'src/**/*.test.ts'],
         // package.json이 가리킬 타입 진입점(dist/library-test.d.ts)을 만듭니다.
         // 하나로 묶는 bundleTypes는 @microsoft/api-extractor가 필요해 쓰지 않습니다.
         insertTypesEntry: true,
       }),
     ],
+    // Vitest(테스트 도구) 설정. 테스트도 이 Vite 설정(vue 플러그인 등)을 그대로 씁니다.
+    test: {
+      // 테스트는 Node에서 돌아서 원래 document/window가 없습니다.
+      // jsdom이 가짜 브라우저 환경을 만들어 컴포넌트를 화면에 그린 것처럼 테스트할 수 있게 해줍니다.
+      environment: 'jsdom',
+      include: ['src/**/*.test.ts'],
+    },
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
