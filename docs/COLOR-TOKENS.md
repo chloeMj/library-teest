@@ -74,7 +74,9 @@
 | 토큰 | 용도 | 기본 팔레트 (Light / Dark) |
 |---|---|---|
 | `--ui-danger-default` | 에러 메시지, 필수 표시, 에러 테두리 | Red/700 · Red/300 |
+| `--ui-danger-hover` / `-active` | danger 버튼 hover·누름 | Red/800·900 / Red/200·400 |
 | `--ui-danger-subtle` | 에러 배경 | Red/50 · Red/900 |
+| `--ui-danger-on` | danger 배경 위 글자·아이콘 | Gray/0 · Gray/900 |
 | `--ui-success-default` / `-subtle` | 성공 (Toast 등, 아직 미사용) | Green/500·300 / Green/50·900 |
 | `--ui-warning-default` / `-subtle` | 경고 (미사용) | Amber/500·300 / Amber/50·900 |
 | `--ui-info-default` / `-subtle` | 안내 (미사용) | Blue/500·300 / Blue/50·900 |

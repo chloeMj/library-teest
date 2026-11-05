@@ -113,8 +113,14 @@ padding: var(--ui-field-padding-y, var(--ui-spacing-sm)) 0;
 
 | 토큰 | 기본값 | 적용 대상 |
 |---|---|---|
-| `--ui-field-height` | `auto` | Input `__control`, Select `__trigger`의 최소 높이 |
+| `--ui-field-height` | `36px` | Input `__control`, Select `__trigger`의 최소 높이. md 버튼도 같은 값 |
+| `--ui-field-height-inside` | `44px` | inside 라벨일 때 위 두 곳의 최소 높이 (variant 무관) |
 | `--ui-field-padding-y` | `--ui-spacing-sm` | 같은 두 곳의 상하 여백 |
+| `--ui-button-height-sm` / `-lg` | `28px` / `44px` | Button sm·lg 높이 |
+| `--ui-button-padding-x-sm` / `-md` / `-lg` | `--ui-spacing-sm/md/lg` | Button 좌우 여백 |
+| `--ui-button-radius` | `--ui-radius-sm` | Button 모서리 (알약 모양은 `999px`) |
+| `--ui-button-font-weight` | `600` | Button 글자 굵기 |
+| `--ui-button-height` / `--ui-button-padding-x` | — | **버튼 하나에만** 지정하는 높이·여백 (`:root`에 두지 않음) |
 
 높이를 토큰으로 고정할 때 두 컴포넌트가 같은 값에서 같은 높이가 나오도록,
 박스 역할을 하는 요소는 `box-sizing: border-box`로 맞춘다.

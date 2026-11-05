@@ -153,7 +153,11 @@
 
   // Feedback
   --ui-danger-default: var(--ui-red-700);
+  --ui-danger-hover: var(--ui-red-800);
+  --ui-danger-active: var(--ui-red-900);
   --ui-danger-subtle: var(--ui-red-50);
+  // danger 배경 위에 올라가는 글자/아이콘 (삭제 버튼 등)
+  --ui-danger-on: var(--ui-gray-0);
   --ui-success-default: var(--ui-green-500);
   --ui-success-subtle: var(--ui-green-50);
   --ui-warning-default: var(--ui-amber-500);
@@ -253,7 +257,10 @@
 
   // Feedback
   --ui-danger-default: var(--ui-red-300);
+  --ui-danger-hover: var(--ui-red-200);
+  --ui-danger-active: var(--ui-red-400);
   --ui-danger-subtle: var(--ui-red-900);
+  --ui-danger-on: var(--ui-gray-900);
   --ui-success-default: var(--ui-green-300);
   --ui-success-subtle: var(--ui-green-900);
   --ui-warning-default: var(--ui-amber-300);
