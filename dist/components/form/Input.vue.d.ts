@@ -1,15 +1,11 @@
 import { FieldValidator } from '../../composables/useFieldValidation';
-import { ErrorPosition, LabelPosition } from '../../types/form';
+import { ErrorPosition, FieldVariant, LabelPosition } from '../../types/form';
 type InputType = "text" | "number" | "email" | "password" | "tel" | "search";
-/**
- * 입력 박스의 모양. 색·간격 같은 값은 토큰으로 바꿀 수 있지만,
- * 아래 셋은 테두리 구조 자체가 달라 토큰으로 표현되지 않으므로 variant로 둡니다.
- */
-type InputVariant = "outlined" | "filled" | "underline";
 interface Props {
     modelValue?: string | number | null;
     type?: InputType;
-    variant?: InputVariant;
+    /** 입력 박스 모양 (Select와 같은 값) */
+    variant?: FieldVariant;
     label?: string;
     labelPosition?: LabelPosition;
     placeholder?: string;
@@ -62,7 +58,7 @@ declare const __VLS_base: import('vue').DefineComponent<Props, {
     type: InputType;
     required: boolean;
     modelValue: string | number | null;
-    variant: InputVariant;
+    variant: FieldVariant;
     step: number;
     showStepper: boolean;
     readonly: boolean;
