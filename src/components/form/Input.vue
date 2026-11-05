@@ -298,7 +298,7 @@ defineExpose({
   // 높이 조절점. Select trigger(button)와 같은 높이가 나오도록 border-box로 맞춥니다.
   box-sizing: border-box;
   min-height: var(--ui-field-height, auto);
-  transition: border-color 0.15s ease;
+  transition: border-color var(--ui-duration-normal) var(--ui-easing-standard);
 }
 
 .ui-input__error {
@@ -377,10 +377,10 @@ defineExpose({
   padding: 0 4px;
   pointer-events: none;
   transition:
-    top 0.15s ease,
-    font-size 0.15s ease,
-    transform 0.15s ease,
-    color 0.15s ease;
+    top var(--ui-duration-normal) var(--ui-easing-standard),
+    font-size var(--ui-duration-normal) var(--ui-easing-standard),
+    transform var(--ui-duration-normal) var(--ui-easing-standard),
+    color var(--ui-duration-normal) var(--ui-easing-standard);
 }
 
 .ui-input__control--floated .ui-input__label--inside {

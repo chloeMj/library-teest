@@ -531,7 +531,7 @@ defineExpose({
   font: inherit;
   color: inherit;
   cursor: pointer;
-  transition: border-color 0.15s ease;
+  transition: border-color var(--ui-duration-normal) var(--ui-easing-standard);
 }
 
 .ui-select__trigger--searchable {
@@ -570,7 +570,7 @@ defineExpose({
 .ui-select__arrow {
   flex: 0 0 auto;
   color: var(--ui-text-muted);
-  transition: transform 0.15s ease;
+  transition: transform var(--ui-duration-normal) var(--ui-easing-standard);
 }
 
 .ui-select__control--open .ui-select__arrow {
@@ -588,10 +588,10 @@ defineExpose({
   padding: 0 4px;
   pointer-events: none;
   transition:
-    top 0.15s ease,
-    font-size 0.15s ease,
-    transform 0.15s ease,
-    color 0.15s ease;
+    top var(--ui-duration-normal) var(--ui-easing-standard),
+    font-size var(--ui-duration-normal) var(--ui-easing-standard),
+    transform var(--ui-duration-normal) var(--ui-easing-standard),
+    color var(--ui-duration-normal) var(--ui-easing-standard);
   z-index: 1;
 }
 
@@ -719,7 +719,7 @@ defineExpose({
 
 .ui-select-sheet-enter-active,
 .ui-select-sheet-leave-active {
-  transition: opacity 0.2s ease;
+  transition: opacity var(--ui-duration-slow) var(--ui-easing-standard);
 }
 
 .ui-select-sheet-enter-from,
@@ -727,9 +727,13 @@ defineExpose({
   opacity: 0;
 }
 
-.ui-select-sheet-enter-active .ui-select__sheet,
+// 올라올 때는 빠르게 시작해 부드럽게 멈추고, 내려갈 때는 천천히 시작해 빠르게 빠집니다.
+.ui-select-sheet-enter-active .ui-select__sheet {
+  transition: transform var(--ui-duration-slow) var(--ui-easing-enter);
+}
+
 .ui-select-sheet-leave-active .ui-select__sheet {
-  transition: transform 0.2s ease;
+  transition: transform var(--ui-duration-slow) var(--ui-easing-exit);
 }
 
 .ui-select-sheet-enter-from .ui-select__sheet,

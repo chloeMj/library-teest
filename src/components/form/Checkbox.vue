@@ -335,9 +335,9 @@ defineExpose({ validate });
   border: 1.5px solid var(--ui-border-control);
   background: var(--ui-surface-default);
   transition:
-    border-color 0.15s ease,
-    background 0.15s ease,
-    box-shadow 0.15s ease;
+    border-color var(--ui-duration-normal) var(--ui-easing-standard),
+    background var(--ui-duration-normal) var(--ui-easing-standard),
+    box-shadow var(--ui-duration-normal) var(--ui-easing-standard);
 }
 
 .ui-checkbox-group__control::after {
@@ -348,7 +348,7 @@ defineExpose({ validate });
   border: solid var(--ui-primary-on);
   border-width: 0 2px 2px 0;
   transform: rotate(45deg) scale(0);
-  transition: transform 0.12s ease;
+  transition: transform var(--ui-duration-fast) var(--ui-easing-standard);
 }
 
 .ui-checkbox-group__option:not(.ui-checkbox-group__option--disabled):hover
@@ -411,9 +411,9 @@ defineExpose({ validate });
   border-radius: 999px;
   background: var(--ui-surface-default);
   transition:
-    border-color 0.15s ease,
-    background 0.15s ease,
-    color 0.15s ease;
+    border-color var(--ui-duration-normal) var(--ui-easing-standard),
+    background var(--ui-duration-normal) var(--ui-easing-standard),
+    color var(--ui-duration-normal) var(--ui-easing-standard);
 }
 
 .ui-checkbox-group__options--button
