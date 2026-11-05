@@ -6,19 +6,15 @@ import {
   type FieldValidator,
 } from "../../composables/useFieldValidation";
 import { useFloatingLabel } from "../../composables/useFloatingLabel";
-import type { ErrorPosition, LabelPosition } from "../../types/form";
+import type { ErrorPosition, FieldVariant, LabelPosition } from "../../types/form";
 
 type InputType = "text" | "number" | "email" | "password" | "tel" | "search";
-/**
- * 입력 박스의 모양. 색·간격 같은 값은 토큰으로 바꿀 수 있지만,
- * 아래 셋은 테두리 구조 자체가 달라 토큰으로 표현되지 않으므로 variant로 둡니다.
- */
-type InputVariant = "outlined" | "filled" | "underline";
 
 interface Props {
   modelValue?: string | number | null;
   type?: InputType;
-  variant?: InputVariant;
+  /** 입력 박스 모양 (Select와 같은 값) */
+  variant?: FieldVariant;
   label?: string;
   labelPosition?: LabelPosition;
   placeholder?: string;
@@ -297,7 +293,7 @@ defineExpose({
   padding: 0 var(--ui-spacing-sm);
   // 높이 조절점. Select trigger(button)와 같은 높이가 나오도록 border-box로 맞춥니다.
   box-sizing: border-box;
-  min-height: var(--ui-field-height, auto);
+  min-height: var(--ui-field-height, 36px);
   transition: border-color var(--ui-duration-normal) var(--ui-easing-standard);
 }
 
@@ -424,6 +420,12 @@ defineExpose({
     min-width: 44px;
     min-height: 44px;
   }
+}
+
+// inside 라벨은 variant와 상관없이 같은 높이입니다. filled는 라벨을 박스 안 위쪽에
+// 넣느라 공간이 더 필요해서, 셋 다 그 높이에 맞춥니다.
+.ui-input--label-inside .ui-input__control {
+  min-height: max(var(--ui-field-height, 36px), var(--ui-field-height-inside, 44px));
 }
 
 // --- variant: 테두리 구조가 달라 토큰으로 표현되지 않는 부분만 분기합니다 ---

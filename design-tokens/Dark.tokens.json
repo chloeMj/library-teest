@@ -477,6 +477,63 @@
         }
       }
     },
+    "hover": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          0.702,
+          0.6745
+        ],
+        "alpha": 1,
+        "hex": "#FFB3AC"
+      },
+      "$extensions": {
+        "com.figma.aliasData": {
+          "targetVariableName": "Red/200",
+          "targetVariableSetName": "Primitives"
+        }
+      }
+    },
+    "active": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          0.4196,
+          0.3608
+        ],
+        "alpha": 1,
+        "hex": "#FF6B5C"
+      },
+      "$extensions": {
+        "com.figma.aliasData": {
+          "targetVariableName": "Red/400",
+          "targetVariableSetName": "Primitives"
+        }
+      }
+    },
+    "on": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.102,
+          0.1137,
+          0.1373
+        ],
+        "alpha": 1,
+        "hex": "#1A1D23"
+      },
+      "$extensions": {
+        "com.figma.aliasData": {
+          "targetVariableName": "Gray/900",
+          "targetVariableSetName": "Primitives"
+        }
+      }
+    },
     "subtle": {
       "$type": "color",
       "$value": {

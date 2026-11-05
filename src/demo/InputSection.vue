@@ -29,7 +29,7 @@ const validateEmail = (value: FieldValue) => {
 </script>
 
 <template>
-  <DemoSection id="input" title="Input">
+  <DemoSection id="input" title="Input" description="글자나 숫자를 입력받습니다. 검증, 라벨 위치, prefix/suffix 슬롯을 지원합니다.">
     <DemoGroup title="variant — 박스 모양">
       <UiInput v-model="text" label="outlined (기본)" placeholder="입력하세요" />
       <UiInput v-model="filled" variant="filled" label="filled" placeholder="입력하세요" />

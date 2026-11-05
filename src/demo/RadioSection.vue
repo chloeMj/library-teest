@@ -30,7 +30,7 @@ const planOptions = [
 </script>
 
 <template>
-  <DemoSection id="radio" title="Radio">
+  <DemoSection id="radio" title="Radio" description="여러 항목 중 하나만 선택합니다.">
     <DemoGroup title="배치">
       <UiRadio v-model="gender" label="세로 (기본)" :options="genderOptions" />
       <UiRadio

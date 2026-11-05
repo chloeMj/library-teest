@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, ref, toRef, useId } from "vue";
+import { computed, nextTick, onBeforeUnmount, ref, toRef, useId, watch } from "vue";
 import { useFieldClasses } from "../../composables/useFieldClasses";
 import {
   useFieldValidation,
@@ -9,6 +9,7 @@ import { useFloatingLabel } from "../../composables/useFloatingLabel";
 import { useIsMobile } from "../../composables/useIsMobile";
 import type {
   ErrorPosition,
+  FieldVariant,
   LabelPosition,
   SelectOption,
 } from "../../types/form";
@@ -16,6 +17,8 @@ import type {
 interface Props {
   modelValue?: string | number | null;
   options?: SelectOption[];
+  /** 입력 박스 모양. Input과 같은 값을 써서 한 폼 안에서 모양을 맞춥니다 */
+  variant?: FieldVariant;
   label?: string;
   labelPosition?: LabelPosition;
   placeholder?: string;
@@ -24,6 +27,8 @@ interface Props {
   /** 내장 required 검증 외에 추가로 실행할 커스텀 검증 함수 */
   validator?: FieldValidator;
   disabled?: boolean;
+  /** 값은 보이지만 바꿀 수 없음 (Input의 readonly와 같음). 목록이 열리지 않습니다 */
+  readonly?: boolean;
   /** 검색어로 옵션을 필터링할 수 있는 콤보박스 모드 */
   searchable?: boolean;
   /** searchable일 때 검색 대상으로 볼 SelectOption의 필드명 목록 (기본: label, value) */
@@ -39,10 +44,12 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   modelValue: null,
   options: () => [],
+  variant: "outlined",
   labelPosition: "top",
   required: false,
   errorPosition: "bottom",
   disabled: false,
+  readonly: false,
   searchable: false,
   filterKeys: () => ["label", "value"],
   mobileBreakpoint: 640,
@@ -121,13 +128,64 @@ const { rootClasses, controlClasses: baseControlClasses } = useFieldClasses({
 });
 
 // Select만 갖는 open 상태 modifier를 공통 controlClasses 위에 얹음
+// --- 드롭다운 위치 ---
+// 목록을 <body>로 옮겨(Teleport) 화면에 고정 배치합니다. 부모 카드·Modal에
+// overflow: hidden이 있어도 잘리지 않게 하기 위해서입니다. 대신 위치를 직접 계산하고,
+// 아래 공간이 부족하면 위로 엽니다.
+const controlRef = ref<HTMLElement | null>(null);
+const menuStyle = ref<Record<string, string>>({});
+const MENU_GAP = 4;
+const MENU_MAX_HEIGHT = 240;
+const MENU_MIN_HEIGHT = 120;
+
+const updateMenuPosition = () => {
+  const trigger = controlRef.value?.querySelector<HTMLElement>(".ui-select__trigger");
+  if (!trigger) return;
+  const rect = trigger.getBoundingClientRect();
+  const spaceBelow = window.innerHeight - rect.bottom - MENU_GAP * 2;
+  const spaceAbove = rect.top - MENU_GAP * 2;
+  const openUp = spaceBelow < MENU_MAX_HEIGHT && spaceAbove > spaceBelow;
+  const space = openUp ? spaceAbove : spaceBelow;
+
+  menuStyle.value = {
+    left: `${rect.left}px`,
+    width: `${rect.width}px`,
+    maxHeight: `${Math.max(MENU_MIN_HEIGHT, Math.min(MENU_MAX_HEIGHT, space))}px`,
+    ...(openUp
+      ? { bottom: `${window.innerHeight - rect.top + MENU_GAP}px` }
+      : { top: `${rect.bottom + MENU_GAP}px` }),
+  };
+};
+
+const stopTracking = () => {
+  window.removeEventListener("scroll", updateMenuPosition, true);
+  window.removeEventListener("resize", updateMenuPosition);
+};
+
+// 열려 있는 동안 스크롤·창 크기 변경을 따라 위치를 다시 잡습니다.
+// (scroll은 capture로 받아야 카드 안쪽 스크롤도 잡힙니다)
+const isDropdownOpen = computed(() => isOpen.value && !isMobile.value);
+watch(isDropdownOpen, (open) => {
+  if (open) {
+    updateMenuPosition();
+    window.addEventListener("scroll", updateMenuPosition, true);
+    window.addEventListener("resize", updateMenuPosition);
+  } else {
+    stopTracking();
+  }
+});
+onBeforeUnmount(stopTracking);
+
+/** 목록을 열거나 값을 바꿀 수 없는 상태 */
+const locked = computed(() => props.disabled || props.readonly);
+
 const controlClasses = computed(() => ({
   ...baseControlClasses.value,
   "ui-select__control--open": isOpen.value,
 }));
 
 const openMenu = () => {
-  if (props.disabled || isOpen.value) return;
+  if (locked.value || isOpen.value) return;
   isOpen.value = true;
   if (props.searchable) query.value = "";
 
@@ -155,13 +213,13 @@ const closeMenu = () => {
 };
 
 const toggleOpen = () => {
-  if (props.disabled) return;
+  if (locked.value) return;
   if (isOpen.value) closeMenu();
   else openMenu();
 };
 
 const selectOption = (option: SelectOption) => {
-  if (props.disabled) return;
+  if (locked.value) return;
   emit("update:modelValue", option.value);
   closeMenu();
   triggerRef.value?.focus();
@@ -189,7 +247,7 @@ const onBlur = (event: FocusEvent) => {
 };
 
 const onTriggerKeydown = (event: KeyboardEvent) => {
-  if (props.disabled) return;
+  if (locked.value) return;
 
   const list = filteredOptions.value;
 
@@ -249,7 +307,10 @@ defineExpose({
 </script>
 
 <template>
-  <div class="ui-select" :class="rootClasses">
+  <div
+    class="ui-select"
+    :class="[rootClasses, `ui-select--${variant}`, { 'ui-select--readonly': readonly }]"
+  >
     <label
       v-if="label && labelPosition !== 'inside'"
       class="ui-select__label"
@@ -262,7 +323,7 @@ defineExpose({
     </label>
 
     <div class="ui-select__body">
-      <div class="ui-select__control" :class="controlClasses">
+      <div ref="controlRef" class="ui-select__control" :class="controlClasses">
         <label
           v-if="label && labelPosition === 'inside'"
           class="ui-select__label ui-select__label--inside"
@@ -290,6 +351,9 @@ defineExpose({
           @focus="onFocus"
           @blur="onBlur"
         >
+          <span v-if="$slots.prefix" class="ui-select__affix">
+            <slot name="prefix" />
+          </span>
           <span
             class="ui-select__value"
             :class="{ 'ui-select__value--placeholder': !selectedOption }"
@@ -306,6 +370,9 @@ defineExpose({
         </button>
 
         <div v-else class="ui-select__trigger ui-select__trigger--searchable">
+          <span v-if="$slots.prefix" class="ui-select__affix">
+            <slot name="prefix" />
+          </span>
           <input
             :id="triggerId"
             ref="triggerRef"
@@ -316,6 +383,7 @@ defineExpose({
             :value="displayValue"
             :placeholder="labelPosition === 'inside' ? undefined : placeholder"
             :disabled="disabled"
+            :readonly="readonly"
             :aria-expanded="isOpen"
             aria-haspopup="listbox"
             :aria-controls="listboxId"
@@ -334,10 +402,12 @@ defineExpose({
           <span class="ui-select__arrow" aria-hidden="true">▾</span>
         </div>
 
+        <Teleport to="body">
         <ul
-          v-if="isOpen && !isMobile"
+          v-if="isDropdownOpen"
           :id="listboxId"
           class="ui-select__menu"
+          :style="menuStyle"
           role="listbox"
         >
           <li
@@ -366,6 +436,7 @@ defineExpose({
             </slot>
           </li>
         </ul>
+        </Teleport>
       </div>
 
       <p
@@ -517,6 +588,9 @@ defineExpose({
 }
 
 .ui-select__trigger {
+  // 검색 모드는 <div>라서 기본값이 content-box입니다. <button>(기본 border-box)과
+  // 너비 계산을 맞추지 않으면 padding·테두리만큼 18px 넓어집니다.
+  box-sizing: border-box;
   width: 100%;
   display: flex;
   align-items: center;
@@ -526,7 +600,7 @@ defineExpose({
   border-radius: var(--ui-radius-xs);
   background: var(--ui-surface-default);
   // Input과 같은 조절점
-  min-height: var(--ui-field-height, auto);
+  min-height: var(--ui-field-height, 36px);
   padding: var(--ui-field-padding-y, var(--ui-spacing-sm)) var(--ui-spacing-sm);
   font: inherit;
   color: inherit;
@@ -536,6 +610,16 @@ defineExpose({
 
 .ui-select__trigger--searchable {
   cursor: text;
+}
+
+.ui-select--readonly .ui-select__trigger {
+  cursor: default;
+}
+
+.ui-select__affix {
+  display: inline-flex;
+  flex: 0 0 auto;
+  color: var(--ui-text-muted);
 }
 
 .ui-select__search-input {
@@ -557,6 +641,8 @@ defineExpose({
 .ui-select__value {
   flex: 1 1 auto;
   min-width: 0;
+  // inside 라벨이라 값이 비어 있어도 한 줄 높이를 차지해야 Input과 높이가 같습니다.
+  min-height: 1lh;
   text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -569,6 +655,8 @@ defineExpose({
 
 .ui-select__arrow {
   flex: 0 0 auto;
+  // ▾ 글자가 폰트에 따라 줄 높이를 키워 Input보다 1px 커지던 문제를 막습니다.
+  line-height: 1;
   color: var(--ui-text-muted);
   transition: transform var(--ui-duration-normal) var(--ui-easing-standard);
 }
@@ -601,11 +689,10 @@ defineExpose({
   color: var(--ui-primary-default);
 }
 
+// <body>로 옮겨져 화면 기준으로 놓입니다. top/left/width/max-height는 스크립트가 넣습니다.
 .ui-select__menu {
-  position: absolute;
-  top: calc(100% + var(--ui-spacing-xs));
-  left: 0;
-  right: 0;
+  position: fixed;
+  box-sizing: border-box;
   z-index: var(--ui-z-index-overlay);
   margin: 0;
   padding: var(--ui-spacing-xs) 0;
@@ -739,5 +826,77 @@ defineExpose({
 .ui-select-sheet-enter-from .ui-select__sheet,
 .ui-select-sheet-leave-to .ui-select__sheet {
   transform: translateY(100%);
+}
+// inside 라벨은 variant와 상관없이 같은 높이 (Input과 같은 규칙)
+.ui-select--label-inside .ui-select__trigger {
+  min-height: max(var(--ui-field-height, 36px), var(--ui-field-height-inside, 44px));
+}
+
+// --- variant: Input과 같은 규칙입니다 (Input.vue의 variant 블록 참고) ---
+// outlined(기본)는 위의 .ui-select__trigger 규칙을 그대로 씁니다.
+
+// filled: 테두리 대신 배경으로 입력 영역을 표시
+.ui-select--filled .ui-select__trigger {
+  background: var(--ui-surface-hover);
+  border-color: transparent;
+}
+
+.ui-select--filled .ui-select__control--focused .ui-select__trigger,
+.ui-select--filled .ui-select__control--open .ui-select__trigger {
+  border-color: var(--ui-border-focus);
+}
+
+.ui-select--filled.ui-select--invalid .ui-select__trigger {
+  border-color: var(--ui-danger-default);
+}
+
+.ui-select--filled.ui-select--disabled .ui-select__trigger {
+  background: var(--ui-surface-disabled);
+}
+
+// filled + inside 라벨: 라벨을 박스 안쪽 위에 두고 값을 아래로 내립니다
+.ui-select--filled .ui-select__label--inside {
+  padding: 0;
+  background: transparent;
+}
+
+.ui-select--filled .ui-select__control--floated .ui-select__label--inside {
+  top: var(--ui-spacing-xs);
+  transform: none;
+}
+
+.ui-select--filled.ui-select--label-inside .ui-select__trigger {
+  padding-top: calc(
+    var(--ui-field-padding-y, var(--ui-spacing-sm)) + var(--ui-font-size-sm)
+  );
+  padding-bottom: var(--ui-spacing-xs);
+}
+
+// 위 여백이 아래보다 커서 화살표가 아래로 처집니다. 위아래 여백 차이만큼 음수 margin을
+// 주면(가운데 정렬에서 그 절반만큼 올라감) 박스 전체 기준으로 가운데에 옵니다.
+.ui-select--filled.ui-select--label-inside .ui-select__arrow {
+  margin-top: calc(
+    -1 * (var(--ui-field-padding-y, var(--ui-spacing-sm)) + var(--ui-font-size-sm) - var(--ui-spacing-xs))
+  );
+}
+
+// underline: 아래쪽 선만 남김
+.ui-select--underline .ui-select__trigger {
+  border-width: 0 0 1px 0;
+  border-radius: 0;
+  background: transparent;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.ui-select--underline.ui-select--disabled .ui-select__trigger {
+  background: transparent;
+  opacity: 0.6;
+}
+
+.ui-select--underline .ui-select__label--inside {
+  left: 0;
+  padding-left: 0;
+  background: transparent;
 }
 </style>

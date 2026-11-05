@@ -1,8 +1,10 @@
 import { FieldValidator } from '../../composables/useFieldValidation';
-import { ErrorPosition, LabelPosition, SelectOption } from '../../types/form';
+import { ErrorPosition, FieldVariant, LabelPosition, SelectOption } from '../../types/form';
 interface Props {
     modelValue?: string | number | null;
     options?: SelectOption[];
+    /** 입력 박스 모양. Input과 같은 값을 써서 한 폼 안에서 모양을 맞춥니다 */
+    variant?: FieldVariant;
     label?: string;
     labelPosition?: LabelPosition;
     placeholder?: string;
@@ -11,6 +13,8 @@ interface Props {
     /** 내장 required 검증 외에 추가로 실행할 커스텀 검증 함수 */
     validator?: FieldValidator;
     disabled?: boolean;
+    /** 값은 보이지만 바꿀 수 없음 (Input의 readonly와 같음). 목록이 열리지 않습니다 */
+    readonly?: boolean;
     /** 검색어로 옵션을 필터링할 수 있는 콤보박스 모드 */
     searchable?: boolean;
     /** searchable일 때 검색 대상으로 볼 SelectOption의 필드명 목록 (기본: label, value) */
@@ -22,27 +26,31 @@ interface Props {
     name?: string;
     id?: string;
 }
-declare var __VLS_1: {}, __VLS_3: {}, __VLS_5: {
+declare var __VLS_1: {}, __VLS_3: {}, __VLS_5: {}, __VLS_7: {}, __VLS_15: {
     option: SelectOption;
-}, __VLS_7: {}, __VLS_9: {
+}, __VLS_17: {}, __VLS_19: {
     message: string;
-}, __VLS_23: {
+}, __VLS_33: {
     option: SelectOption;
-}, __VLS_25: {};
+}, __VLS_35: {};
 type __VLS_Slots = {} & {
     label?: (props: typeof __VLS_1) => any;
 } & {
     label?: (props: typeof __VLS_3) => any;
 } & {
-    option?: (props: typeof __VLS_5) => any;
+    prefix?: (props: typeof __VLS_5) => any;
 } & {
-    empty?: (props: typeof __VLS_7) => any;
+    prefix?: (props: typeof __VLS_7) => any;
 } & {
-    error?: (props: typeof __VLS_9) => any;
+    option?: (props: typeof __VLS_15) => any;
 } & {
-    option?: (props: typeof __VLS_23) => any;
+    empty?: (props: typeof __VLS_17) => any;
 } & {
-    empty?: (props: typeof __VLS_25) => any;
+    error?: (props: typeof __VLS_19) => any;
+} & {
+    option?: (props: typeof __VLS_33) => any;
+} & {
+    empty?: (props: typeof __VLS_35) => any;
 };
 declare const __VLS_base: import('vue').DefineComponent<Props, {
     focus: () => void | undefined;
@@ -61,6 +69,8 @@ declare const __VLS_base: import('vue').DefineComponent<Props, {
     errorPosition: ErrorPosition;
     required: boolean;
     modelValue: string | number | null;
+    variant: FieldVariant;
+    readonly: boolean;
     options: SelectOption[];
     searchable: boolean;
     filterKeys: string[];

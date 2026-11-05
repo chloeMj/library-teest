@@ -31,6 +31,7 @@ export default ({ mode }: { mode: string }) => {
       // jsdom이 가짜 브라우저 환경을 만들어 컴포넌트를 화면에 그린 것처럼 테스트할 수 있게 해줍니다.
       environment: 'jsdom',
       include: ['src/**/*.test.ts'],
+      setupFiles: ['./vitest.setup.ts'],
     },
     resolve: {
       alias: {
