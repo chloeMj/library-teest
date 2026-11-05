@@ -269,8 +269,8 @@ defineExpose({ validate })
   border: 1.5px solid var(--ui-border-control);
   background: var(--ui-surface-default);
   transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
+    border-color var(--ui-duration-normal) var(--ui-easing-standard),
+    box-shadow var(--ui-duration-normal) var(--ui-easing-standard);
 }
 
 .ui-radio-group__control::after {
@@ -280,7 +280,7 @@ defineExpose({ validate })
   border-radius: 50%;
   background: var(--ui-primary-default);
   transform: scale(0);
-  transition: transform 0.12s ease;
+  transition: transform var(--ui-duration-fast) var(--ui-easing-standard);
 }
 
 .ui-radio-group__option:not(.ui-radio-group__option--disabled):hover .ui-radio-group__control {
@@ -342,9 +342,9 @@ defineExpose({ validate })
   border-radius: 999px;
   background: var(--ui-surface-default);
   transition:
-    border-color 0.15s ease,
-    background 0.15s ease,
-    color 0.15s ease;
+    border-color var(--ui-duration-normal) var(--ui-easing-standard),
+    background var(--ui-duration-normal) var(--ui-easing-standard),
+    color var(--ui-duration-normal) var(--ui-easing-standard);
 }
 
 .ui-radio-group__options--button .ui-radio-group__option:not(.ui-radio-group__option--disabled):hover {
