@@ -133,7 +133,7 @@ app.use(LibraryTest)
 
   // --- 모양 ---
   --ui-radius-xs: 2px;
-  --ui-field-height: 40px;    // 입력 박스 최소 높이 (기본 auto)
+  --ui-field-height: 40px;    // 입력 박스·md 버튼 높이 (기본 36px)
   --ui-field-padding-y: 10px; // 입력 영역 상하 여백 (기본 --ui-spacing-sm)
   --ui-font-size-md: 13px;
 }

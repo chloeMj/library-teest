@@ -21,7 +21,7 @@ export const allComponents: Record<string, Component> = {
 export { Input as UiInput, Select as UiSelect, Radio as UiRadio, Checkbox as UiCheckbox }
 
 // 공개 타입
-export type { LabelPosition, ErrorPosition, SelectOption, OptionIcon } from './types/form'
+export type { LabelPosition, ErrorPosition, FieldVariant, SelectOption, OptionIcon } from './types/form'
 export type { FieldValidator, FieldValue } from './composables/useFieldValidation'
 
 // app.use(LibraryTest) 형태의 전역 등록용 플러그인
