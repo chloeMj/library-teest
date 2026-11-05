@@ -12,10 +12,10 @@ type ButtonVariant = "filled" | "outlined" | "ghost" | "text";
 /**
  * 색(의미). 모양과 자유롭게 조합합니다. 예) outlined + danger = 빨간 테두리 삭제 버튼
  *   primary 기본 동작
- *   neutral 강조하지 않는 동작 (취소, 닫기)
+ *   secondary 강조하지 않는 보조 동작 (취소, 닫기). 회색 계열
  *   danger  되돌리기 어려운 동작 (삭제, 탈퇴)
  */
-type ButtonColor = "primary" | "neutral" | "danger";
+type ButtonColor = "primary" | "secondary" | "danger";
 type ButtonSize = "sm" | "md" | "lg";
 /** vue-router의 RouteLocationRaw와 같은 모양. 라이브러리가 vue-router에 의존하지 않도록 직접 적습니다 */
 type RouteTarget = string | Record<string, unknown>;
@@ -245,7 +245,7 @@ const onClick = (event: MouseEvent) => {
   --_border: var(--ui-primary-default);
 }
 
-.ui-button--neutral {
+.ui-button--secondary {
   --_c: var(--ui-text-default);
   --_c-hover: var(--ui-text-muted);
   --_c-active: var(--ui-text-default);

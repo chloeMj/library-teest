@@ -11,7 +11,6 @@
 // 다크 모드 적용 조건은 mixins/_theme.scss 참고.
 
 @use "mixins/theme" as theme;
-@use "functions/units" as *;
 
 :root {
   // ===========================================================================
@@ -178,12 +177,13 @@
   --ui-radius-lg: 16px;
 
   // Font
-  // 브라우저의 글꼴 크기 설정에 따라 커지도록 rem을 씁니다. 기준 루트 크기는
-  // functions/_units.scss에 있고, 값은 px로 적으면 rem()이 변환합니다.
-  // 간격·테두리는 px로 두어 글자만 커지고 레이아웃은 유지되게 합니다.
-  --ui-font-size-sm: #{rem(12px)};
-  --ui-font-size-md: #{rem(14px)};
-  --ui-font-size-lg: #{rem(16px)};
+  // px를 씁니다. rem은 설치한 프로젝트의 html 글자 크기에 따라 실제 크기가
+  // 바뀌어서(62.5% 프로젝트에서는 14px이 8.75px이 됨), 어디에 설치해도 같은 크기가
+  // 나오도록 px로 고정합니다. 화면 너비에 따라 글자를 키우는 프로젝트는
+  // 이 세 토큰만 rem으로 재정의하세요 (DESIGN.md 5장 '단위 기준').
+  --ui-font-size-sm: 12px;
+  --ui-font-size-md: 14px;
+  --ui-font-size-lg: 16px;
 
   // Z-index (Select의 모바일 bottomSheet, Modal, Toast 등 오버레이류가 공유)
   --ui-z-index-overlay: 1000;

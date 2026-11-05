@@ -7,7 +7,7 @@ const saving = ref(false)
 const count = ref(0)
 
 const variants = ['filled', 'outlined', 'ghost', 'text'] as const
-const colors = ['primary', 'neutral', 'danger'] as const
+const colors = ['primary', 'secondary', 'danger'] as const
 
 const categories = [
   { label: '전체', value: 'all' },
@@ -55,7 +55,7 @@ const save = () => {
         <UiButton
           icon
           variant="outlined"
-          color="neutral"
+          color="secondary"
           aria-label="닫기"
           style="--ui-button-radius: 999px"
         >
@@ -73,10 +73,10 @@ const save = () => {
     <DemoGroup title="아이콘 · slot" note="icon은 정사각형 버튼입니다. 글자가 없으므로 aria-label을 꼭 주세요.">
       <div class="demo-button-row">
         <UiButton icon aria-label="추가">+</UiButton>
-        <UiButton icon variant="outlined" color="neutral" aria-label="닫기">✕</UiButton>
-        <UiButton icon variant="ghost" color="neutral" size="sm" aria-label="더보기">⋯</UiButton>
+        <UiButton icon variant="outlined" color="secondary" aria-label="닫기">✕</UiButton>
+        <UiButton icon variant="ghost" color="secondary" size="sm" aria-label="더보기">⋯</UiButton>
       </div>
-      <UiButton variant="outlined" color="neutral">
+      <UiButton variant="outlined" color="secondary">
         <template #prefix>←</template>
         이전
       </UiButton>
