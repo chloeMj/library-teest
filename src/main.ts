@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import LibraryTest from './index'
+import FormaUI from './index'
 
-createApp(App).use(LibraryTest).mount('#app')
+createApp(App).use(FormaUI).mount('#app')

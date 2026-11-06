@@ -21,14 +21,14 @@ export const allComponents: Record<string, Component> = {
   UiModal: Modal,
 }
 
-// 개별 import 용: import { UiInput } from 'library-test'
+// 개별 import 용: import { UiInput } from 'forma-ui-framework'
 export { Input as UiInput, Select as UiSelect, Radio as UiRadio, Checkbox as UiCheckbox, Button as UiButton, Modal as UiModal }
 
 // 공개 타입
 export type { LabelPosition, ErrorPosition, FieldVariant, SelectOption, OptionIcon } from './types/form'
 export type { FieldValidator, FieldValue } from './composables/useFieldValidation'
 
-// app.use(LibraryTest) 형태의 전역 등록용 플러그인
+// app.use(FormaUI) 형태의 전역 등록용 플러그인
 const plugin: Plugin = {
   install(app: App) {
     Object.entries(allComponents).forEach(([name, component]) => {

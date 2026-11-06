@@ -16,7 +16,7 @@
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 
-const CORE = 'dist/library-test.css'
+const CORE = 'dist/forma-ui-framework.css'
 const OUT_DIR = 'design-tokens'
 const PRIMITIVE_SET = 'Primitives'
 const SEMANTIC_SET = 'Semantic'

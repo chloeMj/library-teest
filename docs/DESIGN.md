@@ -287,7 +287,7 @@ scripts/
 - npm 레지스트리를 쓰지 않고, GitHub 저장소를 git dependency로 설치한다.
 
   ```json
-  "library-test": "github:chloeMj/library-teest"
+  "forma-ui-framework": "github:chloeMj/library-teest"
   ```
 
 - **설치 시점에 빌드가 실행되지 않으므로 `dist/`를 커밋해야 한다.** 컴포넌트나

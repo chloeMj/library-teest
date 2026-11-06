@@ -1,4 +1,4 @@
-# library-test
+# forma-ui-framework
 
 Quasar 등 UI 프레임워크 의존성 없이, 디자인 변경에 유연하게 대응할 수 있도록 만드는
 커스텀 Vue 3 UI 컴포넌트 라이브러리입니다.
@@ -26,17 +26,17 @@ npm i https://github.com/chloeMj/library-teest.git
 
 ```ts
 // main.ts
-import LibraryTest from 'library-test'
-import 'library-test/dist/library-test.css'
+import FormaUI from 'forma-ui-framework'
+import 'forma-ui-framework/dist/forma-ui-framework.css'
 
-app.use(LibraryTest)
+app.use(FormaUI)
 ```
 
-`app.use`로 전역 등록하면 `<UiInput>` `<UiSelect>` `<UiRadio>` `<UiCheckbox>`를
+`app.use`로 전역 등록하면 `<UiInput>` `<UiSelect>` `<UiRadio>` `<UiCheckbox>` `<UiButton>` `<UiModal>`을
 import 없이 쓸 수 있습니다. 개별 import도 가능합니다.
 
 ```ts
-import { UiInput } from 'library-test'
+import { UiInput } from 'forma-ui-framework'
 ```
 
 ## TypeScript
@@ -84,7 +84,7 @@ props 오타나 잘못된 값을 잡으려면 설치한 프로젝트의 `tsconfi
 
 ### 1. CSS 변수(토큰) 재정의 — 색상·간격·폰트 등
 
-라이브러리 CSS(`library-test/dist/library-test.css`)를 불러온 뒤, 그보다 **나중에
+라이브러리 CSS(`forma-ui-framework/dist/forma-ui-framework.css`)를 불러온 뒤, 그보다 **나중에
 로드되는** 프로젝트 스타일에서 `--ui-*` 변수만 재정의하면 됩니다. 선택자 명시도
 경쟁이 없어서 `!important` 없이 값만 덮어씁니다.
 
@@ -101,11 +101,11 @@ my-project/src/styles/ui-theme.scss   ← Quasar의 quasar.variables.scss 역할
 
 ```ts
 // main.ts — 순서가 중요합니다. 라이브러리 CSS를 먼저 불러오세요.
-import LibraryTest from 'library-test'
-import 'library-test/dist/library-test.css'
+import FormaUI from 'forma-ui-framework'
+import 'forma-ui-framework/dist/forma-ui-framework.css'
 import './styles/ui-theme.scss'
 
-app.use(LibraryTest)
+app.use(FormaUI)
 ```
 
 ```scss

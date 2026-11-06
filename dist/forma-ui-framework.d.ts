@@ -1,6 +1,6 @@
 export * from './index.js'
 export {}
-import LibraryTest from './index.js'
-export default LibraryTest
+import FormaUIFramework from './index.js'
+export default FormaUIFramework
 export * from './index.js'
 export {}
