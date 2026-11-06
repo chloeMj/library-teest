@@ -11,7 +11,7 @@ type ButtonVariant = "filled" | "outlined" | "ghost" | "text";
  *   primary   브랜드 주조색. 가장 강조
  *   secondary 강조하지 않는 보조색 (기본 회색)
  *   danger    경고색 (기본 빨강)
- * 실제 색은 토큰(--ui-<이름>-default / -on)으로 바꿉니다.
+ * 실제 색은 토큰(--fm-<이름>-default / -on)으로 바꿉니다.
  */
 declare const NAMED_COLORS: readonly ["primary", "secondary", "danger"];
 type ButtonColor = (typeof NAMED_COLORS)[number];
@@ -26,13 +26,13 @@ interface Props {
      * outlined·ghost·text는 색이 글자가 되므로 고정 색 하나로는 라이트·다크 모두에서
      * 읽히게 할 수 없습니다 → 그런 경우와 프로젝트 전체 색은 토큰으로 바꾸세요.
      * 색상값을 주면 hover/active는 자동 계산되고, 글자색은 명암비가 높은 쪽(흰색/진회색)을
-     * 자동으로 고릅니다. 직접 정하려면 style="--ui-button-on: ..."을 주세요.
+     * 자동으로 고릅니다. 직접 정하려면 style="--fm-button-on: ..."을 주세요.
      */
     color?: ButtonColor | (string & {});
     /**
-     * 표준 크기. 높이·여백 값은 tokens.scss의 --ui-button-height-* / --ui-button-padding-x-*.
+     * 표준 크기. 높이·여백 값은 tokens.scss의 --fm-button-height-* / --fm-button-padding-x-*.
      * 버튼 하나만 다른 크기가 필요하면 prop을 늘리지 말고 변수를 직접 주세요.
-     * 예) <UiButton style="--ui-button-height: 52px; --ui-button-padding-x: 24px">
+     * 예) <FmButton style="--fm-button-height: 52px; --fm-button-padding-x: 24px">
      */
     size?: ButtonSize;
     /**
@@ -54,7 +54,7 @@ interface Props {
     block?: boolean;
     /**
      * 아이콘만 있는 정사각형 버튼. 글자가 없으므로 화면 낭독기용 이름을
-     * 반드시 aria-label로 주세요. 예) <UiButton icon aria-label="닫기">✕</UiButton>
+     * 반드시 aria-label로 주세요. 예) <FmButton icon aria-label="닫기">✕</FmButton>
      */
     icon?: boolean;
 }

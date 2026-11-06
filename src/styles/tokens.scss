@@ -1,8 +1,8 @@
 // forma-ui-framework 디자인 토큰
 //
 // 두 층으로 나뉩니다.
-//   팔레트  --ui-gray-500   "무슨 색인가"   — 모드와 무관하게 고정
-//   역할    --ui-text-muted "어디에 쓰는가" — 라이트/다크가 다른 단계를 가리킴
+//   팔레트  --fm-gray-500   "무슨 색인가"   — 모드와 무관하게 고정
+//   역할    --fm-text-muted "어디에 쓰는가" — 라이트/다크가 다른 단계를 가리킴
 //
 // 컴포넌트는 역할 토큰만 씁니다. 프로젝트에서 색을 바꾸려면 팔레트 단계를
 // 재정의하세요 (역할 토큰을 직접 덮으면 다크 모드에서 풀립니다).
@@ -16,7 +16,7 @@
   // ===========================================================================
   // 팔레트
   //
-  // 이름은 --ui-<계열>-<단계>. 단계는 0(흰색)~900(가장 어두움)이며 모든 계열이
+  // 이름은 --fm-<계열>-<단계>. 단계는 0(흰색)~900(가장 어두움)이며 모든 계열이
   // 같은 규칙을 따릅니다. 50 옅은 배경 / 200 테두리 / 400 컴포넌트 테두리 /
   // 500 기본색 / 600 hover / 700 누름 / 800~900 글자.
   //
@@ -25,83 +25,83 @@
   // ===========================================================================
 
   // 중립 — 배경, 테두리, 글자
-  --ui-gray-0: #ffffff;
-  --ui-gray-50: #f7f8fa;
-  --ui-gray-100: #eff1f5;
-  --ui-gray-200: #dfe3ea;
-  --ui-gray-300: #c8ced9;
-  --ui-gray-400: #8b94a9;
-  --ui-gray-500: #7c8495;
-  --ui-gray-600: #5d6472;
-  --ui-gray-700: #454b56;
-  --ui-gray-800: #2c3139;
-  --ui-gray-900: #1a1d23;
+  --fm-gray-0: #ffffff;
+  --fm-gray-50: #f7f8fa;
+  --fm-gray-100: #eff1f5;
+  --fm-gray-200: #dfe3ea;
+  --fm-gray-300: #c8ced9;
+  --fm-gray-400: #8b94a9;
+  --fm-gray-500: #7c8495;
+  --fm-gray-600: #5d6472;
+  --fm-gray-700: #454b56;
+  --fm-gray-800: #2c3139;
+  --fm-gray-900: #1a1d23;
 
   // 브랜드 — 주조색
-  --ui-brand-50: #e6f7f1;
-  --ui-brand-100: #c2ebdf;
-  --ui-brand-200: #8ddcc4;
-  --ui-brand-300: #4ac8a3;
-  --ui-brand-400: #16b386;
-  --ui-brand-500: #00a474;
-  --ui-brand-600: #008c63;
-  --ui-brand-700: #00714f;
-  --ui-brand-800: #00573d;
-  --ui-brand-900: #003d2b;
+  --fm-brand-50: #e6f7f1;
+  --fm-brand-100: #c2ebdf;
+  --fm-brand-200: #8ddcc4;
+  --fm-brand-300: #4ac8a3;
+  --fm-brand-400: #16b386;
+  --fm-brand-500: #00a474;
+  --fm-brand-600: #008c63;
+  --fm-brand-700: #00714f;
+  --fm-brand-800: #00573d;
+  --fm-brand-900: #003d2b;
 
   // 빨강 — 에러, 삭제
-  --ui-red-50: #fff0ee;
-  --ui-red-100: #ffdad6;
-  --ui-red-200: #ffb3ac;
-  --ui-red-300: #ff8a7f;
-  --ui-red-400: #ff6b5c;
-  --ui-red-500: #fe5246;
-  --ui-red-600: #e03a2e;
-  --ui-red-700: #b82b21;
-  --ui-red-800: #8f2019;
-  --ui-red-900: #5e1511;
+  --fm-red-50: #fff0ee;
+  --fm-red-100: #ffdad6;
+  --fm-red-200: #ffb3ac;
+  --fm-red-300: #ff8a7f;
+  --fm-red-400: #ff6b5c;
+  --fm-red-500: #fe5246;
+  --fm-red-600: #e03a2e;
+  --fm-red-700: #b82b21;
+  --fm-red-800: #8f2019;
+  --fm-red-900: #5e1511;
 
   // 노랑/주황 — 주의, 대기
-  --ui-amber-50: #fff8e6;
-  --ui-amber-100: #ffecbf;
-  --ui-amber-200: #ffd980;
-  --ui-amber-300: #ffc54d;
-  --ui-amber-400: #ffb526;
-  --ui-amber-500: #ffa704;
-  --ui-amber-600: #db8a00;
-  --ui-amber-700: #a86a00;
-  --ui-amber-800: #7a4c00;
-  --ui-amber-900: #4d3000;
+  --fm-amber-50: #fff8e6;
+  --fm-amber-100: #ffecbf;
+  --fm-amber-200: #ffd980;
+  --fm-amber-300: #ffc54d;
+  --fm-amber-400: #ffb526;
+  --fm-amber-500: #ffa704;
+  --fm-amber-600: #db8a00;
+  --fm-amber-700: #a86a00;
+  --fm-amber-800: #7a4c00;
+  --fm-amber-900: #4d3000;
 
   // 초록 — 성공, 완료
-  --ui-green-50: #e9f8ee;
-  --ui-green-100: #c6edd3;
-  --ui-green-200: #8bdca9;
-  --ui-green-300: #4ac97f;
-  --ui-green-400: #16b85d;
-  --ui-green-500: #00a544;
-  --ui-green-600: #008c3a;
-  --ui-green-700: #00702e;
-  --ui-green-800: #005523;
-  --ui-green-900: #003a18;
+  --fm-green-50: #e9f8ee;
+  --fm-green-100: #c6edd3;
+  --fm-green-200: #8bdca9;
+  --fm-green-300: #4ac97f;
+  --fm-green-400: #16b85d;
+  --fm-green-500: #00a544;
+  --fm-green-600: #008c3a;
+  --fm-green-700: #00702e;
+  --fm-green-800: #005523;
+  --fm-green-900: #003a18;
 
   // 파랑 — 안내, 링크
-  --ui-blue-50: #eaf2ff;
-  --ui-blue-100: #cfe1ff;
-  --ui-blue-200: #a3c7ff;
-  --ui-blue-300: #74a9ff;
-  --ui-blue-400: #4e95ff;
-  --ui-blue-500: #2f86ff;
-  --ui-blue-600: #1a6ae0;
-  --ui-blue-700: #1253b3;
-  --ui-blue-800: #0d3d85;
-  --ui-blue-900: #082a5c;
+  --fm-blue-50: #eaf2ff;
+  --fm-blue-100: #cfe1ff;
+  --fm-blue-200: #a3c7ff;
+  --fm-blue-300: #74a9ff;
+  --fm-blue-400: #4e95ff;
+  --fm-blue-500: #2f86ff;
+  --fm-blue-600: #1a6ae0;
+  --fm-blue-700: #1253b3;
+  --fm-blue-800: #0d3d85;
+  --fm-blue-900: #082a5c;
 
   // 확장 — 차트·뱃지 등 항목 구분용
-  --ui-orange-500: #ff6600;
-  --ui-teal-500: #009671;
-  --ui-navy-500: #1a3398;
-  --ui-purple-500: #9243ec;
+  --fm-orange-500: #ff6600;
+  --fm-teal-500: #009671;
+  --fm-navy-500: #1a3398;
+  --fm-purple-500: #9243ec;
 
   // ===========================================================================
   // 역할 — Light
@@ -118,90 +118,90 @@
   // Primary
   // brand-500은 흰 배경에서 3.20:1이라 글자·버튼에 못 씁니다. 4.5:1을 넘는
   // 첫 단계가 700이라 default를 거기에 맞췄습니다.
-  --ui-primary-default: var(--ui-brand-700);
-  --ui-primary-hover: color-mix(in srgb, var(--ui-primary-default) 92%, var(--ui-primary-on));
-  --ui-primary-active: color-mix(in srgb, var(--ui-primary-default) 88%, var(--ui-primary-on));
-  --ui-primary-subtle: var(--ui-brand-50);
+  --fm-primary-default: var(--fm-brand-700);
+  --fm-primary-hover: color-mix(in srgb, var(--fm-primary-default) 92%, var(--fm-primary-on));
+  --fm-primary-active: color-mix(in srgb, var(--fm-primary-default) 88%, var(--fm-primary-on));
+  --fm-primary-subtle: var(--fm-brand-50);
   // primary 배경 위에 올라가는 글자/아이콘
-  --ui-primary-on: var(--ui-gray-0);
+  --fm-primary-on: var(--fm-gray-0);
 
   // Secondary — 강조하지 않는 보조색. 기본은 본문 글자와 같은 회색 계열입니다.
   // 프로젝트 보조색(남색 등)이 있으면 default/on만 바꾸세요.
-  --ui-secondary-default: var(--ui-gray-900);
-  --ui-secondary-hover: color-mix(in srgb, var(--ui-secondary-default) 92%, var(--ui-secondary-on));
-  --ui-secondary-active: color-mix(in srgb, var(--ui-secondary-default) 88%, var(--ui-secondary-on));
-  --ui-secondary-on: var(--ui-gray-0);
+  --fm-secondary-default: var(--fm-gray-900);
+  --fm-secondary-hover: color-mix(in srgb, var(--fm-secondary-default) 92%, var(--fm-secondary-on));
+  --fm-secondary-active: color-mix(in srgb, var(--fm-secondary-default) 88%, var(--fm-secondary-on));
+  --fm-secondary-on: var(--fm-gray-0);
 
   // Text
-  --ui-text-default: var(--ui-gray-900);
+  --fm-text-default: var(--fm-gray-900);
   // 본문 대비 기준(WCAG 1.4.3, 4.5:1)을 넘기려고 한 단계 어둡게 씁니다.
   // gray-500은 흰 배경에서 3.76:1로 미달입니다.
-  --ui-text-muted: var(--ui-gray-600);
-  --ui-text-placeholder: var(--ui-gray-600);
-  --ui-text-disabled: var(--ui-gray-500);
+  --fm-text-muted: var(--fm-gray-600);
+  --fm-text-placeholder: var(--fm-gray-600);
+  --fm-text-disabled: var(--fm-gray-500);
   // 어두운 배경 위 글자 (Toast 등)
-  --ui-text-inverse: var(--ui-gray-0);
+  --fm-text-inverse: var(--fm-gray-0);
 
   // Surface
-  --ui-surface-default: var(--ui-gray-0);
-  --ui-surface-subtle: var(--ui-gray-50);
-  --ui-surface-hover: var(--ui-gray-100);
-  --ui-surface-selected: var(--ui-primary-subtle);
-  --ui-surface-disabled: var(--ui-gray-100);
+  --fm-surface-default: var(--fm-gray-0);
+  --fm-surface-subtle: var(--fm-gray-50);
+  --fm-surface-hover: var(--fm-gray-100);
+  --fm-surface-selected: var(--fm-primary-subtle);
+  --fm-surface-disabled: var(--fm-gray-100);
   // 떠 있는 레이어 (드롭다운, Modal, Toast, bottomSheet)
-  --ui-surface-raised: var(--ui-gray-0);
-  --ui-surface-backdrop: rgba(0, 0, 0, 0.4);
+  --fm-surface-raised: var(--fm-gray-0);
+  --fm-surface-backdrop: rgba(0, 0, 0, 0.4);
 
   // Border
   // 구분선·카드처럼 "거기 선이 있다"는 것 외에 아무 뜻도 없는 테두리.
   // 장식이라 명암비 기준(1.4.11)의 대상이 아니라서 연하게 둡니다.
-  --ui-border-default: var(--ui-gray-200);
+  --fm-border-default: var(--fm-gray-200);
   // 입력 박스·체크박스처럼 테두리만으로 "조작할 수 있는 요소"임을 알리는 곳.
   // 이 선이 사라지면 요소를 못 찾으므로 3:1이 필요합니다 (WCAG 1.4.11).
-  --ui-border-control: var(--ui-gray-400);
-  --ui-border-strong: var(--ui-gray-600);
-  --ui-border-focus: var(--ui-primary-default);
-  --ui-border-hover: var(--ui-border-focus);
-  --ui-border-disabled: var(--ui-border-default);
-  --ui-border-focus-ring: var(--ui-border-focus);
+  --fm-border-control: var(--fm-gray-400);
+  --fm-border-strong: var(--fm-gray-600);
+  --fm-border-focus: var(--fm-primary-default);
+  --fm-border-hover: var(--fm-border-focus);
+  --fm-border-disabled: var(--fm-border-default);
+  --fm-border-focus-ring: var(--fm-border-focus);
 
   // Feedback
-  --ui-danger-default: var(--ui-red-700);
-  --ui-danger-hover: color-mix(in srgb, var(--ui-danger-default) 92%, var(--ui-danger-on));
-  --ui-danger-active: color-mix(in srgb, var(--ui-danger-default) 88%, var(--ui-danger-on));
-  --ui-danger-subtle: var(--ui-red-50);
+  --fm-danger-default: var(--fm-red-700);
+  --fm-danger-hover: color-mix(in srgb, var(--fm-danger-default) 92%, var(--fm-danger-on));
+  --fm-danger-active: color-mix(in srgb, var(--fm-danger-default) 88%, var(--fm-danger-on));
+  --fm-danger-subtle: var(--fm-red-50);
   // danger 배경 위에 올라가는 글자/아이콘 (삭제 버튼 등)
-  --ui-danger-on: var(--ui-gray-0);
-  --ui-success-default: var(--ui-green-500);
-  --ui-success-subtle: var(--ui-green-50);
-  --ui-warning-default: var(--ui-amber-500);
-  --ui-warning-subtle: var(--ui-amber-50);
-  --ui-info-default: var(--ui-blue-500);
-  --ui-info-subtle: var(--ui-blue-50);
+  --fm-danger-on: var(--fm-gray-0);
+  --fm-success-default: var(--fm-green-500);
+  --fm-success-subtle: var(--fm-green-50);
+  --fm-warning-default: var(--fm-amber-500);
+  --fm-warning-subtle: var(--fm-amber-50);
+  --fm-info-default: var(--fm-blue-500);
+  --fm-info-subtle: var(--fm-blue-50);
 
   // Spacing
-  --ui-spacing-xs: 4px;
-  --ui-spacing-sm: 8px;
-  --ui-spacing-md: 12px;
-  --ui-spacing-lg: 16px;
+  --fm-spacing-xs: 4px;
+  --fm-spacing-sm: 8px;
+  --fm-spacing-md: 12px;
+  --fm-spacing-lg: 16px;
 
   // Radius
-  --ui-radius-xs: 4px;
-  --ui-radius-sm: 8px;
-  --ui-radius-md: 12px;
-  --ui-radius-lg: 16px;
+  --fm-radius-xs: 4px;
+  --fm-radius-sm: 8px;
+  --fm-radius-md: 12px;
+  --fm-radius-lg: 16px;
 
   // Font
   // px를 씁니다. rem은 설치한 프로젝트의 html 글자 크기에 따라 실제 크기가
   // 바뀌어서(62.5% 프로젝트에서는 14px이 8.75px이 됨), 어디에 설치해도 같은 크기가
   // 나오도록 px로 고정합니다. 화면 너비에 따라 글자를 키우는 프로젝트는
   // 이 세 토큰만 rem으로 재정의하세요 (DESIGN.md 5장 '단위 기준').
-  --ui-font-size-sm: 12px;
-  --ui-font-size-md: 14px;
-  --ui-font-size-lg: 16px;
+  --fm-font-size-sm: 12px;
+  --fm-font-size-md: 14px;
+  --fm-font-size-lg: 16px;
 
   // Z-index (Select의 모바일 bottomSheet, Modal, Toast 등 오버레이류가 공유)
-  --ui-z-index-overlay: 1000;
+  --fm-z-index-overlay: 1000;
 
   // Motion
   // 애니메이션 속도와 가속 곡선. 컴포넌트는 transition에 숫자를 직접 쓰지 않고
@@ -211,17 +211,17 @@
   //   fast   체크 표시처럼 작은 요소가 나타날 때
   //   normal hover·focus 색 변화, 라벨 이동
   //   slow   bottomSheet·Modal처럼 화면 일부를 덮는 레이어
-  --ui-duration-fast: 120ms;
-  --ui-duration-normal: 150ms;
-  --ui-duration-slow: 200ms;
+  --fm-duration-fast: 120ms;
+  --fm-duration-normal: 150ms;
+  --fm-duration-slow: 200ms;
 
   // easing
   //   standard 상태 변화(색·테두리)
   //   enter    나타날 때 — 빠르게 시작해 천천히 멈춤
   //   exit     사라질 때 — 천천히 시작해 빠르게 빠짐
-  --ui-easing-standard: ease;
-  --ui-easing-enter: cubic-bezier(0, 0, 0.2, 1);
-  --ui-easing-exit: cubic-bezier(0.4, 0, 1, 1);
+  --fm-easing-standard: ease;
+  --fm-easing-enter: cubic-bezier(0, 0, 0.2, 1);
+  --fm-easing-exit: cubic-bezier(0.4, 0, 1, 1);
 }
 
 // 운영체제에서 "동작 줄이기"를 켠 사용자(어지럼증 등)에게는 애니메이션을 끕니다.
@@ -229,9 +229,9 @@
 // (WCAG 2.3.3)
 @media (prefers-reduced-motion: reduce) {
   :root {
-    --ui-duration-fast: 0ms;
-    --ui-duration-normal: 0ms;
-    --ui-duration-slow: 0ms;
+    --fm-duration-fast: 0ms;
+    --fm-duration-normal: 0ms;
+    --fm-duration-slow: 0ms;
   }
 }
 
@@ -243,43 +243,43 @@
 
 @include theme.dark {
   // Primary — 어두운 배경에서는 밝은 단계를 씁니다
-  --ui-primary-default: var(--ui-brand-400);
-  --ui-primary-subtle: var(--ui-brand-900);
-  --ui-primary-on: var(--ui-gray-900);
+  --fm-primary-default: var(--fm-brand-400);
+  --fm-primary-subtle: var(--fm-brand-900);
+  --fm-primary-on: var(--fm-gray-900);
 
   // Secondary
-  --ui-secondary-default: var(--ui-gray-0);
-  --ui-secondary-on: var(--ui-gray-900);
+  --fm-secondary-default: var(--fm-gray-0);
+  --fm-secondary-on: var(--fm-gray-900);
 
   // Text
-  --ui-text-default: var(--ui-gray-0);
-  --ui-text-muted: var(--ui-gray-300);
-  --ui-text-placeholder: var(--ui-gray-400);
-  --ui-text-disabled: var(--ui-gray-500);
-  --ui-text-inverse: var(--ui-gray-900);
+  --fm-text-default: var(--fm-gray-0);
+  --fm-text-muted: var(--fm-gray-300);
+  --fm-text-placeholder: var(--fm-gray-400);
+  --fm-text-disabled: var(--fm-gray-500);
+  --fm-text-inverse: var(--fm-gray-900);
 
   // Surface
-  --ui-surface-default: var(--ui-gray-900);
-  --ui-surface-subtle: var(--ui-gray-800);
-  --ui-surface-hover: var(--ui-gray-700);
-  --ui-surface-disabled: var(--ui-gray-700);
+  --fm-surface-default: var(--fm-gray-900);
+  --fm-surface-subtle: var(--fm-gray-800);
+  --fm-surface-hover: var(--fm-gray-700);
+  --fm-surface-disabled: var(--fm-gray-700);
   // 떠 있는 레이어는 그림자 대신 밝기로 구분합니다
-  --ui-surface-raised: var(--ui-gray-800);
-  --ui-surface-backdrop: rgba(0, 0, 0, 0.6);
+  --fm-surface-raised: var(--fm-gray-800);
+  --fm-surface-backdrop: rgba(0, 0, 0, 0.6);
 
   // Border
-  --ui-border-default: var(--ui-gray-600);
-  --ui-border-control: var(--ui-gray-400);
-  --ui-border-strong: var(--ui-gray-300);
+  --fm-border-default: var(--fm-gray-600);
+  --fm-border-control: var(--fm-gray-400);
+  --fm-border-strong: var(--fm-gray-300);
 
   // Feedback
-  --ui-danger-default: var(--ui-red-300);
-  --ui-danger-subtle: var(--ui-red-900);
-  --ui-danger-on: var(--ui-gray-900);
-  --ui-success-default: var(--ui-green-300);
-  --ui-success-subtle: var(--ui-green-900);
-  --ui-warning-default: var(--ui-amber-300);
-  --ui-warning-subtle: var(--ui-amber-900);
-  --ui-info-default: var(--ui-blue-300);
-  --ui-info-subtle: var(--ui-blue-900);
+  --fm-danger-default: var(--fm-red-300);
+  --fm-danger-subtle: var(--fm-red-900);
+  --fm-danger-on: var(--fm-gray-900);
+  --fm-success-default: var(--fm-green-300);
+  --fm-success-subtle: var(--fm-green-900);
+  --fm-warning-default: var(--fm-amber-300);
+  --fm-warning-subtle: var(--fm-amber-900);
+  --fm-info-default: var(--fm-blue-300);
+  --fm-info-subtle: var(--fm-blue-900);
 }

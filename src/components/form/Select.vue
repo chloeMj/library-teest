@@ -118,7 +118,7 @@ const displayValue = computed(() => {
 });
 
 const { rootClasses, controlClasses: baseControlClasses } = useFieldClasses({
-  block: "ui-select",
+  block: "fm-select",
   labelPosition: toRef(props, "labelPosition"),
   errorPosition: toRef(props, "errorPosition"),
   invalid: computed(() => !!errorMessage.value),
@@ -139,7 +139,7 @@ const MENU_MAX_HEIGHT = 240;
 const MENU_MIN_HEIGHT = 120;
 
 const updateMenuPosition = () => {
-  const trigger = controlRef.value?.querySelector<HTMLElement>(".ui-select__trigger");
+  const trigger = controlRef.value?.querySelector<HTMLElement>(".fm-select__trigger");
   if (!trigger) return;
   const rect = trigger.getBoundingClientRect();
   const spaceBelow = window.innerHeight - rect.bottom - MENU_GAP * 2;
@@ -181,7 +181,7 @@ const locked = computed(() => props.disabled || props.readonly);
 
 const controlClasses = computed(() => ({
   ...baseControlClasses.value,
-  "ui-select__control--open": isOpen.value,
+  "fm-select__control--open": isOpen.value,
 }));
 
 const openMenu = () => {
@@ -308,30 +308,30 @@ defineExpose({
 
 <template>
   <div
-    class="ui-select"
-    :class="[rootClasses, `ui-select--${variant}`, { 'ui-select--readonly': readonly }]"
+    class="fm-select"
+    :class="[rootClasses, `fm-select--${variant}`, { 'fm-select--readonly': readonly }]"
   >
     <label
       v-if="label && labelPosition !== 'inside'"
-      class="ui-select__label"
+      class="fm-select__label"
       :for="triggerId"
     >
       <slot name="label">
         {{ label }}
-        <span v-if="required" class="ui-select__required-mark">*</span>
+        <span v-if="required" class="fm-select__required-mark">*</span>
       </slot>
     </label>
 
-    <div class="ui-select__body">
-      <div ref="controlRef" class="ui-select__control" :class="controlClasses">
+    <div class="fm-select__body">
+      <div ref="controlRef" class="fm-select__control" :class="controlClasses">
         <label
           v-if="label && labelPosition === 'inside'"
-          class="ui-select__label ui-select__label--inside"
+          class="fm-select__label fm-select__label--inside"
           :for="triggerId"
         >
           <slot name="label">
             {{ label }}
-            <span v-if="required" class="ui-select__required-mark">*</span>
+            <span v-if="required" class="fm-select__required-mark">*</span>
           </slot>
         </label>
 
@@ -340,7 +340,7 @@ defineExpose({
           :id="triggerId"
           ref="triggerRef"
           type="button"
-          class="ui-select__trigger"
+          class="fm-select__trigger"
           :disabled="disabled"
           :aria-expanded="isOpen"
           aria-haspopup="listbox"
@@ -351,12 +351,12 @@ defineExpose({
           @focus="onFocus"
           @blur="onBlur"
         >
-          <span v-if="$slots.prefix" class="ui-select__affix">
+          <span v-if="$slots.prefix" class="fm-select__affix">
             <slot name="prefix" />
           </span>
           <span
-            class="ui-select__value"
-            :class="{ 'ui-select__value--placeholder': !selectedOption }"
+            class="fm-select__value"
+            :class="{ 'fm-select__value--placeholder': !selectedOption }"
           >
             {{
               selectedOption
@@ -366,18 +366,18 @@ defineExpose({
                   : placeholder
             }}
           </span>
-          <span class="ui-select__arrow" aria-hidden="true">▾</span>
+          <span class="fm-select__arrow" aria-hidden="true">▾</span>
         </button>
 
-        <div v-else class="ui-select__trigger ui-select__trigger--searchable">
-          <span v-if="$slots.prefix" class="ui-select__affix">
+        <div v-else class="fm-select__trigger fm-select__trigger--searchable">
+          <span v-if="$slots.prefix" class="fm-select__affix">
             <slot name="prefix" />
           </span>
           <input
             :id="triggerId"
             ref="triggerRef"
             type="text"
-            class="ui-select__search-input"
+            class="fm-select__search-input"
             role="combobox"
             aria-autocomplete="list"
             :value="displayValue"
@@ -399,14 +399,14 @@ defineExpose({
             @focus="onFocus"
             @blur="onBlur"
           />
-          <span class="ui-select__arrow" aria-hidden="true">▾</span>
+          <span class="fm-select__arrow" aria-hidden="true">▾</span>
         </div>
 
         <Teleport to="body">
         <ul
           v-if="isDropdownOpen"
           :id="listboxId"
-          class="ui-select__menu"
+          class="fm-select__menu"
           :style="menuStyle"
           role="listbox"
         >
@@ -416,17 +416,17 @@ defineExpose({
             :key="option.value"
             role="option"
             :aria-selected="option.value === modelValue"
-            class="ui-select__option"
+            class="fm-select__option"
             :class="{
-              'ui-select__option--selected': option.value === modelValue,
-              'ui-select__option--active': index === activeIndex,
+              'fm-select__option--selected': option.value === modelValue,
+              'fm-select__option--active': index === activeIndex,
             }"
             @mousedown.prevent="selectOption(option)"
             @mouseenter="activeIndex = index"
           >
             <slot name="option" :option="option">{{ option.label }}</slot>
           </li>
-          <li v-if="filteredOptions.length === 0" class="ui-select__empty">
+          <li v-if="filteredOptions.length === 0" class="fm-select__empty">
             <slot name="empty">
               {{
                 searchable && query
@@ -442,7 +442,7 @@ defineExpose({
       <p
         v-if="errorMessage"
         :id="errorId"
-        class="ui-select__error"
+        class="fm-select__error"
         role="alert"
       >
         <slot name="error" :message="errorMessage">{{ errorMessage }}</slot>
@@ -450,20 +450,20 @@ defineExpose({
     </div>
 
     <Teleport to="body">
-      <Transition name="ui-select-sheet">
+      <Transition name="fm-select-sheet">
         <div
           v-if="isOpen && isMobile"
-          class="ui-select__sheet-backdrop"
+          class="fm-select__sheet-backdrop"
           @click="closeMenu"
         >
-          <div class="ui-select__sheet" role="listbox" @click.stop>
-            <div class="ui-select__sheet-header">
-              <span class="ui-select__sheet-title">
+          <div class="fm-select__sheet" role="listbox" @click.stop>
+            <div class="fm-select__sheet-header">
+              <span class="fm-select__sheet-title">
                 {{ label || placeholder }}
               </span>
               <button
                 type="button"
-                class="ui-select__sheet-close"
+                class="fm-select__sheet-close"
                 aria-label="닫기"
                 @click="closeMenu"
               >
@@ -475,24 +475,24 @@ defineExpose({
               v-if="searchable"
               ref="sheetSearchRef"
               type="text"
-              class="ui-select__sheet-search"
+              class="fm-select__sheet-search"
               placeholder="검색"
               :value="query"
               @input="onSearchInput"
               @keydown="onTriggerKeydown"
             />
 
-            <ul class="ui-select__sheet-list">
+            <ul class="fm-select__sheet-list">
               <li
                 v-for="(option, index) in filteredOptions"
                 :key="option.value"
                 role="option"
                 :aria-selected="option.value === modelValue"
-                class="ui-select__sheet-option"
+                class="fm-select__sheet-option"
                 :class="{
-                  'ui-select__sheet-option--selected':
+                  'fm-select__sheet-option--selected':
                     option.value === modelValue,
-                  'ui-select__sheet-option--active': index === activeIndex,
+                  'fm-select__sheet-option--active': index === activeIndex,
                 }"
                 @click="selectOption(option)"
               >
@@ -500,7 +500,7 @@ defineExpose({
               </li>
               <li
                 v-if="filteredOptions.length === 0"
-                class="ui-select__sheet-empty"
+                class="fm-select__sheet-empty"
               >
                 <slot name="empty">
                   {{
@@ -518,76 +518,76 @@ defineExpose({
   </div>
 </template>
 
-<!-- Input.vue와 동일한 이유로 scoped를 쓰지 않습니다 (ui-select BEM 클래스만으로 격리). -->
+<!-- Input.vue와 동일한 이유로 scoped를 쓰지 않습니다 (fm-select BEM 클래스만으로 격리). -->
 <style lang="scss">
 @use "../../styles/mixins/field-layout" as field;
 
-.ui-select {
+.fm-select {
   @include field.field-label-top;
-  font-size: var(--ui-font-size-md);
-  color: var(--ui-text-default);
+  font-size: var(--fm-font-size-md);
+  color: var(--fm-text-default);
 }
 
-.ui-select--label-left {
+.fm-select--label-left {
   @include field.field-label-left;
 }
 
-.ui-select--label-inside {
+.fm-select--label-inside {
   @include field.field-label-inside;
 }
 
-.ui-select__label {
-  font-size: var(--ui-font-size-sm);
-  color: var(--ui-text-default);
+.fm-select__label {
+  font-size: var(--fm-font-size-sm);
+  color: var(--fm-text-default);
 }
 
-.ui-select--label-left > .ui-select__label {
+.fm-select--label-left > .fm-select__label {
   flex: 0 0 auto;
 }
 
-.ui-select__required-mark {
-  color: var(--ui-danger-default);
+.fm-select__required-mark {
+  color: var(--fm-danger-default);
   margin-left: 2px;
 }
 
-.ui-select__body {
+.fm-select__body {
   display: flex;
   flex-direction: column;
-  gap: var(--ui-spacing-xs);
+  gap: var(--fm-spacing-xs);
   flex: 1 1 auto;
   min-width: 0;
 }
 
-.ui-select__control {
+.fm-select__control {
   order: 1;
   position: relative;
 }
 
-.ui-select__error {
+.fm-select__error {
   order: 2;
   margin: 0;
-  font-size: var(--ui-font-size-sm);
-  color: var(--ui-danger-default);
+  font-size: var(--fm-font-size-sm);
+  color: var(--fm-danger-default);
 }
 
-.ui-select--error-top .ui-select__control {
+.fm-select--error-top .fm-select__control {
   order: 2;
 }
 
-.ui-select--error-top .ui-select__error {
+.fm-select--error-top .fm-select__error {
   order: 1;
 }
 
-.ui-select--invalid .ui-select__trigger {
-  border-color: var(--ui-danger-default);
+.fm-select--invalid .fm-select__trigger {
+  border-color: var(--fm-danger-default);
 }
 
-.ui-select--disabled .ui-select__trigger {
-  background: var(--ui-surface-disabled);
+.fm-select--disabled .fm-select__trigger {
+  background: var(--fm-surface-disabled);
   cursor: not-allowed;
 }
 
-.ui-select__trigger {
+.fm-select__trigger {
   // 검색 모드는 <div>라서 기본값이 content-box입니다. <button>(기본 border-box)과
   // 너비 계산을 맞추지 않으면 padding·테두리만큼 18px 넓어집니다.
   box-sizing: border-box;
@@ -595,34 +595,34 @@ defineExpose({
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--ui-spacing-xs);
-  border: 1px solid var(--ui-border-control);
-  border-radius: var(--ui-radius-xs);
-  background: var(--ui-surface-default);
+  gap: var(--fm-spacing-xs);
+  border: 1px solid var(--fm-border-control);
+  border-radius: var(--fm-radius-xs);
+  background: var(--fm-surface-default);
   // Input과 같은 조절점
-  min-height: var(--ui-field-height, 36px);
-  padding: var(--ui-field-padding-y, var(--ui-spacing-sm)) var(--ui-spacing-sm);
+  min-height: var(--fm-field-height, 36px);
+  padding: var(--fm-field-padding-y, var(--fm-spacing-sm)) var(--fm-spacing-sm);
   font: inherit;
   color: inherit;
   cursor: pointer;
-  transition: border-color var(--ui-duration-normal) var(--ui-easing-standard);
+  transition: border-color var(--fm-duration-normal) var(--fm-easing-standard);
 }
 
-.ui-select__trigger--searchable {
+.fm-select__trigger--searchable {
   cursor: text;
 }
 
-.ui-select--readonly .ui-select__trigger {
+.fm-select--readonly .fm-select__trigger {
   cursor: default;
 }
 
-.ui-select__affix {
+.fm-select__affix {
   display: inline-flex;
   flex: 0 0 auto;
-  color: var(--ui-text-muted);
+  color: var(--fm-text-muted);
 }
 
-.ui-select__search-input {
+.fm-select__search-input {
   flex: 1 1 auto;
   min-width: 0;
   border: none;
@@ -633,12 +633,12 @@ defineExpose({
   padding: 0;
 }
 
-.ui-select__control--focused .ui-select__trigger,
-.ui-select__control--open .ui-select__trigger {
-  border-color: var(--ui-border-focus);
+.fm-select__control--focused .fm-select__trigger,
+.fm-select__control--open .fm-select__trigger {
+  border-color: var(--fm-border-focus);
 }
 
-.ui-select__value {
+.fm-select__value {
   flex: 1 1 auto;
   min-width: 0;
   // inside 라벨이라 값이 비어 있어도 한 줄 높이를 차지해야 Input과 높이가 같습니다.
@@ -649,239 +649,239 @@ defineExpose({
   white-space: nowrap;
 }
 
-.ui-select__value--placeholder {
-  color: var(--ui-text-placeholder);
+.fm-select__value--placeholder {
+  color: var(--fm-text-placeholder);
 }
 
-.ui-select__arrow {
+.fm-select__arrow {
   flex: 0 0 auto;
   // ▾ 글자가 폰트에 따라 줄 높이를 키워 Input보다 1px 커지던 문제를 막습니다.
   line-height: 1;
-  color: var(--ui-text-muted);
-  transition: transform var(--ui-duration-normal) var(--ui-easing-standard);
+  color: var(--fm-text-muted);
+  transition: transform var(--fm-duration-normal) var(--fm-easing-standard);
 }
 
-.ui-select__control--open .ui-select__arrow {
+.fm-select__control--open .fm-select__arrow {
   transform: rotate(180deg);
 }
 
-.ui-select__label--inside {
+.fm-select__label--inside {
   position: absolute;
-  left: var(--ui-spacing-sm);
+  left: var(--fm-spacing-sm);
   top: 50%;
   transform: translateY(-50%);
-  font-size: var(--ui-font-size-md);
-  color: var(--ui-text-muted);
-  background: var(--ui-surface-default);
+  font-size: var(--fm-font-size-md);
+  color: var(--fm-text-muted);
+  background: var(--fm-surface-default);
   padding: 0 4px;
   pointer-events: none;
   transition:
-    top var(--ui-duration-normal) var(--ui-easing-standard),
-    font-size var(--ui-duration-normal) var(--ui-easing-standard),
-    transform var(--ui-duration-normal) var(--ui-easing-standard),
-    color var(--ui-duration-normal) var(--ui-easing-standard);
+    top var(--fm-duration-normal) var(--fm-easing-standard),
+    font-size var(--fm-duration-normal) var(--fm-easing-standard),
+    transform var(--fm-duration-normal) var(--fm-easing-standard),
+    color var(--fm-duration-normal) var(--fm-easing-standard);
   z-index: 1;
 }
 
-.ui-select__control--floated .ui-select__label--inside {
+.fm-select__control--floated .fm-select__label--inside {
   top: 0;
-  font-size: var(--ui-font-size-sm);
-  color: var(--ui-primary-default);
+  font-size: var(--fm-font-size-sm);
+  color: var(--fm-primary-default);
 }
 
 // <body>로 옮겨져 화면 기준으로 놓입니다. top/left/width/max-height는 스크립트가 넣습니다.
-.ui-select__menu {
+.fm-select__menu {
   position: fixed;
   box-sizing: border-box;
-  z-index: var(--ui-z-index-overlay);
+  z-index: var(--fm-z-index-overlay);
   margin: 0;
-  padding: var(--ui-spacing-xs) 0;
+  padding: var(--fm-spacing-xs) 0;
   list-style: none;
-  background: var(--ui-surface-raised);
-  border: 1px solid var(--ui-border-default);
-  border-radius: var(--ui-radius-xs);
+  background: var(--fm-surface-raised);
+  border: 1px solid var(--fm-border-default);
+  border-radius: var(--fm-radius-xs);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   max-height: 240px;
   overflow-y: auto;
 }
 
-.ui-select__option {
-  padding: var(--ui-spacing-sm);
+.fm-select__option {
+  padding: var(--fm-spacing-sm);
   cursor: pointer;
-  color: var(--ui-text-default);
+  color: var(--fm-text-default);
 }
 
-.ui-select__option--active {
-  background: var(--ui-surface-hover);
+.fm-select__option--active {
+  background: var(--fm-surface-hover);
 }
 
-.ui-select__option--selected {
-  color: var(--ui-primary-default);
+.fm-select__option--selected {
+  color: var(--fm-primary-default);
   font-weight: 600;
 }
 
-.ui-select__empty {
-  padding: var(--ui-spacing-sm);
-  color: var(--ui-text-muted);
+.fm-select__empty {
+  padding: var(--fm-spacing-sm);
+  color: var(--fm-text-muted);
 }
 
 // --- 모바일 bottomSheet ---
 
-.ui-select__sheet-backdrop {
+.fm-select__sheet-backdrop {
   position: fixed;
   inset: 0;
-  z-index: var(--ui-z-index-overlay);
+  z-index: var(--fm-z-index-overlay);
   display: flex;
   align-items: flex-end;
-  background: var(--ui-surface-backdrop);
+  background: var(--fm-surface-backdrop);
 }
 
-.ui-select__sheet {
+.fm-select__sheet {
   width: 100%;
   max-height: 70vh;
   display: flex;
   flex-direction: column;
-  background: var(--ui-surface-raised);
-  border-radius: var(--ui-radius-sm) var(--ui-radius-sm) 0 0;
+  background: var(--fm-surface-raised);
+  border-radius: var(--fm-radius-sm) var(--fm-radius-sm) 0 0;
   padding-bottom: env(safe-area-inset-bottom, 0);
   overflow: hidden;
 }
 
-.ui-select__sheet-header {
+.fm-select__sheet-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--ui-spacing-md);
-  border-bottom: 1px solid var(--ui-border-default);
-  font-size: var(--ui-font-size-lg);
-  color: var(--ui-text-default);
+  padding: var(--fm-spacing-md);
+  border-bottom: 1px solid var(--fm-border-default);
+  font-size: var(--fm-font-size-lg);
+  color: var(--fm-text-default);
 }
 
-.ui-select__sheet-close {
+.fm-select__sheet-close {
   border: none;
   background: transparent;
-  font-size: var(--ui-font-size-lg);
-  color: var(--ui-text-muted);
+  font-size: var(--fm-font-size-lg);
+  color: var(--fm-text-muted);
   cursor: pointer;
   line-height: 1;
 }
 
-.ui-select__sheet-search {
-  margin: var(--ui-spacing-sm) var(--ui-spacing-md) 0;
-  padding: var(--ui-spacing-sm);
-  border: 1px solid var(--ui-border-control);
-  border-radius: var(--ui-radius-xs);
+.fm-select__sheet-search {
+  margin: var(--fm-spacing-sm) var(--fm-spacing-md) 0;
+  padding: var(--fm-spacing-sm);
+  border: 1px solid var(--fm-border-control);
+  border-radius: var(--fm-radius-xs);
   font: inherit;
   color: inherit;
   outline: none;
 }
 
-.ui-select__sheet-list {
+.fm-select__sheet-list {
   margin: 0;
-  padding: var(--ui-spacing-xs) 0;
+  padding: var(--fm-spacing-xs) 0;
   list-style: none;
   overflow-y: auto;
 }
 
-.ui-select__sheet-option {
-  padding: var(--ui-spacing-md);
-  font-size: var(--ui-font-size-lg);
-  color: var(--ui-text-default);
+.fm-select__sheet-option {
+  padding: var(--fm-spacing-md);
+  font-size: var(--fm-font-size-lg);
+  color: var(--fm-text-default);
   cursor: pointer;
 }
 
-.ui-select__sheet-option--active {
-  background: var(--ui-surface-hover);
+.fm-select__sheet-option--active {
+  background: var(--fm-surface-hover);
 }
 
-.ui-select__sheet-option--selected {
-  color: var(--ui-primary-default);
+.fm-select__sheet-option--selected {
+  color: var(--fm-primary-default);
   font-weight: 600;
 }
 
-.ui-select__sheet-empty {
-  padding: var(--ui-spacing-md);
-  color: var(--ui-text-muted);
+.fm-select__sheet-empty {
+  padding: var(--fm-spacing-md);
+  color: var(--fm-text-muted);
 }
 
-.ui-select-sheet-enter-active,
-.ui-select-sheet-leave-active {
-  transition: opacity var(--ui-duration-slow) var(--ui-easing-standard);
+.fm-select-sheet-enter-active,
+.fm-select-sheet-leave-active {
+  transition: opacity var(--fm-duration-slow) var(--fm-easing-standard);
 }
 
-.ui-select-sheet-enter-from,
-.ui-select-sheet-leave-to {
+.fm-select-sheet-enter-from,
+.fm-select-sheet-leave-to {
   opacity: 0;
 }
 
 // 올라올 때는 빠르게 시작해 부드럽게 멈추고, 내려갈 때는 천천히 시작해 빠르게 빠집니다.
-.ui-select-sheet-enter-active .ui-select__sheet {
-  transition: transform var(--ui-duration-slow) var(--ui-easing-enter);
+.fm-select-sheet-enter-active .fm-select__sheet {
+  transition: transform var(--fm-duration-slow) var(--fm-easing-enter);
 }
 
-.ui-select-sheet-leave-active .ui-select__sheet {
-  transition: transform var(--ui-duration-slow) var(--ui-easing-exit);
+.fm-select-sheet-leave-active .fm-select__sheet {
+  transition: transform var(--fm-duration-slow) var(--fm-easing-exit);
 }
 
-.ui-select-sheet-enter-from .ui-select__sheet,
-.ui-select-sheet-leave-to .ui-select__sheet {
+.fm-select-sheet-enter-from .fm-select__sheet,
+.fm-select-sheet-leave-to .fm-select__sheet {
   transform: translateY(100%);
 }
 // inside 라벨은 variant와 상관없이 같은 높이 (Input과 같은 규칙)
-.ui-select--label-inside .ui-select__trigger {
-  min-height: max(var(--ui-field-height, 36px), var(--ui-field-height-inside, 44px));
+.fm-select--label-inside .fm-select__trigger {
+  min-height: max(var(--fm-field-height, 36px), var(--fm-field-height-inside, 44px));
 }
 
 // --- variant: Input과 같은 규칙입니다 (Input.vue의 variant 블록 참고) ---
-// outlined(기본)는 위의 .ui-select__trigger 규칙을 그대로 씁니다.
+// outlined(기본)는 위의 .fm-select__trigger 규칙을 그대로 씁니다.
 
 // filled: 테두리 대신 배경으로 입력 영역을 표시
-.ui-select--filled .ui-select__trigger {
-  background: var(--ui-surface-hover);
+.fm-select--filled .fm-select__trigger {
+  background: var(--fm-surface-hover);
   border-color: transparent;
 }
 
-.ui-select--filled .ui-select__control--focused .ui-select__trigger,
-.ui-select--filled .ui-select__control--open .ui-select__trigger {
-  border-color: var(--ui-border-focus);
+.fm-select--filled .fm-select__control--focused .fm-select__trigger,
+.fm-select--filled .fm-select__control--open .fm-select__trigger {
+  border-color: var(--fm-border-focus);
 }
 
-.ui-select--filled.ui-select--invalid .ui-select__trigger {
-  border-color: var(--ui-danger-default);
+.fm-select--filled.fm-select--invalid .fm-select__trigger {
+  border-color: var(--fm-danger-default);
 }
 
-.ui-select--filled.ui-select--disabled .ui-select__trigger {
-  background: var(--ui-surface-disabled);
+.fm-select--filled.fm-select--disabled .fm-select__trigger {
+  background: var(--fm-surface-disabled);
 }
 
 // filled + inside 라벨: 라벨을 박스 안쪽 위에 두고 값을 아래로 내립니다
-.ui-select--filled .ui-select__label--inside {
+.fm-select--filled .fm-select__label--inside {
   padding: 0;
   background: transparent;
 }
 
-.ui-select--filled .ui-select__control--floated .ui-select__label--inside {
-  top: var(--ui-spacing-xs);
+.fm-select--filled .fm-select__control--floated .fm-select__label--inside {
+  top: var(--fm-spacing-xs);
   transform: none;
 }
 
-.ui-select--filled.ui-select--label-inside .ui-select__trigger {
+.fm-select--filled.fm-select--label-inside .fm-select__trigger {
   padding-top: calc(
-    var(--ui-field-padding-y, var(--ui-spacing-sm)) + var(--ui-font-size-sm)
+    var(--fm-field-padding-y, var(--fm-spacing-sm)) + var(--fm-font-size-sm)
   );
-  padding-bottom: var(--ui-spacing-xs);
+  padding-bottom: var(--fm-spacing-xs);
 }
 
 // 위 여백이 아래보다 커서 화살표가 아래로 처집니다. 위아래 여백 차이만큼 음수 margin을
 // 주면(가운데 정렬에서 그 절반만큼 올라감) 박스 전체 기준으로 가운데에 옵니다.
-.ui-select--filled.ui-select--label-inside .ui-select__arrow {
+.fm-select--filled.fm-select--label-inside .fm-select__arrow {
   margin-top: calc(
-    -1 * (var(--ui-field-padding-y, var(--ui-spacing-sm)) + var(--ui-font-size-sm) - var(--ui-spacing-xs))
+    -1 * (var(--fm-field-padding-y, var(--fm-spacing-sm)) + var(--fm-font-size-sm) - var(--fm-spacing-xs))
   );
 }
 
 // underline: 아래쪽 선만 남김
-.ui-select--underline .ui-select__trigger {
+.fm-select--underline .fm-select__trigger {
   border-width: 0 0 1px 0;
   border-radius: 0;
   background: transparent;
@@ -889,12 +889,12 @@ defineExpose({
   padding-right: 0;
 }
 
-.ui-select--underline.ui-select--disabled .ui-select__trigger {
+.fm-select--underline.fm-select--disabled .fm-select__trigger {
   background: transparent;
   opacity: 0.6;
 }
 
-.ui-select--underline .ui-select__label--inside {
+.fm-select--underline .fm-select__label--inside {
   left: 0;
   padding-left: 0;
   background: transparent;

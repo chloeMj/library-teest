@@ -26,28 +26,28 @@ props 조합 폭발을 막기 위해 커스터마이징 범위를 3단계로 나
 
 | 단계 | 방법 | 커버 범위 |
 |---|---|---|
-| 1. 토큰 | CSS 변수 (`--ui-*`) | 색상, 간격, 폰트, radius, 높이 등 시각값 |
+| 1. 토큰 | CSS 변수 (`--fm-*`) | 색상, 간격, 폰트, radius, 높이 등 시각값 |
 | 2. variant | 한정된 prop | 자주 쓰는 레이아웃 패턴 (`labelPosition` 등) |
 | 3. slot | 슬롯 | prop으로 못 미치는 구조 자체 교체 |
 
 원칙:
 
 - CSS 변수는 설치한 프로젝트의 명시도와 경쟁하지 않고 값만 덮어쓰므로 충돌이 없다.
-- 클래스명은 `ui-` 접두사 + BEM으로 스코프한다 (`ui-input__label`).
+- 클래스명은 `fm-` 접두사 + BEM으로 스코프한다 (`fm-input__label`).
 - 내부 선택자는 얕게(단일 클래스) 유지해, 소비 측이 `!important` 없이 덮을 수 있게 한다.
 - variant는 "자주 쓰는 배치 몇 가지"만, 그 이상은 slot으로 탈출구를 연다.
 
 ### 접두사 규칙
 
-전역 등록 시 설치한 프로젝트와 이름이 충돌하지 않도록 모두 `ui`로 통일한다.
+전역 등록 시 설치한 프로젝트와 이름이 충돌하지 않도록 모두 `fm`(forma)으로 통일한다.
 
 | 대상 | 표기 |
 |---|---|
-| CSS 변수 | `--ui-surface-default`, `--ui-gray-100` |
-| 클래스 | `.ui-input__field` |
-| 컴포넌트 | `<UiInput>` |
+| CSS 변수 | `--fm-surface-default`, `--fm-gray-100` |
+| 클래스 | `.fm-input__field` |
+| 컴포넌트 | `<FmInput>` |
 
-소스 파일명은 접두사 없이 두고(`Input.vue`), `index.ts`에서 `Ui`를 붙여 등록한다.
+소스 파일명은 접두사 없이 두고(`Input.vue`), `index.ts`에서 `Fm`을 붙여 등록한다.
 컴포넌트를 추가하면 `index.ts`에 두 줄(import, 목록)을 더한다.
 
 ## 4. 색상 토큰 구조
@@ -58,22 +58,22 @@ props 조합 폭발을 막기 위해 커스터마이징 범위를 3단계로 나
 
 | 층 | 예 | 성격 |
 |---|---|---|
-| 1. 팔레트(Primitive) | `--ui-gray-100`, `--ui-brand-500` | "무슨 색인가". 모드와 무관하게 고정 |
-| 2. 역할(Semantic) | `--ui-surface-default` | "어디에 쓰는가". 라이트/다크가 다른 단계를 가리킴 |
+| 1. 팔레트(Primitive) | `--fm-gray-100`, `--fm-brand-500` | "무슨 색인가". 모드와 무관하게 고정 |
+| 2. 역할(Semantic) | `--fm-surface-default` | "어디에 쓰는가". 라이트/다크가 다른 단계를 가리킴 |
 
 - 컴포넌트는 **2층만** 참조한다.
 - 프로젝트는 **1층을 재정의**해 색을 바꾼다. 2층을 직접 덮으면 다크 모드에서
   다시 덮어써져 풀린다.
-- 2층 이름은 Figma 변수와 1:1로 맞춘다. `surface/default` ↔ `--ui-surface-default`.
-  변환 규칙이 "슬래시를 하이픈으로, `--ui-` 붙이기" 하나뿐이라 매핑표가 필요 없다.
-- 1층 단계 체계(`--ui-<계열>-<단계>`, 0~900, 클수록 어두움)는 기본값일 뿐이다.
+- 2층 이름은 Figma 변수와 1:1로 맞춘다. `surface/default` ↔ `--fm-surface-default`.
+  변환 규칙이 "슬래시를 하이픈으로, `--fm-` 붙이기" 하나뿐이라 매핑표가 필요 없다.
+- 1층 단계 체계(`--fm-<계열>-<단계>`, 0~900, 클수록 어두움)는 기본값일 뿐이다.
   디자인 시스템에 이미 체계가 있으면 그것을 따르고 2층에 연결만 하면 된다.
 
 ### 다크 모드
 
 - 설치만 하면 동작한다. 별도 설정이 필요 없다.
 - **팔레트 값을 반전시키지 않는다.** 2층이 가리키는 단계만 바꾼다. 그래야
-  `--ui-gray-900`이 라이트/다크에서 같은 색이고, 시안의 "Gray/900"과 일치한다.
+  `--fm-gray-900`이 라이트/다크에서 같은 색이고, 시안의 "Gray/900"과 일치한다.
   (유채색은 반전이 불가능하므로 브랜드·상태 색은 밝은 단계로 옮긴다)
 - 적용 조건은 `styles/mixins/_theme.scss`의 `dark` mixin에 한 번만 정의하고
   `tokens.scss`가 사용한다: OS 설정(`prefers-color-scheme`), `data-theme="dark"`,
@@ -101,7 +101,7 @@ Figma 기본 Import가 읽는 형식이며, 파일 하나가 컬렉션의 모드
 
 ```scss
 // 변수를 선언하지 않는다. 쓰는 자리에 fallback만 둔다.
-padding: var(--ui-field-padding-y, var(--ui-spacing-sm)) 0;
+padding: var(--fm-field-padding-y, var(--fm-spacing-sm)) 0;
 ```
 
 - 설치한 프로젝트가 선언하면 그 값을, 아니면 기존 전역 토큰을 그대로 따른다.
@@ -113,18 +113,18 @@ padding: var(--ui-field-padding-y, var(--ui-spacing-sm)) 0;
 
 | 토큰 | 기본값 | 적용 대상 |
 |---|---|---|
-| `--ui-field-height` | `36px` | Input `__control`, Select `__trigger`의 최소 높이. md 버튼도 같은 값 |
-| `--ui-field-height-inside` | `44px` | inside 라벨일 때 위 두 곳의 최소 높이 (variant 무관) |
-| `--ui-field-padding-y` | `--ui-spacing-sm` | 같은 두 곳의 상하 여백 |
-| `--ui-button-height-sm` / `-lg` | `28px` / `44px` | Button sm·lg 높이 |
-| `--ui-button-padding-x-sm` / `-md` / `-lg` | `--ui-spacing-sm/md/lg` | Button 좌우 여백 |
-| `--ui-button-radius` | `--ui-radius-sm` | Button 모서리 (알약 모양은 `999px`) |
-| `--ui-button-font-weight` | `600` | Button 글자 굵기 |
-| `--ui-button-height` / `--ui-button-padding-x` | — | **버튼 하나에만** 지정하는 높이·여백 (`:root`에 두지 않음) |
-| `--ui-button-color` / `--ui-button-on` / `--ui-button-border` | — | 버튼 하나의 대표색·글자색·outlined 테두리 (클래스로 묶어 쓰기 권장) |
-| `--ui-modal-width-sm` / `-md` / `-lg` | `400px` / `560px` / `800px` | Modal 크기별 너비 |
-| `--ui-modal-width` | — | 모달 하나만 너비 지정 |
-| `--ui-modal-radius` | `--ui-radius-md` | Modal 모서리 |
+| `--fm-field-height` | `36px` | Input `__control`, Select `__trigger`의 최소 높이. md 버튼도 같은 값 |
+| `--fm-field-height-inside` | `44px` | inside 라벨일 때 위 두 곳의 최소 높이 (variant 무관) |
+| `--fm-field-padding-y` | `--fm-spacing-sm` | 같은 두 곳의 상하 여백 |
+| `--fm-button-height-sm` / `-lg` | `28px` / `44px` | Button sm·lg 높이 |
+| `--fm-button-padding-x-sm` / `-md` / `-lg` | `--fm-spacing-sm/md/lg` | Button 좌우 여백 |
+| `--fm-button-radius` | `--fm-radius-sm` | Button 모서리 (알약 모양은 `999px`) |
+| `--fm-button-font-weight` | `600` | Button 글자 굵기 |
+| `--fm-button-height` / `--fm-button-padding-x` | — | **버튼 하나에만** 지정하는 높이·여백 (`:root`에 두지 않음) |
+| `--fm-button-color` / `--fm-button-on` / `--fm-button-border` | — | 버튼 하나의 대표색·글자색·outlined 테두리 (클래스로 묶어 쓰기 권장) |
+| `--fm-modal-width-sm` / `-md` / `-lg` | `400px` / `560px` / `800px` | Modal 크기별 너비 |
+| `--fm-modal-width` | — | 모달 하나만 너비 지정 |
+| `--fm-modal-radius` | `--fm-radius-md` | Modal 모서리 |
 
 높이를 토큰으로 고정할 때 두 컴포넌트가 같은 값에서 같은 높이가 나오도록,
 박스 역할을 하는 요소는 `box-sizing: border-box`로 맞춘다.
@@ -133,7 +133,7 @@ padding: var(--ui-field-padding-y, var(--ui-spacing-sm)) 0;
 
 | 금지 | 권장 |
 |---|---|
-| `--ui-input-padding-y`, `--ui-select-padding-y` | `--ui-field-padding-y` |
+| `--fm-input-padding-y`, `--fm-select-padding-y` | `--fm-field-padding-y` |
 
 컴포넌트 기준으로 지으면 토큰 수가 **컴포넌트 수 × 속성 수**로 늘어난다. 역할
 기준이면 Textarea, DatePicker를 추가해도 기존 토큰을 그대로 쓴다. 토큰은 컴포넌트
@@ -156,7 +156,7 @@ padding: var(--ui-field-padding-y, var(--ui-spacing-sm)) 0;
 
 | 대상 | 단위 | 이유 |
 |---|---|---|
-| 글자 크기 | px, **`--ui-font-size-*` 토큰으로만** | 설치 환경과 무관하게 같은 크기. 컴포넌트 안에 직접 쓰지 않는다 |
+| 글자 크기 | px, **`--fm-font-size-*` 토큰으로만** | 설치 환경과 무관하게 같은 크기. 컴포넌트 안에 직접 쓰지 않는다 |
 | 간격·테두리·radius | px | 레이아웃 고정 |
 | 높이 | px + `min-height` | 기본 높이는 고정, 글자가 커지면 박스도 늘어난다 (`height` 금지) |
 | line-height | 단위 없음 (`1.2`) | 글자 크기에 비례 |
@@ -167,7 +167,7 @@ padding: var(--ui-field-padding-y, var(--ui-spacing-sm)) 0;
 
 ### 열지 않았을 때의 비용
 
-조절점이 없으면 설치한 프로젝트는 `.ui-input__field { ... !important }`처럼 내부
+조절점이 없으면 설치한 프로젝트는 `.fm-input__field { ... !important }`처럼 내부
 클래스를 직접 겨냥한다. 그 순간부터 내부 클래스 구조가 암묵적 공개 API가 되어
 리팩터링이 막힌다. 토큰은 "여기까지 공개, 나머지는 내부"라는 경계를 명시해 안쪽을
 자유롭게 바꿀 수 있게 하는 장치다. 라이브러리가 커질수록 이 경계가 더 필요하다.

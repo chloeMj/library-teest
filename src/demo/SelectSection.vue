@@ -53,23 +53,23 @@ const validateNotBanana = (value: FieldValue) =>
     description="목록에서 항목을 고릅니다. variant·라벨 위치·상태는 Input과 같은 값을 씁니다."
   >
     <DemoGroup title="variant — 박스 모양" note="Input과 같은 outlined / filled / underline입니다.">
-      <UiSelect v-model="outlined" label="outlined (기본)" :options="fruitOptions" placeholder="선택하세요" />
-      <UiSelect v-model="filled" variant="filled" label="filled" :options="fruitOptions" placeholder="선택하세요" />
-      <UiSelect v-model="underline" variant="underline" label="underline" :options="fruitOptions" placeholder="선택하세요" />
+      <FmSelect v-model="outlined" label="outlined (기본)" :options="fruitOptions" placeholder="선택하세요" />
+      <FmSelect v-model="filled" variant="filled" label="filled" :options="fruitOptions" placeholder="선택하세요" />
+      <FmSelect v-model="underline" variant="underline" label="underline" :options="fruitOptions" placeholder="선택하세요" />
     </DemoGroup>
 
     <DemoGroup title="라벨 위치">
-      <UiSelect v-model="labelTop" label="top (기본)" :options="fruitOptions" placeholder="과일 선택" />
-      <UiSelect v-model="labelLeft" label="left" label-position="left" :options="fruitOptions" placeholder="과일 선택" />
-      <UiSelect v-model="labelInside" label="inside (floating)" label-position="inside" :options="fruitOptions" />
-      <UiSelect
+      <FmSelect v-model="labelTop" label="top (기본)" :options="fruitOptions" placeholder="과일 선택" />
+      <FmSelect v-model="labelLeft" label="left" label-position="left" :options="fruitOptions" placeholder="과일 선택" />
+      <FmSelect v-model="labelInside" label="inside (floating)" label-position="inside" :options="fruitOptions" />
+      <FmSelect
         v-model="labelInsideFilled"
         label="inside + filled"
         label-position="inside"
         variant="filled"
         :options="fruitOptions"
       />
-      <UiSelect
+      <FmSelect
         v-model="labelInsideUnderline"
         label="inside + underline"
         label-position="inside"
@@ -79,29 +79,29 @@ const validateNotBanana = (value: FieldValue) =>
     </DemoGroup>
 
     <DemoGroup title="상태">
-      <UiSelect
+      <FmSelect
         v-model="required"
         label="필수 (열었다 닫아보세요)"
         required
         :options="fruitOptions"
         placeholder="과일 선택"
       />
-      <UiSelect
+      <FmSelect
         v-model="notBanana"
         label="커스텀 validator (바나나 선택)"
         :validator="validateNotBanana"
         :options="fruitOptions"
         placeholder="과일 선택"
       />
-      <UiSelect v-model="readonlyValue" label="readonly" readonly :options="fruitOptions" />
-      <UiSelect v-model="disabledValue" label="disabled" disabled :options="fruitOptions" />
+      <FmSelect v-model="readonlyValue" label="readonly" readonly :options="fruitOptions" />
+      <FmSelect v-model="disabledValue" label="disabled" disabled :options="fruitOptions" />
     </DemoGroup>
 
     <DemoGroup
       title="검색 · 슬롯"
       note="화면 너비를 640px 이하로 줄이면 드롭다운이 bottomSheet로 열립니다."
     >
-      <UiSelect
+      <FmSelect
         v-model="country"
         label="검색 (searchable)"
         searchable
@@ -109,10 +109,10 @@ const validateNotBanana = (value: FieldValue) =>
         :options="countryOptions"
         placeholder="국가 검색 (korea도 됨)"
       />
-      <UiSelect v-model="prefixed" label="prefix 슬롯" :options="fruitOptions" placeholder="과일 선택">
+      <FmSelect v-model="prefixed" label="prefix 슬롯" :options="fruitOptions" placeholder="과일 선택">
         <template #prefix>🍎</template>
-      </UiSelect>
-      <UiSelect v-model="withIcon" label="옵션 아이콘" variant="filled" :options="genreOptions" />
+      </FmSelect>
+      <FmSelect v-model="withIcon" label="옵션 아이콘" variant="filled" :options="genreOptions" />
     </DemoGroup>
   </DemoSection>
 </template>

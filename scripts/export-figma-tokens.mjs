@@ -23,45 +23,45 @@ const SEMANTIC_SET = 'Semantic'
 
 // CSS 변수 → Figma 변수 경로. docs/COLOR-TOKENS.md의 표와 동일합니다.
 const SEMANTIC_MAP = {
-  '--ui-surface-default': 'surface/default',
-  '--ui-surface-subtle': 'surface/subtle',
-  '--ui-surface-hover': 'surface/hover',
-  '--ui-surface-selected': 'surface/selected',
-  '--ui-surface-disabled': 'surface/disabled',
-  '--ui-surface-raised': 'surface/raised',
-  '--ui-surface-backdrop': 'surface/backdrop',
-  '--ui-border-default': 'border/default',
-  '--ui-border-control': 'border/control',
-  '--ui-border-strong': 'border/strong',
-  '--ui-border-focus': 'border/focus',
-  '--ui-border-hover': 'border/hover',
-  '--ui-border-disabled': 'border/disabled',
-  '--ui-border-focus-ring': 'border/focus-ring',
-  '--ui-text-default': 'text/default',
-  '--ui-text-muted': 'text/muted',
-  '--ui-text-placeholder': 'text/placeholder',
-  '--ui-text-disabled': 'text/disabled',
-  '--ui-text-inverse': 'text/inverse',
-  '--ui-primary-default': 'primary/default',
-  '--ui-primary-hover': 'primary/hover',
-  '--ui-primary-active': 'primary/active',
-  '--ui-primary-subtle': 'primary/subtle',
-  '--ui-primary-on': 'primary/on',
-  '--ui-secondary-default': 'secondary/default',
-  '--ui-secondary-hover': 'secondary/hover',
-  '--ui-secondary-active': 'secondary/active',
-  '--ui-secondary-on': 'secondary/on',
-  '--ui-danger-default': 'danger/default',
-  '--ui-danger-hover': 'danger/hover',
-  '--ui-danger-active': 'danger/active',
-  '--ui-danger-on': 'danger/on',
-  '--ui-danger-subtle': 'danger/subtle',
-  '--ui-success-default': 'success/default',
-  '--ui-success-subtle': 'success/subtle',
-  '--ui-warning-default': 'warning/default',
-  '--ui-warning-subtle': 'warning/subtle',
-  '--ui-info-default': 'info/default',
-  '--ui-info-subtle': 'info/subtle',
+  '--fm-surface-default': 'surface/default',
+  '--fm-surface-subtle': 'surface/subtle',
+  '--fm-surface-hover': 'surface/hover',
+  '--fm-surface-selected': 'surface/selected',
+  '--fm-surface-disabled': 'surface/disabled',
+  '--fm-surface-raised': 'surface/raised',
+  '--fm-surface-backdrop': 'surface/backdrop',
+  '--fm-border-default': 'border/default',
+  '--fm-border-control': 'border/control',
+  '--fm-border-strong': 'border/strong',
+  '--fm-border-focus': 'border/focus',
+  '--fm-border-hover': 'border/hover',
+  '--fm-border-disabled': 'border/disabled',
+  '--fm-border-focus-ring': 'border/focus-ring',
+  '--fm-text-default': 'text/default',
+  '--fm-text-muted': 'text/muted',
+  '--fm-text-placeholder': 'text/placeholder',
+  '--fm-text-disabled': 'text/disabled',
+  '--fm-text-inverse': 'text/inverse',
+  '--fm-primary-default': 'primary/default',
+  '--fm-primary-hover': 'primary/hover',
+  '--fm-primary-active': 'primary/active',
+  '--fm-primary-subtle': 'primary/subtle',
+  '--fm-primary-on': 'primary/on',
+  '--fm-secondary-default': 'secondary/default',
+  '--fm-secondary-hover': 'secondary/hover',
+  '--fm-secondary-active': 'secondary/active',
+  '--fm-secondary-on': 'secondary/on',
+  '--fm-danger-default': 'danger/default',
+  '--fm-danger-hover': 'danger/hover',
+  '--fm-danger-active': 'danger/active',
+  '--fm-danger-on': 'danger/on',
+  '--fm-danger-subtle': 'danger/subtle',
+  '--fm-success-default': 'success/default',
+  '--fm-success-subtle': 'success/subtle',
+  '--fm-warning-default': 'warning/default',
+  '--fm-warning-subtle': 'warning/subtle',
+  '--fm-info-default': 'info/default',
+  '--fm-info-subtle': 'info/subtle',
 }
 
 const capitalize = (s) => s[0].toUpperCase() + s.slice(1)
@@ -118,11 +118,11 @@ const toFigmaColor = (raw) => {
 const core = readFileSync(CORE, 'utf8')
 
 const light = rootBlock(core)
-// 팔레트(--ui-<계열>-<단계>)도 같은 :root 블록에 있습니다. 모드와 무관하므로 light에서 뽑습니다.
+// 팔레트(--fm-<계열>-<단계>)도 같은 :root 블록에 있습니다. 모드와 무관하므로 light에서 뽑습니다.
 const paletteVars = light
 const dark = { ...light, ...darkBlock(core) }
 
-// var(--ui-gray-0, #ffffff) 에서 참조 변수명만 떼어냅니다
+// var(--fm-gray-0, #ffffff) 에서 참조 변수명만 떼어냅니다
 const refOf = (value) => value.match(/^var\(\s*(--[\w-]+)\s*(?:,.*)?\)$/)?.[1] ?? null
 
 // color-mix(in srgb, A 85%, B) — hover/active 계산식. 두 색을 실제 HEX로 풀어 섞습니다.
@@ -163,7 +163,7 @@ const aliasOf = (value, vars, depth = 0) => {
   if (depth > 20) return null
   const ref = refOf(value)
   if (!ref) return null
-  const m = ref.match(/^--ui-([a-z]+)-(\d+)$/)
+  const m = ref.match(/^--fm-([a-z]+)-(\d+)$/)
   if (m) return { name: `${capitalize(m[1])}/${m[2]}`, set: PRIMITIVE_SET }
   if (SEMANTIC_MAP[ref] && vars[ref] !== undefined) return aliasOf(vars[ref], vars, depth + 1)
   return null
@@ -195,9 +195,9 @@ const aliasToken = (raw, alias, vars) => ({
 
 const primitives = nest(
   Object.entries(paletteVars)
-    .filter(([name]) => /^--ui-[a-z]+-\d+$/.test(name))
+    .filter(([name]) => /^--fm-[a-z]+-\d+$/.test(name))
     .map(([name, value]) => {
-      const [, family, step] = name.match(/^--ui-([a-z]+)-(\d+)$/)
+      const [, family, step] = name.match(/^--fm-([a-z]+)-(\d+)$/)
       return { path: `${capitalize(family)}/${step}`, token: colorToken(value) }
     }),
 )
@@ -237,7 +237,7 @@ const unmapped = Object.keys(light).filter(
   (name) =>
     !SEMANTIC_MAP[name] &&
     // 팔레트(Primitive)는 이름 규칙으로 통째로 내보내므로 목록이 필요 없습니다
-    !/^--ui-[a-z]+-[0-9]+$/.test(name) &&
+    !/^--fm-[a-z]+-[0-9]+$/.test(name) &&
     looksLikeColor(light[name], light),
 )
 
@@ -245,26 +245,26 @@ const unmapped = Object.keys(light).filter(
 // Dimension — 숫자 토큰 (간격, radius, 글자 크기, 컴포넌트 높이·여백)
 //
 // 1) :root에 px로 선언된 토큰 (spacing, radius, font-size)
-// 2) 컴포넌트 CSS의 fallback 변수 (DESIGN.md 5장 방식: var(--ui-field-height, 36px))
+// 2) 컴포넌트 CSS의 fallback 변수 (DESIGN.md 5장 방식: var(--fm-field-height, 36px))
 //    — 선언하지 않은 변수라 :root에는 없으므로, 빌드된 CSS에서 기본값을 읽어옵니다.
 //    컴포넌트에 새 치수 변수를 만들면 따로 목록을 고치지 않아도 자동으로 나갑니다.
-// fallback이 다른 토큰을 가리키면(var(--ui-spacing-md)) Figma에서도 그 변수를 별칭으로 가리킵니다.
+// fallback이 다른 토큰을 가리키면(var(--fm-spacing-md)) Figma에서도 그 변수를 별칭으로 가리킵니다.
 // ---------------------------------------------------------------------------
 const DIMENSION_SET = 'Dimension'
 const PX = /^(\d+(?:\.\d+)?)px$/
 
-// --ui-font-size-md → font-size/md, --ui-field-height-inside → field/height-inside
+// --fm-font-size-md → font-size/md, --fm-field-height-inside → field/height-inside
 const dimensionPath = (name) => {
-  const bare = name.replace(/^--ui-/, '')
+  const bare = name.replace(/^--fm-/, '')
   const m = bare.match(/^(font-size|[a-z]+)-(.+)$/)
   return m ? `${m[1]}/${m[2]}` : bare
 }
 
 const dimensionSource = {}
 for (const [name, value] of Object.entries(light)) {
-  if (/^--ui-(spacing|radius|font-size)-/.test(name) && PX.test(value)) dimensionSource[name] = value
+  if (/^--fm-(spacing|radius|font-size)-/.test(name) && PX.test(value)) dimensionSource[name] = value
 }
-for (const m of core.matchAll(/var\((--ui-[\w-]+),\s*(\d+(?:\.\d+)?px|var\(--ui-[\w-]+\))\)/g)) {
+for (const m of core.matchAll(/var\((--fm-[\w-]+),\s*(\d+(?:\.\d+)?px|var\(--fm-[\w-]+\))\)/g)) {
   if (!(m[1] in dimensionSource)) dimensionSource[m[1]] = m[2]
 }
 

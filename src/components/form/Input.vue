@@ -77,7 +77,7 @@ const { errorMessage } = useFieldValidation({
 const displayValue = computed(() => props.modelValue ?? "");
 
 const { rootClasses, controlClasses } = useFieldClasses({
-  block: "ui-input",
+  block: "fm-input",
   labelPosition: toRef(props, "labelPosition"),
   errorPosition: toRef(props, "errorPosition"),
   invalid: computed(() => !!errorMessage.value),
@@ -143,42 +143,42 @@ defineExpose({
 </script>
 
 <template>
-  <div class="ui-input" :class="[rootClasses, `ui-input--${variant}`]">
+  <div class="fm-input" :class="[rootClasses, `fm-input--${variant}`]">
     <label
       v-if="label && labelPosition !== 'inside'"
-      class="ui-input__label"
+      class="fm-input__label"
       :for="inputId"
     >
       <slot name="label">
         {{ label }}
-        <span v-if="required" class="ui-input__required-mark">*</span>
+        <span v-if="required" class="fm-input__required-mark">*</span>
       </slot>
     </label>
 
-    <div class="ui-input__body">
-      <div class="ui-input__control" :class="controlClasses">
+    <div class="fm-input__body">
+      <div class="fm-input__control" :class="controlClasses">
         <span
           v-if="$slots.prefix"
-          class="ui-input__affix ui-input__affix--prefix"
+          class="fm-input__affix fm-input__affix--prefix"
         >
           <slot name="prefix" />
         </span>
 
         <label
           v-if="label && labelPosition === 'inside'"
-          class="ui-input__label ui-input__label--inside"
+          class="fm-input__label fm-input__label--inside"
           :for="inputId"
         >
           <slot name="label">
             {{ label }}
-            <span v-if="required" class="ui-input__required-mark">*</span>
+            <span v-if="required" class="fm-input__required-mark">*</span>
           </slot>
         </label>
 
         <input
           :id="inputId"
           ref="inputRef"
-          class="ui-input__field"
+          class="fm-input__field"
           :type="type"
           :value="displayValue"
           :placeholder="labelPosition === 'inside' ? undefined : placeholder"
@@ -197,7 +197,7 @@ defineExpose({
 
         <span
           v-if="$slots.suffix"
-          class="ui-input__affix ui-input__affix--suffix"
+          class="fm-input__affix fm-input__affix--suffix"
         >
           <slot name="suffix" />
         </span>
@@ -205,12 +205,12 @@ defineExpose({
         <!-- 화살표 키로 증감되므로 보조기술에는 노출하지 않습니다 -->
         <span
           v-if="type === 'number' && showStepper"
-          class="ui-input__stepper"
+          class="fm-input__stepper"
           aria-hidden="true"
         >
           <button
             type="button"
-            class="ui-input__stepper-btn"
+            class="fm-input__stepper-btn"
             tabindex="-1"
             :disabled="disabled || readonly"
             @click="handleStep(-1)"
@@ -219,7 +219,7 @@ defineExpose({
           </button>
           <button
             type="button"
-            class="ui-input__stepper-btn"
+            class="fm-input__stepper-btn"
             tabindex="-1"
             :disabled="disabled || readonly"
             @click="handleStep(1)"
@@ -229,7 +229,7 @@ defineExpose({
         </span>
       </div>
 
-      <p v-if="errorMessage" :id="errorId" class="ui-input__error" role="alert">
+      <p v-if="errorMessage" :id="errorId" class="fm-input__error" role="alert">
         <slot name="error" :message="errorMessage">{{ errorMessage }}</slot>
       </p>
     </div>
@@ -240,91 +240,91 @@ defineExpose({
   이 스타일 블록은 의도적으로 `scoped`를 쓰지 않습니다.
   scoped를 쓰면 모든 선택자에 [data-v-xxxx] 속성이 붙어 명시도가 한 단계
   올라가고, 설치한 프로젝트가 같은 명시도(단일 클래스)로 오버라이드할 수 없게
-  됩니다. 대신 `ui-input` 접두사 + BEM 네이밍만으로 충돌을 방지합니다.
+  됩니다. 대신 `fm-input` 접두사 + BEM 네이밍만으로 충돌을 방지합니다.
 -->
 <style lang="scss">
 @use "../../styles/mixins/field-layout" as field;
 
-.ui-input {
+.fm-input {
   @include field.field-label-top;
-  font-size: var(--ui-font-size-md);
-  color: var(--ui-text-default);
+  font-size: var(--fm-font-size-md);
+  color: var(--fm-text-default);
 }
 
-.ui-input--label-left {
+.fm-input--label-left {
   @include field.field-label-left;
 }
 
-.ui-input--label-inside {
+.fm-input--label-inside {
   @include field.field-label-inside;
 }
 
-.ui-input__label {
-  font-size: var(--ui-font-size-sm);
-  color: var(--ui-text-default);
+.fm-input__label {
+  font-size: var(--fm-font-size-sm);
+  color: var(--fm-text-default);
 }
 
-.ui-input--label-left > .ui-input__label {
+.fm-input--label-left > .fm-input__label {
   flex: 0 0 auto;
 }
 
-.ui-input__required-mark {
-  color: var(--ui-danger-default);
+.fm-input__required-mark {
+  color: var(--fm-danger-default);
   margin-left: 2px;
 }
 
-.ui-input__body {
+.fm-input__body {
   display: flex;
   flex-direction: column;
-  gap: var(--ui-spacing-xs);
+  gap: var(--fm-spacing-xs);
   flex: 1 1 auto;
   min-width: 0;
 }
 
-.ui-input__control {
+.fm-input__control {
   order: 1;
   position: relative;
   display: flex;
   align-items: center;
-  gap: var(--ui-spacing-xs);
-  border: 1px solid var(--ui-border-control);
-  border-radius: var(--ui-radius-xs);
-  background: var(--ui-surface-default);
-  padding: 0 var(--ui-spacing-sm);
+  gap: var(--fm-spacing-xs);
+  border: 1px solid var(--fm-border-control);
+  border-radius: var(--fm-radius-xs);
+  background: var(--fm-surface-default);
+  padding: 0 var(--fm-spacing-sm);
   // 높이 조절점. Select trigger(button)와 같은 높이가 나오도록 border-box로 맞춥니다.
   box-sizing: border-box;
-  min-height: var(--ui-field-height, 36px);
-  transition: border-color var(--ui-duration-normal) var(--ui-easing-standard);
+  min-height: var(--fm-field-height, 36px);
+  transition: border-color var(--fm-duration-normal) var(--fm-easing-standard);
 }
 
-.ui-input__error {
+.fm-input__error {
   order: 2;
   margin: 0;
-  font-size: var(--ui-font-size-sm);
-  color: var(--ui-danger-default);
+  font-size: var(--fm-font-size-sm);
+  color: var(--fm-danger-default);
 }
 
-.ui-input--error-top .ui-input__control {
+.fm-input--error-top .fm-input__control {
   order: 2;
 }
 
-.ui-input--error-top .ui-input__error {
+.fm-input--error-top .fm-input__error {
   order: 1;
 }
 
-.ui-input__control--focused {
-  border-color: var(--ui-border-focus);
+.fm-input__control--focused {
+  border-color: var(--fm-border-focus);
 }
 
-.ui-input--invalid .ui-input__control {
-  border-color: var(--ui-danger-default);
+.fm-input--invalid .fm-input__control {
+  border-color: var(--fm-danger-default);
 }
 
-.ui-input--disabled .ui-input__control {
-  background: var(--ui-surface-disabled);
+.fm-input--disabled .fm-input__control {
+  background: var(--fm-surface-disabled);
 }
 
-.ui-input__field {
+.fm-input__field {
   flex: 1 1 auto;
   min-width: 0;
   border: none;
@@ -333,64 +333,64 @@ defineExpose({
   font: inherit;
   color: inherit;
   // 상하 여백 조절점
-  padding: var(--ui-field-padding-y, var(--ui-spacing-sm)) 0;
+  padding: var(--fm-field-padding-y, var(--fm-spacing-sm)) 0;
 }
 
-.ui-input__field:disabled {
-  color: var(--ui-text-disabled);
+.fm-input__field:disabled {
+  color: var(--fm-text-disabled);
   cursor: not-allowed;
 }
 
 // type="number"의 브라우저 기본 스피너를 숨깁니다.
 // showStepper가 true면 우리 커스텀 버튼과 이중으로 보이고, false여도 브라우저마다
 // 생김새가 달라 디자인 통제가 안 되므로 항상 숨기고 showStepper로만 노출을 제어합니다.
-.ui-input__field[type="number"]::-webkit-outer-spin-button,
-.ui-input__field[type="number"]::-webkit-inner-spin-button {
+.fm-input__field[type="number"]::-webkit-outer-spin-button,
+.fm-input__field[type="number"]::-webkit-inner-spin-button {
   margin: 0;
   -webkit-appearance: none;
 }
 
-.ui-input__field[type="number"] {
+.fm-input__field[type="number"] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
 
-.ui-input__affix {
+.fm-input__affix {
   display: inline-flex;
   align-items: center;
-  color: var(--ui-text-muted);
+  color: var(--fm-text-muted);
 }
 
-.ui-input__label--inside {
+.fm-input__label--inside {
   position: absolute;
   // 좌우 padding(4px)만큼 당겨, 라벨 글자가 입력 글자와 같은 x에서 시작하게 합니다
-  left: calc(var(--ui-spacing-sm) - 4px);
+  left: calc(var(--fm-spacing-sm) - 4px);
   top: 50%;
   transform: translateY(-50%);
-  font-size: var(--ui-font-size-md);
-  color: var(--ui-text-muted);
-  background: var(--ui-surface-default);
+  font-size: var(--fm-font-size-md);
+  color: var(--fm-text-muted);
+  background: var(--fm-surface-default);
   padding: 0 4px;
   pointer-events: none;
   transition:
-    top var(--ui-duration-normal) var(--ui-easing-standard),
-    font-size var(--ui-duration-normal) var(--ui-easing-standard),
-    transform var(--ui-duration-normal) var(--ui-easing-standard),
-    color var(--ui-duration-normal) var(--ui-easing-standard);
+    top var(--fm-duration-normal) var(--fm-easing-standard),
+    font-size var(--fm-duration-normal) var(--fm-easing-standard),
+    transform var(--fm-duration-normal) var(--fm-easing-standard),
+    color var(--fm-duration-normal) var(--fm-easing-standard);
 }
 
-.ui-input__control--floated .ui-input__label--inside {
+.fm-input__control--floated .fm-input__label--inside {
   top: 0;
-  font-size: var(--ui-font-size-sm);
-  color: var(--ui-primary-default);
+  font-size: var(--fm-font-size-sm);
+  color: var(--fm-primary-default);
 }
 
-.ui-input__stepper {
+.fm-input__stepper {
   display: inline-flex;
   flex-direction: row;
 }
 
-.ui-input__stepper-btn {
+.fm-input__stepper-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -399,16 +399,16 @@ defineExpose({
   min-height: 24px;
   border: none;
   background: transparent;
-  color: var(--ui-text-muted);
+  color: var(--fm-text-muted);
   // button은 브라우저 기본 글꼴(13.3px)을 쓰므로, 사용자가 글꼴 크기를 키울 때
   // 같이 커지도록 부모 글꼴을 물려받습니다.
   font: inherit;
   line-height: 1;
-  padding: 0 var(--ui-spacing-xs);
+  padding: 0 var(--fm-spacing-xs);
   cursor: pointer;
 }
 
-.ui-input__stepper-btn:disabled {
+.fm-input__stepper-btn:disabled {
   cursor: not-allowed;
   opacity: 0.5;
 }
@@ -416,7 +416,7 @@ defineExpose({
 // 손가락으로 쓰는 기기에서는 44x44로 키웁니다. 화면 너비가 아니라 입력 장치를
 // 기준으로 하므로, 좁은 창으로 줄인 데스크톱에서는 그대로 24px입니다.
 @media (pointer: coarse) {
-  .ui-input__stepper-btn {
+  .fm-input__stepper-btn {
     min-width: 44px;
     min-height: 44px;
   }
@@ -424,29 +424,29 @@ defineExpose({
 
 // inside 라벨은 variant와 상관없이 같은 높이입니다. filled는 라벨을 박스 안 위쪽에
 // 넣느라 공간이 더 필요해서, 셋 다 그 높이에 맞춥니다.
-.ui-input--label-inside .ui-input__control {
-  min-height: max(var(--ui-field-height, 36px), var(--ui-field-height-inside, 44px));
+.fm-input--label-inside .fm-input__control {
+  min-height: max(var(--fm-field-height, 36px), var(--fm-field-height-inside, 44px));
 }
 
 // --- variant: 테두리 구조가 달라 토큰으로 표현되지 않는 부분만 분기합니다 ---
-// outlined(기본)는 위의 .ui-input__control 규칙을 그대로 씁니다.
+// outlined(기본)는 위의 .fm-input__control 규칙을 그대로 씁니다.
 
 // filled: 테두리 대신 배경으로 입력 영역을 표시
-.ui-input--filled .ui-input__control {
-  background: var(--ui-surface-hover);
+.fm-input--filled .fm-input__control {
+  background: var(--fm-surface-hover);
   border-color: transparent;
 }
 
-.ui-input--filled .ui-input__control--focused {
-  border-color: var(--ui-border-focus);
+.fm-input--filled .fm-input__control--focused {
+  border-color: var(--fm-border-focus);
 }
 
-.ui-input--filled.ui-input--invalid .ui-input__control {
-  border-color: var(--ui-danger-default);
+.fm-input--filled.fm-input--invalid .fm-input__control {
+  border-color: var(--fm-danger-default);
 }
 
-.ui-input--filled.ui-input--disabled .ui-input__control {
-  background: var(--ui-surface-disabled);
+.fm-input--filled.fm-input--disabled .fm-input__control {
+  background: var(--fm-surface-disabled);
 }
 
 // --- filled + inside 라벨 ---
@@ -454,27 +454,27 @@ defineExpose({
 // 가림), filled에는 끊을 선이 없어 그냥 떠 보입니다. 그래서 filled에서는 라벨을
 // 박스 안쪽 위에 두고, 입력값을 아래로 내립니다 (filled 스타일의 일반적인 방식).
 // 가릴 테두리가 없으므로 배경과 좌우 padding을 모두 뺍니다
-.ui-input--filled .ui-input__label--inside {
-  left: var(--ui-spacing-sm);
+.fm-input--filled .fm-input__label--inside {
+  left: var(--fm-spacing-sm);
   padding: 0;
   background: transparent;
 }
 
-.ui-input--filled .ui-input__control--floated .ui-input__label--inside {
-  top: var(--ui-spacing-xs);
+.fm-input--filled .fm-input__control--floated .fm-input__label--inside {
+  top: var(--fm-spacing-xs);
   transform: none;
 }
 
 // 라벨이 들어갈 자리만큼 위를 비우고, 전체 높이는 유지되도록 아래를 줄입니다
-.ui-input--filled.ui-input--label-inside .ui-input__field {
+.fm-input--filled.fm-input--label-inside .fm-input__field {
   padding-top: calc(
-    var(--ui-field-padding-y, var(--ui-spacing-sm)) + var(--ui-font-size-sm)
+    var(--fm-field-padding-y, var(--fm-spacing-sm)) + var(--fm-font-size-sm)
   );
-  padding-bottom: var(--ui-spacing-xs);
+  padding-bottom: var(--fm-spacing-xs);
 }
 
 // underline: 아래쪽 선만 남김
-.ui-input--underline .ui-input__control {
+.fm-input--underline .fm-input__control {
   border-width: 0 0 1px 0;
   border-radius: 0;
   background: transparent;
@@ -482,13 +482,13 @@ defineExpose({
   padding-right: 0;
 }
 
-.ui-input--underline.ui-input--disabled .ui-input__control {
+.fm-input--underline.fm-input--disabled .fm-input__control {
   background: transparent;
   opacity: 0.6;
 }
 
 // 좌우 패딩이 없어졌으므로 inside 라벨도 왼쪽 끝에 맞춥니다
-.ui-input--underline .ui-input__label--inside {
+.fm-input--underline .fm-input__label--inside {
   left: 0;
   padding-left: 0;
   background: transparent;

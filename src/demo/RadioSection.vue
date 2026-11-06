@@ -32,8 +32,8 @@ const planOptions = [
 <template>
   <DemoSection id="radio" title="Radio" description="여러 항목 중 하나만 선택합니다.">
     <DemoGroup title="배치">
-      <UiRadio v-model="gender" label="세로 (기본)" :options="genderOptions" />
-      <UiRadio
+      <FmRadio v-model="gender" label="세로 (기본)" :options="genderOptions" />
+      <FmRadio
         v-model="genderHorizontal"
         label="가로"
         direction="horizontal"
@@ -42,12 +42,12 @@ const planOptions = [
     </DemoGroup>
 
     <DemoGroup title="variant · 아이콘">
-      <UiRadio v-model="plan" label="dot (기본) + 아이콘 + 비활성 옵션" :options="planOptions" />
-      <UiRadio v-model="planButton" label="button" variant="button" :options="planOptions" />
+      <FmRadio v-model="plan" label="dot (기본) + 아이콘 + 비활성 옵션" :options="planOptions" />
+      <FmRadio v-model="planButton" label="button" variant="button" :options="planOptions" />
     </DemoGroup>
 
     <DemoGroup title="검증">
-      <UiRadio
+      <FmRadio
         v-model="genderRequired"
         label="필수 (선택하지 않고 Tab으로 지나가 보세요)"
         required

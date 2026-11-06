@@ -61,7 +61,7 @@ const { errorMessage } = useFieldValidation({
 })
 
 const { rootClasses } = useFieldClasses({
-  block: 'ui-radio-group',
+  block: 'fm-radio-group',
   labelPosition: toRef(props, 'labelPosition'),
   errorPosition: toRef(props, 'errorPosition'),
   invalid: computed(() => !!errorMessage.value),
@@ -94,17 +94,17 @@ defineExpose({ validate })
 </script>
 
 <template>
-  <div class="ui-radio-group" :class="rootClasses">
-    <span v-if="label" class="ui-radio-group__label">
-      <slot name="label">{{ label }}<span v-if="required" class="ui-radio-group__required-mark">*</span></slot>
+  <div class="fm-radio-group" :class="rootClasses">
+    <span v-if="label" class="fm-radio-group__label">
+      <slot name="label">{{ label }}<span v-if="required" class="fm-radio-group__required-mark">*</span></slot>
     </span>
 
-    <div class="ui-radio-group__body">
+    <div class="fm-radio-group__body">
       <div
-        class="ui-radio-group__options"
+        class="fm-radio-group__options"
         :class="[
-          `ui-radio-group__options--${variant}`,
-          { 'ui-radio-group__options--horizontal': direction === 'horizontal' },
+          `fm-radio-group__options--${variant}`,
+          { 'fm-radio-group__options--horizontal': direction === 'horizontal' },
         ]"
         role="radiogroup"
         :aria-label="label"
@@ -114,15 +114,15 @@ defineExpose({ validate })
         <label
           v-for="option in options"
           :key="option.value"
-          class="ui-radio-group__option"
+          class="fm-radio-group__option"
           :class="{
-            'ui-radio-group__option--disabled': isOptionDisabled(option),
-            'ui-radio-group__option--selected': option.value === modelValue,
+            'fm-radio-group__option--disabled': isOptionDisabled(option),
+            'fm-radio-group__option--selected': option.value === modelValue,
           }"
         >
           <input
             type="radio"
-            class="ui-radio-group__input"
+            class="fm-radio-group__input"
             :name="groupName"
             :value="option.value"
             :checked="option.value === modelValue"
@@ -130,13 +130,13 @@ defineExpose({ validate })
             @change="selectOption(option)"
             @blur="onBlur"
           />
-          <span class="ui-radio-group__control" aria-hidden="true"></span>
-          <span class="ui-radio-group__option-label">
+          <span class="fm-radio-group__control" aria-hidden="true"></span>
+          <span class="fm-radio-group__option-label">
             <slot name="option" :option="option">
-              <span v-if="option.icon" class="ui-radio-group__option-icon" aria-hidden="true">
+              <span v-if="option.icon" class="fm-radio-group__option-icon" aria-hidden="true">
                 <img
                   v-if="isImageIcon(option.icon)"
-                  class="ui-radio-group__option-icon-img"
+                  class="fm-radio-group__option-icon-img"
                   :src="option.icon.src"
                   :alt="option.icon.alt ?? ''"
                 />
@@ -147,102 +147,102 @@ defineExpose({ validate })
           </span>
         </label>
 
-        <p v-if="options.length === 0" class="ui-radio-group__empty">
+        <p v-if="options.length === 0" class="fm-radio-group__empty">
           <slot name="empty">표시할 항목이 없습니다.</slot>
         </p>
       </div>
 
-      <p v-if="errorMessage" :id="errorId" class="ui-radio-group__error" role="alert">
+      <p v-if="errorMessage" :id="errorId" class="fm-radio-group__error" role="alert">
         <slot name="error" :message="errorMessage">{{ errorMessage }}</slot>
       </p>
     </div>
   </div>
 </template>
 
-<!-- Input.vue와 동일한 이유로 scoped를 쓰지 않습니다 (ui-radio-group BEM 클래스만으로 격리). -->
+<!-- Input.vue와 동일한 이유로 scoped를 쓰지 않습니다 (fm-radio-group BEM 클래스만으로 격리). -->
 <style lang="scss">
 @use '../../styles/mixins/field-layout' as field;
 
-.ui-radio-group {
+.fm-radio-group {
   @include field.field-label-top;
-  font-size: var(--ui-font-size-md);
-  color: var(--ui-text-default);
+  font-size: var(--fm-font-size-md);
+  color: var(--fm-text-default);
 }
 
-.ui-radio-group--label-left {
+.fm-radio-group--label-left {
   @include field.field-label-left;
 }
 
-.ui-radio-group__label {
-  font-size: var(--ui-font-size-sm);
-  color: var(--ui-text-default);
+.fm-radio-group__label {
+  font-size: var(--fm-font-size-sm);
+  color: var(--fm-text-default);
 }
 
-.ui-radio-group--label-left > .ui-radio-group__label {
+.fm-radio-group--label-left > .fm-radio-group__label {
   flex: 0 0 auto;
 }
 
-.ui-radio-group--invalid > .ui-radio-group__label {
-  color: var(--ui-danger-default);
+.fm-radio-group--invalid > .fm-radio-group__label {
+  color: var(--fm-danger-default);
 }
 
-.ui-radio-group__required-mark {
-  color: var(--ui-danger-default);
+.fm-radio-group__required-mark {
+  color: var(--fm-danger-default);
   margin-left: 2px;
 }
 
-.ui-radio-group__body {
+.fm-radio-group__body {
   display: flex;
   flex-direction: column;
-  gap: var(--ui-spacing-xs);
+  gap: var(--fm-spacing-xs);
   flex: 1 1 auto;
   min-width: 0;
 }
 
-.ui-radio-group__options {
+.fm-radio-group__options {
   order: 1;
   display: flex;
   flex-direction: column;
-  gap: var(--ui-spacing-sm);
+  gap: var(--fm-spacing-sm);
 }
 
-.ui-radio-group__options--horizontal {
+.fm-radio-group__options--horizontal {
   flex-direction: row;
   flex-wrap: wrap;
-  gap: var(--ui-spacing-lg);
+  gap: var(--fm-spacing-lg);
 }
 
-.ui-radio-group__error {
+.fm-radio-group__error {
   order: 2;
   margin: 0;
-  font-size: var(--ui-font-size-sm);
-  color: var(--ui-danger-default);
+  font-size: var(--fm-font-size-sm);
+  color: var(--fm-danger-default);
 }
 
-.ui-radio-group--error-top .ui-radio-group__options {
+.fm-radio-group--error-top .fm-radio-group__options {
   order: 2;
 }
 
-.ui-radio-group--error-top .ui-radio-group__error {
+.fm-radio-group--error-top .fm-radio-group__error {
   order: 1;
 }
 
-.ui-radio-group__option {
+.fm-radio-group__option {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: var(--ui-spacing-sm);
+  gap: var(--fm-spacing-sm);
   cursor: pointer;
 }
 
-.ui-radio-group__option--disabled {
+.fm-radio-group__option--disabled {
   cursor: not-allowed;
-  color: var(--ui-text-muted);
+  color: var(--fm-text-muted);
 }
 
 // 네이티브 input은 시각적으로 숨기되(접근성/포커스/클릭 영역은 유지),
-// 실제 원형은 옆의 .ui-radio-group__control로 그립니다.
-.ui-radio-group__input {
+// 실제 원형은 옆의 .fm-radio-group__control로 그립니다.
+.fm-radio-group__input {
   position: absolute;
   top: 0;
   left: 0;
@@ -254,11 +254,11 @@ defineExpose({ validate })
   cursor: pointer;
 }
 
-.ui-radio-group__input:disabled {
+.fm-radio-group__input:disabled {
   cursor: not-allowed;
 }
 
-.ui-radio-group__control {
+.fm-radio-group__control {
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
@@ -266,115 +266,115 @@ defineExpose({ validate })
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  border: 1.5px solid var(--ui-border-control);
-  background: var(--ui-surface-default);
+  border: 1.5px solid var(--fm-border-control);
+  background: var(--fm-surface-default);
   transition:
-    border-color var(--ui-duration-normal) var(--ui-easing-standard),
-    box-shadow var(--ui-duration-normal) var(--ui-easing-standard);
+    border-color var(--fm-duration-normal) var(--fm-easing-standard),
+    box-shadow var(--fm-duration-normal) var(--fm-easing-standard);
 }
 
-.ui-radio-group__control::after {
+.fm-radio-group__control::after {
   content: '';
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--ui-primary-default);
+  background: var(--fm-primary-default);
   transform: scale(0);
-  transition: transform var(--ui-duration-fast) var(--ui-easing-standard);
+  transition: transform var(--fm-duration-fast) var(--fm-easing-standard);
 }
 
-.ui-radio-group__option:not(.ui-radio-group__option--disabled):hover .ui-radio-group__control {
-  border-color: var(--ui-border-hover);
+.fm-radio-group__option:not(.fm-radio-group__option--disabled):hover .fm-radio-group__control {
+  border-color: var(--fm-border-hover);
 }
 
 // :checked는 v-model이 없어도 브라우저가 켜므로, Vue 상태로 그립니다.
-.ui-radio-group__option--selected .ui-radio-group__control {
-  border-color: var(--ui-primary-default);
+.fm-radio-group__option--selected .fm-radio-group__control {
+  border-color: var(--fm-primary-default);
 }
 
-.ui-radio-group__option--selected .ui-radio-group__control::after {
+.fm-radio-group__option--selected .fm-radio-group__control::after {
   transform: scale(1);
 }
 
-.ui-radio-group__input:focus-visible ~ .ui-radio-group__control {
-  outline: 2px solid var(--ui-border-focus-ring);
+.fm-radio-group__input:focus-visible ~ .fm-radio-group__control {
+  outline: 2px solid var(--fm-border-focus-ring);
   outline-offset: 2px;
 }
 
-.ui-radio-group__input:disabled ~ .ui-radio-group__control {
-  background: var(--ui-surface-disabled);
-  border-color: var(--ui-border-disabled);
+.fm-radio-group__input:disabled ~ .fm-radio-group__control {
+  background: var(--fm-surface-disabled);
+  border-color: var(--fm-border-disabled);
 }
 
-.ui-radio-group__option-icon {
+.fm-radio-group__option-icon {
   display: inline-flex;
   align-items: center;
-  margin-right: var(--ui-spacing-xs);
+  margin-right: var(--fm-spacing-xs);
 }
 
-.ui-radio-group__option-icon-img {
+.fm-radio-group__option-icon-img {
   display: block;
   width: 16px;
   height: 16px;
   object-fit: contain;
 }
 
-.ui-radio-group__empty {
+.fm-radio-group__empty {
   margin: 0;
-  color: var(--ui-text-muted);
+  color: var(--fm-text-muted);
 }
 
 // --- variant="button": 토글 버튼처럼 보이는 스타일 ---
 
-.ui-radio-group__options--button {
+.fm-radio-group__options--button {
   flex-direction: row;
   flex-wrap: wrap;
-  gap: var(--ui-spacing-sm);
+  gap: var(--fm-spacing-sm);
 }
 
-.ui-radio-group__options--button.ui-radio-group__options--horizontal {
+.fm-radio-group__options--button.fm-radio-group__options--horizontal {
   flex-direction: row;
 }
 
-.ui-radio-group__options--button .ui-radio-group__option {
-  padding: var(--ui-spacing-sm) var(--ui-spacing-md);
-  border: 1px solid var(--ui-border-control);
+.fm-radio-group__options--button .fm-radio-group__option {
+  padding: var(--fm-spacing-sm) var(--fm-spacing-md);
+  border: 1px solid var(--fm-border-control);
   border-radius: 999px;
-  background: var(--ui-surface-default);
+  background: var(--fm-surface-default);
   transition:
-    border-color var(--ui-duration-normal) var(--ui-easing-standard),
-    background var(--ui-duration-normal) var(--ui-easing-standard),
-    color var(--ui-duration-normal) var(--ui-easing-standard);
+    border-color var(--fm-duration-normal) var(--fm-easing-standard),
+    background var(--fm-duration-normal) var(--fm-easing-standard),
+    color var(--fm-duration-normal) var(--fm-easing-standard);
 }
 
-.ui-radio-group__options--button .ui-radio-group__option:not(.ui-radio-group__option--disabled):hover {
-  border-color: var(--ui-border-hover);
+.fm-radio-group__options--button .fm-radio-group__option:not(.fm-radio-group__option--disabled):hover {
+  border-color: var(--fm-border-hover);
 }
 
-.ui-radio-group__options--button .ui-radio-group__option--selected {
-  border-color: var(--ui-primary-default);
-  background: var(--ui-primary-default);
-  color: var(--ui-primary-on);
+.fm-radio-group__options--button .fm-radio-group__option--selected {
+  border-color: var(--fm-primary-default);
+  background: var(--fm-primary-default);
+  color: var(--fm-primary-on);
 }
 
-.ui-radio-group__options--button .ui-radio-group__option--disabled {
-  background: var(--ui-surface-disabled);
+.fm-radio-group__options--button .fm-radio-group__option--disabled {
+  background: var(--fm-surface-disabled);
 }
 
 // 원형 dot 인디케이터는 숨기고, 대신 input이 버튼 전체를 덮어 클릭/포커스 영역이 되게 함
-.ui-radio-group__options--button .ui-radio-group__control {
+.fm-radio-group__options--button .fm-radio-group__control {
   display: none;
 }
 
-.ui-radio-group__options--button .ui-radio-group__input {
+.fm-radio-group__options--button .fm-radio-group__input {
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
 }
 
-.ui-radio-group__options--button .ui-radio-group__option:focus-within {
-  outline: 2px solid var(--ui-border-focus-ring);
+.fm-radio-group__options--button .fm-radio-group__option:focus-within {
+  outline: 2px solid var(--fm-border-focus-ring);
   outline-offset: 2px;
 }
 </style>

@@ -6,7 +6,7 @@
 // 라이트·다크 모드를 각각 검사하고, 하나라도 미달이면 종료 코드 1로 끝납니다.
 //
 // 검사 대상은 "라이브러리가 기본으로 주는 팔레트"뿐입니다. 설치한 프로젝트가
-// --ui-gray-600 등을 재정의하면 그때부터는 그 프로젝트 책임입니다 (README 참고).
+// --fm-gray-600 등을 재정의하면 그때부터는 그 프로젝트 책임입니다 (README 참고).
 
 import { compile } from 'sass-embedded'
 
@@ -15,30 +15,30 @@ import { compile } from 'sass-embedded'
 // 4.5:1  본문 글자 (WCAG 1.4.3 AA)
 // 3:1    테두리·아이콘 등 글자가 아닌 UI 경계 (WCAG 1.4.11)
 //
-// --ui-text-disabled는 1.4.3의 "비활성 요소" 예외라 검사하지 않습니다.
+// --fm-text-disabled는 1.4.3의 "비활성 요소" 예외라 검사하지 않습니다.
 const CHECKS = [
-  ['--ui-text-default', '--ui-surface-default', 4.5, '본문 글자'],
-  ['--ui-text-default', '--ui-surface-subtle', 4.5, '본문 글자 (옅은 배경)'],
-  ['--ui-text-muted', '--ui-surface-default', 4.5, '보조 글자'],
-  ['--ui-text-muted', '--ui-surface-subtle', 4.5, '보조 글자 (옅은 배경)'],
-  ['--ui-text-placeholder', '--ui-surface-default', 4.5, '입력 안내 글자'],
-  ['--ui-text-inverse', '--ui-text-default', 4.5, '반전 글자 (Toast)'],
-  ['--ui-primary-on', '--ui-primary-default', 4.5, 'primary 버튼 글자'],
-  ['--ui-primary-default', '--ui-surface-default', 4.5, 'primary 링크·아이콘'],
-  ['--ui-danger-default', '--ui-surface-default', 4.5, '에러 글자'],
-  ['--ui-danger-on', '--ui-danger-default', 4.5, 'danger 버튼 글자'],
-  ['--ui-secondary-on', '--ui-secondary-default', 4.5, 'secondary 버튼 글자'],
-  ['--ui-secondary-default', '--ui-surface-default', 4.5, 'secondary 글자 버튼'],
+  ['--fm-text-default', '--fm-surface-default', 4.5, '본문 글자'],
+  ['--fm-text-default', '--fm-surface-subtle', 4.5, '본문 글자 (옅은 배경)'],
+  ['--fm-text-muted', '--fm-surface-default', 4.5, '보조 글자'],
+  ['--fm-text-muted', '--fm-surface-subtle', 4.5, '보조 글자 (옅은 배경)'],
+  ['--fm-text-placeholder', '--fm-surface-default', 4.5, '입력 안내 글자'],
+  ['--fm-text-inverse', '--fm-text-default', 4.5, '반전 글자 (Toast)'],
+  ['--fm-primary-on', '--fm-primary-default', 4.5, 'primary 버튼 글자'],
+  ['--fm-primary-default', '--fm-surface-default', 4.5, 'primary 링크·아이콘'],
+  ['--fm-danger-default', '--fm-surface-default', 4.5, '에러 글자'],
+  ['--fm-danger-on', '--fm-danger-default', 4.5, 'danger 버튼 글자'],
+  ['--fm-secondary-on', '--fm-secondary-default', 4.5, 'secondary 버튼 글자'],
+  ['--fm-secondary-default', '--fm-surface-default', 4.5, 'secondary 글자 버튼'],
   // hover/active는 color-mix()로 계산되는 색이라, 계산 결과 위의 글자도 검사합니다.
-  ['--ui-primary-on', '--ui-primary-hover', 4.5, 'primary 버튼 글자 (hover)'],
-  ['--ui-primary-on', '--ui-primary-active', 4.5, 'primary 버튼 글자 (누름)'],
-  ['--ui-danger-on', '--ui-danger-hover', 4.5, 'danger 버튼 글자 (hover)'],
-  ['--ui-danger-on', '--ui-danger-active', 4.5, 'danger 버튼 글자 (누름)'],
-  ['--ui-secondary-on', '--ui-secondary-hover', 4.5, 'secondary 버튼 글자 (hover)'],
-  ['--ui-secondary-on', '--ui-secondary-active', 4.5, 'secondary 버튼 글자 (누름)'],
-  // --ui-border-default(구분선·카드)는 장식이라 1.4.11 대상이 아니므로 검사하지 않습니다.
-  ['--ui-border-control', '--ui-surface-default', 3, '입력 박스 테두리'],
-  ['--ui-border-focus', '--ui-surface-default', 3, '포커스 테두리'],
+  ['--fm-primary-on', '--fm-primary-hover', 4.5, 'primary 버튼 글자 (hover)'],
+  ['--fm-primary-on', '--fm-primary-active', 4.5, 'primary 버튼 글자 (누름)'],
+  ['--fm-danger-on', '--fm-danger-hover', 4.5, 'danger 버튼 글자 (hover)'],
+  ['--fm-danger-on', '--fm-danger-active', 4.5, 'danger 버튼 글자 (누름)'],
+  ['--fm-secondary-on', '--fm-secondary-hover', 4.5, 'secondary 버튼 글자 (hover)'],
+  ['--fm-secondary-on', '--fm-secondary-active', 4.5, 'secondary 버튼 글자 (누름)'],
+  // --fm-border-default(구분선·카드)는 장식이라 1.4.11 대상이 아니므로 검사하지 않습니다.
+  ['--fm-border-control', '--fm-surface-default', 3, '입력 박스 테두리'],
+  ['--fm-border-focus', '--fm-surface-default', 3, '포커스 테두리'],
 ]
 
 const declarations = (body) => {
