@@ -1,17 +1,17 @@
 {
-  "name": "library-test",
+  "name": "forma-ui-framework",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "main": "./dist/library-test.umd.js",
-  "module": "./dist/library-test.js",
+  "main": "./dist/forma-ui-framework.umd.cjs",
+  "module": "./dist/forma-ui-framework.js",
   "exports": {
     ".": {
-      "types": "./dist/library-test.d.ts",
-      "import": "./dist/library-test.js",
-      "require": "./dist/library-test.umd.js"
+      "types": "./dist/forma-ui-framework.d.ts",
+      "import": "./dist/forma-ui-framework.js",
+      "require": "./dist/forma-ui-framework.umd.cjs"
     },
-    "./dist/library-test.css": "./dist/library-test.css"
+    "./dist/forma-ui-framework.css": "./dist/forma-ui-framework.css"
   },
   "files": [
     "dist"
@@ -42,5 +42,5 @@
     "vitest": "^5.1.0",
     "vue-tsc": "^3.3.8"
   },
-  "types": "./dist/library-test.d.ts"
+  "types": "./dist/forma-ui-framework.d.ts"
 }

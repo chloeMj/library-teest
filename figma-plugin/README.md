@@ -11,7 +11,7 @@ Figma의 변수 가져오기 버튼은 **컬렉션이 비어 있을 때만** 나
 2. 메뉴 → Plugins → Development → **Import plugin from manifest…**
 3. 이 폴더의 `manifest.json`을 고릅니다.
 
-목록에 `library-test 토큰 넣기`가 생깁니다. 공개 배포가 아니라 내 계정에만
+목록에 `forma-ui-framework 토큰 넣기`가 생깁니다. 공개 배포가 아니라 내 계정에만
 보이는 개발용 플러그인입니다.
 
 ## 쓰는 법
@@ -23,7 +23,7 @@ npm run build
 `design-tokens/`에 json 4개가 다시 생깁니다 (색 3개 + 숫자 1개). 그다음 Figma에서
 
 1. 변수를 넣을 파일을 엽니다
-2. Plugins → Development → `library-test 토큰 넣기`
+2. Plugins → Development → `forma-ui-framework 토큰 넣기`
 3. `primitives.tokens.json`, `Light.tokens.json`, `Dark.tokens.json`, `dimension.tokens.json`을 **한 번에** 고릅니다
 4. 덮어쓰기
 

@@ -5,7 +5,7 @@ import { mount } from '@vue/test-utils'
 import Input from './Input.vue'
 
 // describe: 관련 테스트를 한 묶음으로 모읍니다. 결과 화면에 이 이름으로 묶여서 보여요.
-describe('UiInput', () => {
+describe('FmInput', () => {
   // it: 테스트 하나. "무엇을 하면 → 어떻게 된다"를 문장으로 적습니다.
   it('글자를 입력하면 update:modelValue로 값을 알려준다 (v-model 동작)', async () => {
     // mount: 컴포넌트를 가짜 브라우저(jsdom)에 실제로 그립니다.
@@ -20,17 +20,17 @@ describe('UiInput', () => {
   })
 
   it('required인데 비워두고 포커스를 빼면 에러 메시지를 보여준다', async () => {
-    // props: 부모가 넘겨주는 값. <UiInput required /> 와 같아요.
+    // props: 부모가 넘겨주는 값. <FmInput required /> 와 같아요.
     const wrapper = mount(Input, { props: { required: true } })
     const input = wrapper.find('input')
 
     // 처음부터 에러가 보이면 사용자가 불편하므로, 건드리기 전에는 에러가 없어야 합니다.
-    expect(wrapper.find('.ui-input__error').exists()).toBe(false)
+    expect(wrapper.find('.fm-input__error').exists()).toBe(false)
 
     // trigger: 이벤트를 발생시킵니다. blur = 입력칸에서 포커스가 빠지는 순간.
     await input.trigger('blur')
 
-    const error = wrapper.find('.ui-input__error')
+    const error = wrapper.find('.fm-input__error')
     expect(error.text()).toBe('필수 입력값입니다.')
     // 화면 낭독기(스크린 리더)도 에러를 알 수 있게 aria-invalid가 켜져야 합니다.
     expect(input.attributes('aria-invalid')).toBe('true')
@@ -42,7 +42,7 @@ describe('UiInput', () => {
     // element: 실제 DOM 요소. disabled 속성이 진짜로 켜졌는지 확인합니다.
     expect(wrapper.find('input').element.disabled).toBe(true)
     // 스타일(회색 처리 등)을 위한 BEM modifier 클래스도 붙었는지 확인합니다.
-    expect(wrapper.classes()).toContain('ui-input--disabled')
+    expect(wrapper.classes()).toContain('fm-input--disabled')
   })
 
   it('placeholder를 주면 input에 표시된다', () => {

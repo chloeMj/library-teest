@@ -20,7 +20,7 @@ export default ({ mode }: { mode: string }) => {
         include: ['src/**/*.ts', 'src/**/*.vue'],
         // 테스트 파일(*.test.ts)도 라이브러리 사용자에게 필요 없으므로 제외합니다.
         exclude: ['src/App.vue', 'src/demo/**', 'src/main.ts', 'src/**/*.test.ts'],
-        // package.json이 가리킬 타입 진입점(dist/library-test.d.ts)을 만듭니다.
+        // package.json이 가리킬 타입 진입점(dist/forma-ui-framework.d.ts)을 만듭니다.
         // 하나로 묶는 bundleTypes는 @microsoft/api-extractor가 필요해 쓰지 않습니다.
         insertTypesEntry: true,
       }),
@@ -42,9 +42,9 @@ export default ({ mode }: { mode: string }) => {
       lib: {
         // 엔트리 파일 지정
         entry: resolve(import.meta.dirname, 'src/index.ts'),
-        name: 'LibraryTest',
+        name: 'FormaUIFramework',
         // 빌드 결과물 파일명 규칙
-        fileName: (format) => format === 'es' ? 'library-test.js' : `library-test.${format}.js`
+        fileName: (format) => format === 'es' ? 'forma-ui-framework.js' : `forma-ui-framework.${format}.cjs`
       },
       rollupOptions: {
         // 라이브러리에 포함하지 않을 패키지 설정

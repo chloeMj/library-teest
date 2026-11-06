@@ -4,18 +4,18 @@
 @mixin field-label-top {
   display: flex;
   flex-direction: column;
-  gap: var(--ui-spacing-xs);
+  gap: var(--fm-spacing-xs);
 }
 
 @mixin field-label-left {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: var(--ui-spacing-sm);
+  gap: var(--fm-spacing-sm);
 }
 
 @mixin field-label-inside {
   display: flex;
   flex-direction: column;
-  gap: var(--ui-spacing-xs);
+  gap: var(--fm-spacing-xs);
 }

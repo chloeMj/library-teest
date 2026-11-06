@@ -59,13 +59,13 @@ function ee(e) {
 //#region src/components/form/Input.vue?vue&type=script&setup=true&lang.ts
 var F = ["for"], I = {
 	key: 0,
-	class: "ui-input__required-mark"
-}, L = { class: "ui-input__body" }, R = {
+	class: "fm-input__required-mark"
+}, L = { class: "fm-input__body" }, R = {
 	key: 0,
-	class: "ui-input__affix ui-input__affix--prefix"
+	class: "fm-input__affix fm-input__affix--prefix"
 }, te = ["for"], z = {
 	key: 0,
-	class: "ui-input__required-mark"
+	class: "fm-input__required-mark"
 }, B = [
 	"id",
 	"type",
@@ -81,10 +81,10 @@ var F = ["for"], I = {
 	"aria-describedby"
 ], V = {
 	key: 2,
-	class: "ui-input__affix ui-input__affix--suffix"
+	class: "fm-input__affix fm-input__affix--suffix"
 }, ne = {
 	key: 3,
-	class: "ui-input__stepper",
+	class: "fm-input__stepper",
 	"aria-hidden": "true"
 }, H = ["disabled"], U = ["disabled"], W = ["id"], G = /* @__PURE__ */ u({
 	__name: "Input",
@@ -134,7 +134,7 @@ var F = ["for"], I = {
 			validator: T(i, "validator"),
 			touched: d
 		}), S = r(() => i.modelValue ?? ""), { rootClasses: C, controlClasses: O } = M({
-			block: "ui-input",
+			block: "fm-input",
 			labelPosition: T(i, "labelPosition"),
 			errorPosition: T(i, "errorPosition"),
 			invalid: r(() => !!b.value),
@@ -165,22 +165,22 @@ var F = ["for"], I = {
 		return t({
 			focus: () => u.value?.focus(),
 			validate: () => (d.value = !0, !b.value)
-		}), (t, n) => (v(), o("div", { class: p(["ui-input", [E(C), `ui-input--${e.variant}`]]) }, [e.label && e.labelPosition !== "inside" ? (v(), o("label", {
+		}), (t, n) => (v(), o("div", { class: p(["fm-input", [E(C), `fm-input--${e.variant}`]]) }, [e.label && e.labelPosition !== "inside" ? (v(), o("label", {
 			key: 0,
-			class: "ui-input__label",
+			class: "fm-input__label",
 			for: m.value
-		}, [x(t.$slots, "label", {}, () => [c(w(e.label) + " ", 1), e.required ? (v(), o("span", I, "*")) : a("", !0)])], 8, F)) : a("", !0), s("div", L, [s("div", { class: p(["ui-input__control", E(O)]) }, [
+		}, [x(t.$slots, "label", {}, () => [c(w(e.label) + " ", 1), e.required ? (v(), o("span", I, "*")) : a("", !0)])], 8, F)) : a("", !0), s("div", L, [s("div", { class: p(["fm-input__control", E(O)]) }, [
 			t.$slots.prefix ? (v(), o("span", R, [x(t.$slots, "prefix")])) : a("", !0),
 			e.label && e.labelPosition === "inside" ? (v(), o("label", {
 				key: 1,
-				class: "ui-input__label ui-input__label--inside",
+				class: "fm-input__label fm-input__label--inside",
 				for: m.value
 			}, [x(t.$slots, "label", {}, () => [c(w(e.label) + " ", 1), e.required ? (v(), o("span", z, "*")) : a("", !0)])], 8, te)) : a("", !0),
 			s("input", {
 				id: m.value,
 				ref_key: "inputRef",
 				ref: u,
-				class: "ui-input__field",
+				class: "fm-input__field",
 				type: e.type,
 				value: S.value,
 				placeholder: e.labelPosition === "inside" ? void 0 : e.placeholder,
@@ -199,13 +199,13 @@ var F = ["for"], I = {
 			t.$slots.suffix ? (v(), o("span", V, [x(t.$slots, "suffix")])) : a("", !0),
 			e.type === "number" && e.showStepper ? (v(), o("span", ne, [s("button", {
 				type: "button",
-				class: "ui-input__stepper-btn",
+				class: "fm-input__stepper-btn",
 				tabindex: "-1",
 				disabled: e.disabled || e.readonly,
 				onClick: n[0] ||= (e) => N(-1)
 			}, " − ", 8, H), s("button", {
 				type: "button",
-				class: "ui-input__stepper-btn",
+				class: "fm-input__stepper-btn",
 				tabindex: "-1",
 				disabled: e.disabled || e.readonly,
 				onClick: n[1] ||= (e) => N(1)
@@ -213,7 +213,7 @@ var F = ["for"], I = {
 		], 2), E(b) ? (v(), o("p", {
 			key: 0,
 			id: h.value,
-			class: "ui-input__error",
+			class: "fm-input__error",
 			role: "alert"
 		}, [x(t.$slots, "error", { message: E(b) }, () => [c(w(E(b)), 1)])], 8, W)) : a("", !0)])], 2));
 	}
@@ -234,10 +234,10 @@ function re(e = 640) {
 //#region src/components/form/Select.vue?vue&type=script&setup=true&lang.ts
 var ie = ["for"], ae = {
 	key: 0,
-	class: "ui-select__required-mark"
-}, oe = { class: "ui-select__body" }, se = ["for"], ce = {
+	class: "fm-select__required-mark"
+}, oe = { class: "fm-select__body" }, se = ["for"], ce = {
 	key: 0,
-	class: "ui-select__required-mark"
+	class: "fm-select__required-mark"
 }, le = [
 	"id",
 	"disabled",
@@ -246,13 +246,13 @@ var ie = ["for"], ae = {
 	"aria-describedby"
 ], ue = {
 	key: 0,
-	class: "ui-select__affix"
+	class: "fm-select__affix"
 }, de = {
 	key: 2,
-	class: "ui-select__trigger ui-select__trigger--searchable"
+	class: "fm-select__trigger fm-select__trigger--searchable"
 }, fe = {
 	key: 0,
-	class: "ui-select__affix"
+	class: "fm-select__affix"
 }, pe = [
 	"id",
 	"value",
@@ -270,10 +270,10 @@ var ie = ["for"], ae = {
 	"onMouseenter"
 ], ge = {
 	key: 0,
-	class: "ui-select__empty"
-}, _e = ["id"], ve = { class: "ui-select__sheet-header" }, ye = { class: "ui-select__sheet-title" }, be = ["value"], xe = { class: "ui-select__sheet-list" }, Se = ["aria-selected", "onClick"], Ce = {
+	class: "fm-select__empty"
+}, _e = ["id"], ve = { class: "fm-select__sheet-header" }, ye = { class: "fm-select__sheet-title" }, be = ["value"], xe = { class: "fm-select__sheet-list" }, Se = ["aria-selected", "onClick"], Ce = {
 	key: 0,
-	class: "ui-select__sheet-empty"
+	class: "fm-select__sheet-empty"
 }, we = 4, Te = 240, Ee = 120, De = /* @__PURE__ */ u({
 	__name: "Select",
 	props: {
@@ -326,7 +326,7 @@ var ie = ["for"], ae = {
 			let t = _.filterKeys.length > 0 ? _.filterKeys : ["label", "value"];
 			return _.options.filter((n) => t.some((t) => String(n[t] ?? "").toLowerCase().includes(e)));
 		}), De = r(() => F.value ? L.value : W.value?.label ?? ""), { rootClasses: Oe, controlClasses: ke } = M({
-			block: "ui-select",
+			block: "fm-select",
 			labelPosition: T(_, "labelPosition"),
 			errorPosition: T(_, "errorPosition"),
 			invalid: r(() => !!U.value),
@@ -334,7 +334,7 @@ var ie = ["for"], ae = {
 			focused: H.isFocused,
 			floated: H.isFloated
 		}), Ae = y(null), je = y({}), K = () => {
-			let e = Ae.value?.querySelector(".ui-select__trigger");
+			let e = Ae.value?.querySelector(".fm-select__trigger");
 			if (!e) return;
 			let t = e.getBoundingClientRect(), n = window.innerHeight - t.bottom - 8, r = t.top - 8, i = n < Te && r > n, a = i ? r : n;
 			je.value = {
@@ -351,7 +351,7 @@ var ie = ["for"], ae = {
 		}), h(Me);
 		let q = r(() => _.disabled || _.readonly), Pe = r(() => ({
 			...ke.value,
-			"ui-select__control--open": F.value
+			"fm-select__control--open": F.value
 		})), J = () => {
 			if (q.value || F.value) return;
 			F.value = !0, _.searchable && (L.value = "");
@@ -402,24 +402,24 @@ var ie = ["for"], ae = {
 		return d({
 			focus: () => C.value?.focus(),
 			validate: () => (N.value = !0, !U.value)
-		}), (r, d) => (v(), o("div", { class: p(["ui-select", [
+		}), (r, d) => (v(), o("div", { class: p(["fm-select", [
 			E(Oe),
-			`ui-select--${u.variant}`,
-			{ "ui-select--readonly": u.readonly }
+			`fm-select--${u.variant}`,
+			{ "fm-select--readonly": u.readonly }
 		]]) }, [
 			u.label && u.labelPosition !== "inside" ? (v(), o("label", {
 				key: 0,
-				class: "ui-select__label",
+				class: "fm-select__label",
 				for: z.value
 			}, [x(r.$slots, "label", {}, () => [c(w(u.label) + " ", 1), u.required ? (v(), o("span", ae, "*")) : a("", !0)])], 8, ie)) : a("", !0),
 			s("div", oe, [s("div", {
 				ref_key: "controlRef",
 				ref: Ae,
-				class: p(["ui-select__control", Pe.value])
+				class: p(["fm-select__control", Pe.value])
 			}, [
 				u.label && u.labelPosition === "inside" ? (v(), o("label", {
 					key: 0,
-					class: "ui-select__label ui-select__label--inside",
+					class: "fm-select__label fm-select__label--inside",
 					for: z.value
 				}, [x(r.$slots, "label", {}, () => [c(w(u.label) + " ", 1), u.required ? (v(), o("span", ce, "*")) : a("", !0)])], 8, se)) : a("", !0),
 				u.searchable ? (v(), o("div", de, [
@@ -429,7 +429,7 @@ var ie = ["for"], ae = {
 						ref_key: "triggerRef",
 						ref: C,
 						type: "text",
-						class: "ui-select__search-input",
+						class: "fm-select__search-input",
 						role: "combobox",
 						"aria-autocomplete": "list",
 						value: De.value,
@@ -448,7 +448,7 @@ var ie = ["for"], ae = {
 						onBlur: Ie
 					}, null, 40, pe),
 					d[2] ||= s("span", {
-						class: "ui-select__arrow",
+						class: "fm-select__arrow",
 						"aria-hidden": "true"
 					}, "▾", -1)
 				])) : (v(), o("button", {
@@ -457,7 +457,7 @@ var ie = ["for"], ae = {
 					ref_key: "triggerRef",
 					ref: C,
 					type: "button",
-					class: "ui-select__trigger",
+					class: "fm-select__trigger",
 					disabled: u.disabled,
 					"aria-expanded": F.value,
 					"aria-haspopup": "listbox",
@@ -469,16 +469,16 @@ var ie = ["for"], ae = {
 					onBlur: Ie
 				}, [
 					r.$slots.prefix ? (v(), o("span", ue, [x(r.$slots, "prefix")])) : a("", !0),
-					s("span", { class: p(["ui-select__value", { "ui-select__value--placeholder": !W.value }]) }, w(W.value ? W.value.label : u.labelPosition === "inside" ? "" : u.placeholder), 3),
+					s("span", { class: p(["fm-select__value", { "fm-select__value--placeholder": !W.value }]) }, w(W.value ? W.value.label : u.labelPosition === "inside" ? "" : u.placeholder), 3),
 					d[1] ||= s("span", {
-						class: "ui-select__arrow",
+						class: "fm-select__arrow",
 						"aria-hidden": "true"
 					}, "▾", -1)
 				], 40, le)),
 				(v(), i(t, { to: "body" }, [Ne.value ? (v(), o("ul", {
 					key: 0,
 					id: V.value,
-					class: "ui-select__menu",
+					class: "fm-select__menu",
 					style: m(je.value),
 					role: "listbox"
 				}, [(v(!0), o(e, null, b(G.value, (e, t) => (v(), o("li", {
@@ -486,9 +486,9 @@ var ie = ["for"], ae = {
 					key: e.value,
 					role: "option",
 					"aria-selected": e.value === u.modelValue,
-					class: p(["ui-select__option", {
-						"ui-select__option--selected": e.value === u.modelValue,
-						"ui-select__option--active": t === I.value
+					class: p(["fm-select__option", {
+						"fm-select__option--selected": e.value === u.modelValue,
+						"fm-select__option--active": t === I.value
 					}]),
 					onMousedown: j((t) => Z(e), ["prevent"]),
 					onMouseenter: (e) => I.value = t
@@ -496,22 +496,22 @@ var ie = ["for"], ae = {
 			], 2), E(U) ? (v(), o("p", {
 				key: 0,
 				id: B.value,
-				class: "ui-select__error",
+				class: "fm-select__error",
 				role: "alert"
 			}, [x(r.$slots, "error", { message: E(U) }, () => [c(w(E(U)), 1)])], 8, _e)) : a("", !0)]),
-			(v(), i(t, { to: "body" }, [l(n, { name: "ui-select-sheet" }, {
+			(v(), i(t, { to: "body" }, [l(n, { name: "fm-select-sheet" }, {
 				default: A(() => [F.value && E(R) ? (v(), o("div", {
 					key: 0,
-					class: "ui-select__sheet-backdrop",
+					class: "fm-select__sheet-backdrop",
 					onClick: Y
 				}, [s("div", {
-					class: "ui-select__sheet",
+					class: "fm-select__sheet",
 					role: "listbox",
 					onClick: d[0] ||= j(() => {}, ["stop"])
 				}, [
 					s("div", ve, [s("span", ye, w(u.label || u.placeholder), 1), s("button", {
 						type: "button",
-						class: "ui-select__sheet-close",
+						class: "fm-select__sheet-close",
 						"aria-label": "닫기",
 						onClick: Y
 					}, " ✕ ")]),
@@ -520,7 +520,7 @@ var ie = ["for"], ae = {
 						ref_key: "sheetSearchRef",
 						ref: O,
 						type: "text",
-						class: "ui-select__sheet-search",
+						class: "fm-select__sheet-search",
 						placeholder: "검색",
 						value: L.value,
 						onInput: Q,
@@ -530,9 +530,9 @@ var ie = ["for"], ae = {
 						key: e.value,
 						role: "option",
 						"aria-selected": e.value === u.modelValue,
-						class: p(["ui-select__sheet-option", {
-							"ui-select__sheet-option--selected": e.value === u.modelValue,
-							"ui-select__sheet-option--active": t === I.value
+						class: p(["fm-select__sheet-option", {
+							"fm-select__sheet-option--selected": e.value === u.modelValue,
+							"fm-select__sheet-option--active": t === I.value
 						}]),
 						onClick: (t) => Z(e)
 					}, [x(r.$slots, "option", { option: e }, () => [c(w(e.label), 1)])], 10, Se))), 128)), G.value.length === 0 ? (v(), o("li", Ce, [x(r.$slots, "empty", {}, () => [c(w(u.searchable && L.value ? "검색 결과가 없습니다." : "표시할 항목이 없습니다."), 1)])])) : a("", !0)])
@@ -543,11 +543,11 @@ var ie = ["for"], ae = {
 	}
 }), Oe = (e) => typeof e == "object", ke = {
 	key: 0,
-	class: "ui-radio-group__label"
+	class: "fm-radio-group__label"
 }, Ae = {
 	key: 0,
-	class: "ui-radio-group__required-mark"
-}, je = { class: "ui-radio-group__body" }, K = [
+	class: "fm-radio-group__required-mark"
+}, je = { class: "fm-radio-group__body" }, K = [
 	"aria-label",
 	"aria-required",
 	"aria-describedby"
@@ -557,13 +557,13 @@ var ie = ["for"], ae = {
 	"checked",
 	"disabled",
 	"onChange"
-], Ne = { class: "ui-radio-group__option-label" }, q = {
+], Ne = { class: "fm-radio-group__option-label" }, q = {
 	key: 0,
-	class: "ui-radio-group__option-icon",
+	class: "fm-radio-group__option-icon",
 	"aria-hidden": "true"
 }, Pe = ["src", "alt"], J = {
 	key: 0,
-	class: "ui-radio-group__empty"
+	class: "fm-radio-group__empty"
 }, Y = ["id"], X = /* @__PURE__ */ u({
 	__name: "Radio",
 	props: {
@@ -595,7 +595,7 @@ var ie = ["for"], ae = {
 			validator: T(l, "validator"),
 			touched: d
 		}), { rootClasses: S } = M({
-			block: "ui-radio-group",
+			block: "fm-radio-group",
 			labelPosition: T(l, "labelPosition"),
 			errorPosition: T(l, "errorPosition"),
 			invalid: r(() => !!_.value),
@@ -607,22 +607,22 @@ var ie = ["for"], ae = {
 		}, k = (e) => {
 			d.value = !0, u("blur", e);
 		};
-		return n({ validate: () => (d.value = !0, !_.value) }), (n, r) => (v(), o("div", { class: p(["ui-radio-group", E(S)]) }, [t.label ? (v(), o("span", ke, [x(n.$slots, "label", {}, () => [c(w(t.label), 1), t.required ? (v(), o("span", Ae, "*")) : a("", !0)])])) : a("", !0), s("div", je, [s("div", {
-			class: p(["ui-radio-group__options", [`ui-radio-group__options--${t.variant}`, { "ui-radio-group__options--horizontal": t.direction === "horizontal" }]]),
+		return n({ validate: () => (d.value = !0, !_.value) }), (n, r) => (v(), o("div", { class: p(["fm-radio-group", E(S)]) }, [t.label ? (v(), o("span", ke, [x(n.$slots, "label", {}, () => [c(w(t.label), 1), t.required ? (v(), o("span", Ae, "*")) : a("", !0)])])) : a("", !0), s("div", je, [s("div", {
+			class: p(["fm-radio-group__options", [`fm-radio-group__options--${t.variant}`, { "fm-radio-group__options--horizontal": t.direction === "horizontal" }]]),
 			role: "radiogroup",
 			"aria-label": t.label,
 			"aria-required": t.required,
 			"aria-describedby": E(_) ? g.value : void 0
 		}, [(v(!0), o(e, null, b(t.options, (i) => (v(), o("label", {
 			key: i.value,
-			class: p(["ui-radio-group__option", {
-				"ui-radio-group__option--disabled": C(i),
-				"ui-radio-group__option--selected": i.value === t.modelValue
+			class: p(["fm-radio-group__option", {
+				"fm-radio-group__option--disabled": C(i),
+				"fm-radio-group__option--selected": i.value === t.modelValue
 			}])
 		}, [
 			s("input", {
 				type: "radio",
-				class: "ui-radio-group__input",
+				class: "fm-radio-group__input",
 				name: h.value,
 				value: i.value,
 				checked: i.value === t.modelValue,
@@ -631,29 +631,29 @@ var ie = ["for"], ae = {
 				onBlur: k
 			}, null, 40, Me),
 			r[0] ||= s("span", {
-				class: "ui-radio-group__control",
+				class: "fm-radio-group__control",
 				"aria-hidden": "true"
 			}, null, -1),
 			s("span", Ne, [x(n.$slots, "option", { option: i }, () => [i.icon ? (v(), o("span", q, [E(Oe)(i.icon) ? (v(), o("img", {
 				key: 0,
-				class: "ui-radio-group__option-icon-img",
+				class: "fm-radio-group__option-icon-img",
 				src: i.icon.src,
 				alt: i.icon.alt ?? ""
 			}, null, 8, Pe)) : (v(), o(e, { key: 1 }, [c(w(i.icon), 1)], 64))])) : a("", !0), c(" " + w(i.label), 1)])])
 		], 2))), 128)), t.options.length === 0 ? (v(), o("p", J, [x(n.$slots, "empty", {}, () => [r[1] ||= c("표시할 항목이 없습니다.", -1)])])) : a("", !0)], 10, K), E(_) ? (v(), o("p", {
 			key: 0,
 			id: g.value,
-			class: "ui-radio-group__error",
+			class: "fm-radio-group__error",
 			role: "alert"
 		}, [x(n.$slots, "error", { message: E(_) }, () => [c(w(E(_)), 1)])], 8, Y)) : a("", !0)])], 2));
 	}
 }), Z = {
 	key: 0,
-	class: "ui-checkbox-group__label"
+	class: "fm-checkbox-group__label"
 }, Q = {
 	key: 0,
-	class: "ui-checkbox-group__required-mark"
-}, Fe = { class: "ui-checkbox-group__body" }, Ie = [
+	class: "fm-checkbox-group__required-mark"
+}, Fe = { class: "fm-checkbox-group__body" }, Ie = [
 	"role",
 	"aria-label",
 	"aria-required",
@@ -664,16 +664,16 @@ var ie = ["for"], ae = {
 	"checked",
 	"disabled",
 	"onChange"
-], Le = { class: "ui-checkbox-group__option-label" }, Re = {
+], Le = { class: "fm-checkbox-group__option-label" }, Re = {
 	key: 0,
-	class: "ui-checkbox-group__option-icon",
+	class: "fm-checkbox-group__option-icon",
 	"aria-hidden": "true"
 }, ze = ["src", "alt"], Be = {
 	key: 1,
-	class: "ui-checkbox-group__required-mark"
+	class: "fm-checkbox-group__required-mark"
 }, Ve = {
 	key: 0,
-	class: "ui-checkbox-group__empty"
+	class: "fm-checkbox-group__empty"
 }, He = ["id"], Ue = "single", We = /* @__PURE__ */ u({
 	__name: "Checkbox",
 	props: {
@@ -712,7 +712,7 @@ var ie = ["for"], ae = {
 			touched: d,
 			isEmpty: (e) => Array.isArray(e) ? e.length === 0 : e !== !0
 		}), { rootClasses: O } = M({
-			block: "ui-checkbox-group",
+			block: "fm-checkbox-group",
 			labelPosition: T(l, "labelPosition"),
 			errorPosition: T(l, "errorPosition"),
 			invalid: r(() => !!C.value),
@@ -730,22 +730,22 @@ var ie = ["for"], ae = {
 		}, N = (e) => {
 			d.value = !0, u("blur", e);
 		};
-		return n({ validate: () => (d.value = !0, !C.value) }), (n, r) => (v(), o("div", { class: p(["ui-checkbox-group", E(O)]) }, [_.value && t.label ? (v(), o("span", Z, [x(n.$slots, "label", {}, () => [c(w(t.label) + " ", 1), t.required ? (v(), o("span", Q, "*")) : a("", !0)])])) : a("", !0), s("div", Fe, [s("div", {
-			class: p(["ui-checkbox-group__options", [`ui-checkbox-group__options--${t.variant}`, { "ui-checkbox-group__options--horizontal": t.direction === "horizontal" }]]),
+		return n({ validate: () => (d.value = !0, !C.value) }), (n, r) => (v(), o("div", { class: p(["fm-checkbox-group", E(O)]) }, [_.value && t.label ? (v(), o("span", Z, [x(n.$slots, "label", {}, () => [c(w(t.label) + " ", 1), t.required ? (v(), o("span", Q, "*")) : a("", !0)])])) : a("", !0), s("div", Fe, [s("div", {
+			class: p(["fm-checkbox-group__options", [`fm-checkbox-group__options--${t.variant}`, { "fm-checkbox-group__options--horizontal": t.direction === "horizontal" }]]),
 			role: _.value ? "group" : void 0,
 			"aria-label": _.value ? t.label : void 0,
 			"aria-required": t.required,
 			"aria-describedby": E(C) ? g.value : void 0
 		}, [(v(!0), o(e, null, b(S.value, (i, l) => (v(), o("label", {
 			key: _.value ? i.value : "single",
-			class: p(["ui-checkbox-group__option", {
-				"ui-checkbox-group__option--disabled": k(i),
-				"ui-checkbox-group__option--selected": A(i)
+			class: p(["fm-checkbox-group__option", {
+				"fm-checkbox-group__option--disabled": k(i),
+				"fm-checkbox-group__option--selected": A(i)
 			}])
 		}, [
 			s("input", {
 				type: "checkbox",
-				class: "ui-checkbox-group__input",
+				class: "fm-checkbox-group__input",
 				name: h.value,
 				value: i.value,
 				checked: A(i),
@@ -754,7 +754,7 @@ var ie = ["for"], ae = {
 				onBlur: N
 			}, null, 40, $),
 			r[0] ||= s("span", {
-				class: "ui-checkbox-group__control",
+				class: "fm-checkbox-group__control",
 				"aria-hidden": "true"
 			}, null, -1),
 			s("span", Le, [x(n.$slots, "option", {
@@ -763,7 +763,7 @@ var ie = ["for"], ae = {
 			}, () => [
 				i.icon ? (v(), o("span", Re, [E(Oe)(i.icon) ? (v(), o("img", {
 					key: 0,
-					class: "ui-checkbox-group__option-icon-img",
+					class: "fm-checkbox-group__option-icon-img",
 					src: i.icon.src,
 					alt: i.icon.alt ?? ""
 				}, null, 8, ze)) : (v(), o(e, { key: 1 }, [c(w(i.icon), 1)], 64))])) : a("", !0),
@@ -773,7 +773,7 @@ var ie = ["for"], ae = {
 		], 2))), 128)), _.value && S.value.length === 0 ? (v(), o("p", Ve, [x(n.$slots, "empty", {}, () => [r[1] ||= c("표시할 항목이 없습니다.", -1)])])) : a("", !0)], 10, Ie), E(C) ? (v(), o("p", {
 			key: 0,
 			id: g.value,
-			class: "ui-checkbox-group__error",
+			class: "fm-checkbox-group__error",
 			role: "alert"
 		}, [x(n.$slots, "error", { message: E(C) }, () => [c(w(E(C)), 1)])], 8, He)) : a("", !0)])], 2));
 	}
@@ -825,17 +825,17 @@ function Xe(e) {
 //#region src/components/button/Button.vue?vue&type=script&setup=true&lang.ts
 var Ze = {
 	key: 0,
-	class: "ui-button__spinner",
+	class: "fm-button__spinner",
 	"aria-hidden": "true"
 }, Qe = {
 	key: 1,
-	class: "ui-button__affix"
+	class: "fm-button__affix"
 }, $e = {
 	key: 2,
-	class: "ui-button__label"
+	class: "fm-button__label"
 }, et = {
 	key: 3,
-	class: "ui-button__affix"
+	class: "fm-button__affix"
 }, tt = /* @__PURE__ */ u({
 	__name: "Button",
 	props: {
@@ -873,8 +873,8 @@ var Ze = {
 			if (f.value) return;
 			let e = Xe(s.color);
 			return {
-				"--ui-button-color": s.color,
-				...e ? { "--ui-button-on": e } : {}
+				"--fm-button-color": s.color,
+				...e ? { "--fm-button-on": e } : {}
 			};
 		}), m = r(() => s.to !== void 0 && !u.value ? S("RouterLink") : s.to !== void 0 || s.href !== void 0 ? "a" : "button"), h = r(() => m.value === "button" ? {
 			type: s.type,
@@ -894,15 +894,15 @@ var Ze = {
 			c("click", e);
 		};
 		return (t, n) => (v(), i(C(m.value), d({
-			class: ["ui-button", [
-				`ui-button--${e.variant}`,
-				f.value ? `ui-button--${e.color}` : "ui-button--custom",
-				`ui-button--${e.size}`,
+			class: ["fm-button", [
+				`fm-button--${e.variant}`,
+				f.value ? `fm-button--${e.color}` : "fm-button--custom",
+				`fm-button--${e.size}`,
 				{
-					"ui-button--block": e.block,
-					"ui-button--icon": e.icon,
-					"ui-button--loading": e.loading,
-					"ui-button--disabled": e.disabled
+					"fm-button--block": e.block,
+					"fm-button--icon": e.icon,
+					"fm-button--loading": e.loading,
+					"fm-button--disabled": e.disabled
 				}
 			]],
 			style: p.value
@@ -924,10 +924,10 @@ var Ze = {
 	}
 }), nt = ["aria-labelledby"], rt = {
 	key: 0,
-	class: "ui-modal__header"
-}, it = ["id"], at = { class: "ui-modal__body" }, ot = {
+	class: "fm-modal__header"
+}, it = ["id"], at = { class: "fm-modal__body" }, ot = {
 	key: 1,
-	class: "ui-modal__footer"
+	class: "fm-modal__footer"
 }, st = "a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex=\"-1\"])", ct = /* @__PURE__ */ u({
 	__name: "Modal",
 	props: {
@@ -972,32 +972,32 @@ var Ze = {
 			let n = t[0], r = t[t.length - 1];
 			e.shiftKey && document.activeElement === n ? (e.preventDefault(), r.focus()) : !e.shiftKey && document.activeElement === r && (e.preventDefault(), n.focus());
 		}, M = () => {
-			let e = Number(document.body.dataset.uiModalCount ?? 0);
-			e === 0 && (document.body.dataset.uiModalOverflow = document.body.style.overflow, document.body.style.overflow = "hidden"), document.body.dataset.uiModalCount = String(e + 1);
+			let e = Number(document.body.dataset.fmModalCount ?? 0);
+			e === 0 && (document.body.dataset.fmModalOverflow = document.body.style.overflow, document.body.style.overflow = "hidden"), document.body.dataset.fmModalCount = String(e + 1);
 		}, N = () => {
-			let e = Number(document.body.dataset.uiModalCount ?? 1) - 1;
-			e <= 0 ? (document.body.style.overflow = document.body.dataset.uiModalOverflow ?? "", delete document.body.dataset.uiModalCount, delete document.body.dataset.uiModalOverflow) : document.body.dataset.uiModalCount = String(e);
+			let e = Number(document.body.dataset.fmModalCount ?? 1) - 1;
+			e <= 0 ? (document.body.style.overflow = document.body.dataset.fmModalOverflow ?? "", delete document.body.dataset.fmModalCount, delete document.body.dataset.fmModalOverflow) : document.body.dataset.fmModalCount = String(e);
 		}, P = !1;
 		return k(() => u.modelValue, async (e) => {
-			e ? (C = document.activeElement, M(), P = !0, d("open"), await f(), (T().find((e) => !e.classList.contains("ui-modal__close")) ?? _.value)?.focus()) : P && (N(), P = !1, C?.focus(), C = null);
+			e ? (C = document.activeElement, M(), P = !0, d("open"), await f(), (T().find((e) => !e.classList.contains("fm-modal__close")) ?? _.value)?.focus()) : P && (N(), P = !1, C?.focus(), C = null);
 		}, { immediate: !0 }), h(() => {
 			P && N();
 		}), (r, u) => (v(), i(t, { to: "body" }, [l(n, {
-			name: "ui-modal",
+			name: "fm-modal",
 			onAfterLeave: u[0] ||= (e) => d("close")
 		}, {
 			default: A(() => [e.modelValue ? (v(), o("div", {
 				key: 0,
-				class: "ui-modal",
+				class: "fm-modal",
 				onKeydown: j
 			}, [s("div", {
-				class: "ui-modal__backdrop",
+				class: "fm-modal__backdrop",
 				"aria-hidden": "true",
 				onClick: S
 			}), s("div", {
 				ref_key: "panelRef",
 				ref: _,
-				class: p(["ui-modal__panel", `ui-modal__panel--${e.size}`]),
+				class: p(["fm-modal__panel", `fm-modal__panel--${e.size}`]),
 				role: "dialog",
 				"aria-modal": "true",
 				"aria-labelledby": e.title || E(m).header ? E(g) : void 0,
@@ -1005,10 +1005,10 @@ var Ze = {
 			}, [
 				e.title || E(m).header || !e.hideClose ? (v(), o("header", rt, [s("div", {
 					id: E(g),
-					class: "ui-modal__title"
+					class: "fm-modal__title"
 				}, [x(r.$slots, "header", {}, () => [c(w(e.title), 1)])], 8, it), e.hideClose ? a("", !0) : (v(), i(tt, {
 					key: 0,
-					class: "ui-modal__close",
+					class: "fm-modal__close",
 					icon: "",
 					size: "sm",
 					variant: "ghost",
@@ -1026,16 +1026,16 @@ var Ze = {
 		})]));
 	}
 }), lt = {
-	UiInput: G,
-	UiSelect: De,
-	UiRadio: X,
-	UiCheckbox: We,
-	UiButton: tt,
-	UiModal: ct
+	FmInput: G,
+	FmSelect: De,
+	FmRadio: X,
+	FmCheckbox: We,
+	FmButton: tt,
+	FmModal: ct
 }, ut = { install(e) {
 	Object.entries(lt).forEach(([t, n]) => {
 		e.component(t, n);
 	});
 } };
 //#endregion
-export { tt as UiButton, We as UiCheckbox, G as UiInput, ct as UiModal, X as UiRadio, De as UiSelect, lt as allComponents, ut as default };
+export { tt as FmButton, We as FmCheckbox, G as FmInput, ct as FmModal, X as FmRadio, De as FmSelect, lt as allComponents, ut as default };

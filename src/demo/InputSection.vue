@@ -31,22 +31,22 @@ const validateEmail = (value: FieldValue) => {
 <template>
   <DemoSection id="input" title="Input" description="글자나 숫자를 입력받습니다. 검증, 라벨 위치, prefix/suffix 슬롯을 지원합니다.">
     <DemoGroup title="variant — 박스 모양">
-      <UiInput v-model="text" label="outlined (기본)" placeholder="입력하세요" />
-      <UiInput v-model="filled" variant="filled" label="filled" placeholder="입력하세요" />
-      <UiInput v-model="underline" variant="underline" label="underline" placeholder="입력하세요" />
+      <FmInput v-model="text" label="outlined (기본)" placeholder="입력하세요" />
+      <FmInput v-model="filled" variant="filled" label="filled" placeholder="입력하세요" />
+      <FmInput v-model="underline" variant="underline" label="underline" placeholder="입력하세요" />
     </DemoGroup>
 
     <DemoGroup title="라벨 위치">
-      <UiInput v-model="labelTop" label="top (기본)" placeholder="홍길동" />
-      <UiInput v-model="labelLeft" label="left" label-position="left" placeholder="홍길동" />
-      <UiInput v-model="labelInside" label="inside (floating)" label-position="inside" />
-      <UiInput
+      <FmInput v-model="labelTop" label="top (기본)" placeholder="홍길동" />
+      <FmInput v-model="labelLeft" label="left" label-position="left" placeholder="홍길동" />
+      <FmInput v-model="labelInside" label="inside (floating)" label-position="inside" />
+      <FmInput
         v-model="labelInsideFilled"
         label="inside + filled"
         label-position="inside"
         variant="filled"
       />
-      <UiInput
+      <FmInput
         v-model="labelInsideUnderline"
         label="inside + underline"
         label-position="inside"
@@ -55,20 +55,20 @@ const validateEmail = (value: FieldValue) => {
     </DemoGroup>
 
     <DemoGroup title="상태">
-      <UiInput v-model="required" label="필수 (입력 후 지워보세요)" required />
-      <UiInput
+      <FmInput v-model="required" label="필수 (입력 후 지워보세요)" required />
+      <FmInput
         v-model="email"
         label="커스텀 validator"
         :validator="validateEmail"
         placeholder="hong@example.com"
       />
-      <UiInput v-model="readonlyValue" label="readonly" readonly />
-      <UiInput v-model="disabledValue" label="disabled" disabled />
+      <FmInput v-model="readonlyValue" label="readonly" readonly />
+      <FmInput v-model="disabledValue" label="disabled" disabled />
     </DemoGroup>
 
     <DemoGroup title="숫자 · 슬롯">
-      <UiInput v-model="age" type="number" label="나이 (스테퍼)" :max="120" :min="0" show-stepper />
-      <UiInput
+      <FmInput v-model="age" type="number" label="나이 (스테퍼)" :max="120" :min="0" show-stepper />
+      <FmInput
         v-model="ratio"
         type="number"
         label="비율 (step 0.1)"
@@ -77,12 +77,12 @@ const validateEmail = (value: FieldValue) => {
         :max="1"
         show-stepper
       />
-      <UiInput v-model="search" label="prefix 슬롯">
+      <FmInput v-model="search" label="prefix 슬롯">
         <template #prefix>🔍</template>
-      </UiInput>
-      <UiInput v-model="price" type="number" label="suffix 슬롯" variant="filled">
+      </FmInput>
+      <FmInput v-model="price" type="number" label="suffix 슬롯" variant="filled">
         <template #suffix>원</template>
-      </UiInput>
+      </FmInput>
     </DemoGroup>
   </DemoSection>
 </template>

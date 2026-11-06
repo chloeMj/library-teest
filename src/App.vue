@@ -59,7 +59,7 @@ const grouped = computed(() => {
         <span class="demo__count">{{ demos.length }}개</span>
       </div>
 
-      <UiInput v-model="query" class="demo__search" placeholder="컴포넌트 검색" />
+      <FmInput v-model="query" class="demo__search" placeholder="컴포넌트 검색" />
 
       <nav class="demo__nav" aria-label="컴포넌트 목록">
         <div v-for="[group, items] in grouped" :key="group" class="demo__nav-group">
@@ -103,8 +103,8 @@ const grouped = computed(() => {
 /* 데모 화면도 라이브러리 토큰으로 스타일링해, 토큰을 바꾸면 함께 바뀌는지 확인합니다. */
 body {
   margin: 0;
-  background: var(--ui-surface-subtle);
-  color: var(--ui-text-default);
+  background: var(--fm-surface-subtle);
+  color: var(--fm-text-default);
   font-family: system-ui, sans-serif;
 }
 
@@ -124,8 +124,8 @@ body {
   flex-direction: column;
   gap: 16px;
   padding: 24px 16px;
-  background: var(--ui-surface-default);
-  border-right: 1px solid var(--ui-border-default);
+  background: var(--fm-surface-default);
+  border-right: 1px solid var(--fm-border-default);
   overflow-y: auto;
 }
 
@@ -142,8 +142,8 @@ body {
 }
 
 .demo__count {
-  font-size: var(--ui-font-size-sm);
-  color: var(--ui-text-muted);
+  font-size: var(--fm-font-size-sm);
+  color: var(--fm-text-muted);
 }
 
 .demo__nav {
@@ -166,55 +166,55 @@ body {
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--ui-text-muted);
+  color: var(--fm-text-muted);
 }
 
 .demo__nav-link {
   padding: 8px;
-  border-radius: var(--ui-radius-xs);
-  color: var(--ui-text-default);
-  font-size: var(--ui-font-size-md);
+  border-radius: var(--fm-radius-xs);
+  color: var(--fm-text-default);
+  font-size: var(--fm-font-size-md);
   text-decoration: none;
 }
 
 .demo__nav-link:hover {
-  background: var(--ui-surface-hover);
+  background: var(--fm-surface-hover);
 }
 
 .demo__nav-link--active {
-  background: var(--ui-primary-subtle);
-  color: var(--ui-primary-default);
+  background: var(--fm-primary-subtle);
+  color: var(--fm-primary-default);
   font-weight: 600;
 }
 
 .demo__nav-empty {
   margin: 0;
   padding: 0 8px;
-  font-size: var(--ui-font-size-sm);
-  color: var(--ui-text-muted);
+  font-size: var(--fm-font-size-sm);
+  color: var(--fm-text-muted);
 }
 
 .demo__theme {
   display: flex;
-  border: 1px solid var(--ui-border-default);
-  border-radius: var(--ui-radius-sm);
+  border: 1px solid var(--fm-border-default);
+  border-radius: var(--fm-radius-sm);
   overflow: hidden;
 }
 
 .demo__theme-btn {
   flex: 1;
   border: none;
-  background: var(--ui-surface-default);
-  color: var(--ui-text-muted);
+  background: var(--fm-surface-default);
+  color: var(--fm-text-muted);
   padding: 6px 0;
   font: inherit;
-  font-size: var(--ui-font-size-sm);
+  font-size: var(--fm-font-size-sm);
   cursor: pointer;
 }
 
 .demo__theme-btn--active {
-  background: var(--ui-primary-default);
-  color: var(--ui-primary-on);
+  background: var(--fm-primary-default);
+  color: var(--fm-primary-on);
 }
 
 .demo__main {
@@ -237,7 +237,7 @@ body {
     padding: 12px 16px;
     gap: 12px;
     border-right: none;
-    border-bottom: 1px solid var(--ui-border-default);
+    border-bottom: 1px solid var(--fm-border-default);
   }
 
   .demo__sidebar .demo__search {
@@ -286,27 +286,27 @@ body {
 
 .demo__desc {
   margin: -12px 0 8px;
-  font-size: var(--ui-font-size-lg);
-  color: var(--ui-text-muted);
+  font-size: var(--fm-font-size-lg);
+  color: var(--fm-text-muted);
 }
 
 /* 예제 묶음 하나가 카드 하나 */
 .demo__group {
   display: flex;
   flex-direction: column;
-  background: var(--ui-surface-default);
-  border: 1px solid var(--ui-border-default);
-  border-radius: var(--ui-radius-md);
+  background: var(--fm-surface-default);
+  border: 1px solid var(--fm-border-default);
+  border-radius: var(--fm-radius-md);
   overflow: hidden;
 }
 
 .demo__sub {
   margin: 0;
   padding: 12px 20px;
-  font-size: var(--ui-font-size-sm);
+  font-size: var(--fm-font-size-sm);
   font-weight: 600;
-  color: var(--ui-text-muted);
-  border-bottom: 1px solid var(--ui-border-default);
+  color: var(--fm-text-muted);
+  border-bottom: 1px solid var(--fm-border-default);
 }
 
 /* 한 줄에 여러 예시를 나열해 상태를 한눈에 비교합니다 */
@@ -319,16 +319,16 @@ body {
 }
 
 /* 그리드는 칸을 꽉 채우므로, 버튼은 원래 크기로 보이게 왼쪽에 붙입니다 (모든 데모 공통) */
-.demo__row > .ui-button:not(.ui-button--block) {
+.demo__row > .fm-button:not(.fm-button--block) {
   justify-self: start;
 }
 
 .demo__note {
   margin: 0;
   padding: 10px 20px;
-  font-size: var(--ui-font-size-sm);
-  color: var(--ui-text-muted);
-  background: var(--ui-surface-subtle);
-  border-top: 1px solid var(--ui-border-default);
+  font-size: var(--fm-font-size-sm);
+  color: var(--fm-text-muted);
+  background: var(--fm-surface-subtle);
+  border-top: 1px solid var(--fm-border-default);
 }
 </style>

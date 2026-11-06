@@ -86,7 +86,7 @@ const { errorMessage } = useFieldValidation<CheckboxValue>({
 });
 
 const { rootClasses } = useFieldClasses({
-  block: "ui-checkbox-group",
+  block: "fm-checkbox-group",
   labelPosition: toRef(props, "labelPosition"),
   errorPosition: toRef(props, "errorPosition"),
   invalid: computed(() => !!errorMessage.value),
@@ -136,21 +136,21 @@ defineExpose({ validate });
 </script>
 
 <template>
-  <div class="ui-checkbox-group" :class="rootClasses">
-    <span v-if="isGroup && label" class="ui-checkbox-group__label">
+  <div class="fm-checkbox-group" :class="rootClasses">
+    <span v-if="isGroup && label" class="fm-checkbox-group__label">
       <slot name="label">
         {{ label }}
-        <span v-if="required" class="ui-checkbox-group__required-mark">*</span>
+        <span v-if="required" class="fm-checkbox-group__required-mark">*</span>
       </slot>
     </span>
 
-    <div class="ui-checkbox-group__body">
+    <div class="fm-checkbox-group__body">
       <div
-        class="ui-checkbox-group__options"
+        class="fm-checkbox-group__options"
         :class="[
-          `ui-checkbox-group__options--${variant}`,
+          `fm-checkbox-group__options--${variant}`,
           {
-            'ui-checkbox-group__options--horizontal':
+            'fm-checkbox-group__options--horizontal':
               direction === 'horizontal',
           },
         ]"
@@ -162,15 +162,15 @@ defineExpose({ validate });
         <label
           v-for="(option, index) in normalizedOptions"
           :key="isGroup ? option.value : 'single'"
-          class="ui-checkbox-group__option"
+          class="fm-checkbox-group__option"
           :class="{
-            'ui-checkbox-group__option--disabled': isOptionDisabled(option),
-            'ui-checkbox-group__option--selected': isChecked(option),
+            'fm-checkbox-group__option--disabled': isOptionDisabled(option),
+            'fm-checkbox-group__option--selected': isChecked(option),
           }"
         >
           <input
             type="checkbox"
-            class="ui-checkbox-group__input"
+            class="fm-checkbox-group__input"
             :name="groupName"
             :value="option.value"
             :checked="isChecked(option)"
@@ -178,17 +178,17 @@ defineExpose({ validate });
             @change="toggleOption(option)"
             @blur="onBlur"
           />
-          <span class="ui-checkbox-group__control" aria-hidden="true"></span>
-          <span class="ui-checkbox-group__option-label">
+          <span class="fm-checkbox-group__control" aria-hidden="true"></span>
+          <span class="fm-checkbox-group__option-label">
             <slot name="option" :option="option" :index="index">
               <span
                 v-if="option.icon"
-                class="ui-checkbox-group__option-icon"
+                class="fm-checkbox-group__option-icon"
                 aria-hidden="true"
               >
                 <img
                   v-if="isImageIcon(option.icon)"
-                  class="ui-checkbox-group__option-icon-img"
+                  class="fm-checkbox-group__option-icon-img"
                   :src="option.icon.src"
                   :alt="option.icon.alt ?? ''"
                 />
@@ -197,7 +197,7 @@ defineExpose({ validate });
               {{ option.label }}
               <span
                 v-if="!isGroup && required"
-                class="ui-checkbox-group__required-mark"
+                class="fm-checkbox-group__required-mark"
               >
                 *
               </span>
@@ -207,7 +207,7 @@ defineExpose({ validate });
 
         <p
           v-if="isGroup && normalizedOptions.length === 0"
-          class="ui-checkbox-group__empty"
+          class="fm-checkbox-group__empty"
         >
           <slot name="empty">표시할 항목이 없습니다.</slot>
         </p>
@@ -216,7 +216,7 @@ defineExpose({ validate });
       <p
         v-if="errorMessage"
         :id="errorId"
-        class="ui-checkbox-group__error"
+        class="fm-checkbox-group__error"
         role="alert"
       >
         <slot name="error" :message="errorMessage">{{ errorMessage }}</slot>
@@ -225,90 +225,90 @@ defineExpose({ validate });
   </div>
 </template>
 
-<!-- Input.vue와 동일한 이유로 scoped를 쓰지 않습니다 (ui-checkbox-group BEM 클래스만으로 격리). -->
+<!-- Input.vue와 동일한 이유로 scoped를 쓰지 않습니다 (fm-checkbox-group BEM 클래스만으로 격리). -->
 <style lang="scss">
 @use "../../styles/mixins/field-layout" as field;
 
-.ui-checkbox-group {
+.fm-checkbox-group {
   @include field.field-label-top;
-  font-size: var(--ui-font-size-md);
-  color: var(--ui-text-default);
+  font-size: var(--fm-font-size-md);
+  color: var(--fm-text-default);
 }
 
-.ui-checkbox-group--label-left {
+.fm-checkbox-group--label-left {
   @include field.field-label-left;
 }
 
-.ui-checkbox-group__label {
-  font-size: var(--ui-font-size-sm);
-  color: var(--ui-text-default);
+.fm-checkbox-group__label {
+  font-size: var(--fm-font-size-sm);
+  color: var(--fm-text-default);
 }
 
-.ui-checkbox-group--label-left > .ui-checkbox-group__label {
+.fm-checkbox-group--label-left > .fm-checkbox-group__label {
   flex: 0 0 auto;
 }
 
-.ui-checkbox-group--invalid > .ui-checkbox-group__label {
-  color: var(--ui-danger-default);
+.fm-checkbox-group--invalid > .fm-checkbox-group__label {
+  color: var(--fm-danger-default);
 }
 
-.ui-checkbox-group__required-mark {
-  color: var(--ui-danger-default);
+.fm-checkbox-group__required-mark {
+  color: var(--fm-danger-default);
   margin-left: 2px;
 }
 
-.ui-checkbox-group__body {
+.fm-checkbox-group__body {
   display: flex;
   flex-direction: column;
-  gap: var(--ui-spacing-xs);
+  gap: var(--fm-spacing-xs);
   flex: 1 1 auto;
   min-width: 0;
 }
 
-.ui-checkbox-group__options {
+.fm-checkbox-group__options {
   order: 1;
   display: flex;
   flex-direction: column;
-  gap: var(--ui-spacing-sm);
+  gap: var(--fm-spacing-sm);
 }
 
-.ui-checkbox-group__options--horizontal {
+.fm-checkbox-group__options--horizontal {
   flex-direction: row;
   flex-wrap: wrap;
-  gap: var(--ui-spacing-lg);
+  gap: var(--fm-spacing-lg);
 }
 
-.ui-checkbox-group__error {
+.fm-checkbox-group__error {
   order: 2;
   margin: 0;
-  font-size: var(--ui-font-size-sm);
-  color: var(--ui-danger-default);
+  font-size: var(--fm-font-size-sm);
+  color: var(--fm-danger-default);
 }
 
-.ui-checkbox-group--error-top .ui-checkbox-group__options {
+.fm-checkbox-group--error-top .fm-checkbox-group__options {
   order: 2;
 }
 
-.ui-checkbox-group--error-top .ui-checkbox-group__error {
+.fm-checkbox-group--error-top .fm-checkbox-group__error {
   order: 1;
 }
 
-.ui-checkbox-group__option {
+.fm-checkbox-group__option {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: var(--ui-spacing-sm);
+  gap: var(--fm-spacing-sm);
   cursor: pointer;
 }
 
-.ui-checkbox-group__option--disabled {
+.fm-checkbox-group__option--disabled {
   cursor: not-allowed;
-  color: var(--ui-text-muted);
+  color: var(--fm-text-muted);
 }
 
 // 네이티브 input은 시각적으로 숨기되(접근성/포커스/클릭 영역은 유지),
-// 실제 체크 모양은 옆의 .ui-checkbox-group__control로 그립니다.
-.ui-checkbox-group__input {
+// 실제 체크 모양은 옆의 .fm-checkbox-group__control로 그립니다.
+.fm-checkbox-group__input {
   position: absolute;
   top: 0;
   left: 0;
@@ -320,130 +320,130 @@ defineExpose({ validate });
   cursor: pointer;
 }
 
-.ui-checkbox-group__input:disabled {
+.fm-checkbox-group__input:disabled {
   cursor: not-allowed;
 }
 
-.ui-checkbox-group__control {
+.fm-checkbox-group__control {
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 18px;
   height: 18px;
-  border-radius: var(--ui-radius-xs);
-  border: 1.5px solid var(--ui-border-control);
-  background: var(--ui-surface-default);
+  border-radius: var(--fm-radius-xs);
+  border: 1.5px solid var(--fm-border-control);
+  background: var(--fm-surface-default);
   transition:
-    border-color var(--ui-duration-normal) var(--ui-easing-standard),
-    background var(--ui-duration-normal) var(--ui-easing-standard),
-    box-shadow var(--ui-duration-normal) var(--ui-easing-standard);
+    border-color var(--fm-duration-normal) var(--fm-easing-standard),
+    background var(--fm-duration-normal) var(--fm-easing-standard),
+    box-shadow var(--fm-duration-normal) var(--fm-easing-standard);
 }
 
-.ui-checkbox-group__control::after {
+.fm-checkbox-group__control::after {
   content: "";
   width: 5px;
   height: 9px;
   margin-bottom: 2px;
-  border: solid var(--ui-primary-on);
+  border: solid var(--fm-primary-on);
   border-width: 0 2px 2px 0;
   transform: rotate(45deg) scale(0);
-  transition: transform var(--ui-duration-fast) var(--ui-easing-standard);
+  transition: transform var(--fm-duration-fast) var(--fm-easing-standard);
 }
 
-.ui-checkbox-group__option:not(.ui-checkbox-group__option--disabled):hover
-  .ui-checkbox-group__control {
-  border-color: var(--ui-border-hover);
+.fm-checkbox-group__option:not(.fm-checkbox-group__option--disabled):hover
+  .fm-checkbox-group__control {
+  border-color: var(--fm-border-hover);
 }
 
-.ui-checkbox-group__input:checked ~ .ui-checkbox-group__control {
-  background: var(--ui-primary-default);
-  border-color: var(--ui-primary-default);
+.fm-checkbox-group__input:checked ~ .fm-checkbox-group__control {
+  background: var(--fm-primary-default);
+  border-color: var(--fm-primary-default);
 }
 
-.ui-checkbox-group__input:checked ~ .ui-checkbox-group__control::after {
+.fm-checkbox-group__input:checked ~ .fm-checkbox-group__control::after {
   transform: rotate(45deg) scale(1);
 }
 
-.ui-checkbox-group__input:focus-visible ~ .ui-checkbox-group__control {
-  outline: 2px solid var(--ui-border-focus-ring);
+.fm-checkbox-group__input:focus-visible ~ .fm-checkbox-group__control {
+  outline: 2px solid var(--fm-border-focus-ring);
   outline-offset: 2px;
 }
 
-.ui-checkbox-group__input:disabled ~ .ui-checkbox-group__control {
-  background: var(--ui-surface-disabled);
-  border-color: var(--ui-border-disabled);
+.fm-checkbox-group__input:disabled ~ .fm-checkbox-group__control {
+  background: var(--fm-surface-disabled);
+  border-color: var(--fm-border-disabled);
 }
 
-.ui-checkbox-group__option-icon {
+.fm-checkbox-group__option-icon {
   display: inline-flex;
   align-items: center;
-  margin-right: var(--ui-spacing-xs);
+  margin-right: var(--fm-spacing-xs);
 }
 
-.ui-checkbox-group__option-icon-img {
+.fm-checkbox-group__option-icon-img {
   display: block;
   width: 16px;
   height: 16px;
   object-fit: contain;
 }
 
-.ui-checkbox-group__empty {
+.fm-checkbox-group__empty {
   margin: 0;
-  color: var(--ui-text-muted);
+  color: var(--fm-text-muted);
 }
 
 // --- variant="button": 토글 버튼처럼 보이는 스타일 ---
 
-.ui-checkbox-group__options--button {
+.fm-checkbox-group__options--button {
   flex-direction: row;
   flex-wrap: wrap;
-  gap: var(--ui-spacing-sm);
+  gap: var(--fm-spacing-sm);
 }
 
-.ui-checkbox-group__options--button.ui-checkbox-group__options--horizontal {
+.fm-checkbox-group__options--button.fm-checkbox-group__options--horizontal {
   flex-direction: row;
 }
 
-.ui-checkbox-group__options--button .ui-checkbox-group__option {
-  padding: var(--ui-spacing-sm) var(--ui-spacing-md);
-  border: 1px solid var(--ui-border-control);
+.fm-checkbox-group__options--button .fm-checkbox-group__option {
+  padding: var(--fm-spacing-sm) var(--fm-spacing-md);
+  border: 1px solid var(--fm-border-control);
   border-radius: 999px;
-  background: var(--ui-surface-default);
+  background: var(--fm-surface-default);
   transition:
-    border-color var(--ui-duration-normal) var(--ui-easing-standard),
-    background var(--ui-duration-normal) var(--ui-easing-standard),
-    color var(--ui-duration-normal) var(--ui-easing-standard);
+    border-color var(--fm-duration-normal) var(--fm-easing-standard),
+    background var(--fm-duration-normal) var(--fm-easing-standard),
+    color var(--fm-duration-normal) var(--fm-easing-standard);
 }
 
-.ui-checkbox-group__options--button
-  .ui-checkbox-group__option:not(.ui-checkbox-group__option--disabled):hover {
-  border-color: var(--ui-border-hover);
+.fm-checkbox-group__options--button
+  .fm-checkbox-group__option:not(.fm-checkbox-group__option--disabled):hover {
+  border-color: var(--fm-border-hover);
 }
 
-.ui-checkbox-group__options--button .ui-checkbox-group__option--selected {
-  border-color: var(--ui-primary-default);
-  background: var(--ui-primary-default);
-  color: var(--ui-primary-on);
+.fm-checkbox-group__options--button .fm-checkbox-group__option--selected {
+  border-color: var(--fm-primary-default);
+  background: var(--fm-primary-default);
+  color: var(--fm-primary-on);
 }
 
-.ui-checkbox-group__options--button .ui-checkbox-group__option--disabled {
-  background: var(--ui-surface-disabled);
+.fm-checkbox-group__options--button .fm-checkbox-group__option--disabled {
+  background: var(--fm-surface-disabled);
 }
 
-.ui-checkbox-group__options--button .ui-checkbox-group__control {
+.fm-checkbox-group__options--button .fm-checkbox-group__control {
   display: none;
 }
 
-.ui-checkbox-group__options--button .ui-checkbox-group__input {
+.fm-checkbox-group__options--button .fm-checkbox-group__input {
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
 }
 
-.ui-checkbox-group__options--button .ui-checkbox-group__option:focus-within {
-  outline: 2px solid var(--ui-border-focus-ring);
+.fm-checkbox-group__options--button .fm-checkbox-group__option:focus-within {
+  outline: 2px solid var(--fm-border-focus-ring);
   outline-offset: 2px;
 }
 </style>

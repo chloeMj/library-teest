@@ -5,8 +5,8 @@ interface Props {
     /** 제목. #header 슬롯을 쓰면 무시됩니다 */
     title?: string;
     /**
-     * 너비. 값은 --ui-modal-width-sm/md/lg(400/560/800px)로 바꿀 수 있고,
-     * 모달 하나만 다르게 하려면 style="--ui-modal-width: 640px"를 주세요.
+     * 너비. 값은 --fm-modal-width-sm/md/lg(400/560/800px)로 바꿀 수 있고,
+     * 모달 하나만 다르게 하려면 style="--fm-modal-width: 640px"를 주세요.
      */
     size?: ModalSize;
     /** 바깥(어두운 배경)을 누르면 닫기. 입력 중인 내용이 있는 모달은 false를 권장합니다 */

@@ -21,7 +21,7 @@ const open = (props: Record<string, unknown> = {}, slots: Record<string, string>
   return wrapper
 }
 
-describe('UiModal', () => {
+describe('FmModal', () => {
   it('열리면 <body>에 role="dialog"로 나타나고 제목과 연결된다', () => {
     open()
 
@@ -58,12 +58,12 @@ describe('UiModal', () => {
 
   it('바깥(배경)을 누르면 닫히고, closeOnBackdrop이 false면 안 닫힌다', async () => {
     const w = open()
-    document.body.querySelector<HTMLElement>('.ui-modal__backdrop')!.click()
+    document.body.querySelector<HTMLElement>('.fm-modal__backdrop')!.click()
     expect(w.emitted('update:modelValue')).toEqual([[false]])
     w.unmount()
 
     const w2 = open({ closeOnBackdrop: false })
-    document.body.querySelector<HTMLElement>('.ui-modal__backdrop')!.click()
+    document.body.querySelector<HTMLElement>('.fm-modal__backdrop')!.click()
     expect(w2.emitted('update:modelValue')).toBeUndefined()
   })
 

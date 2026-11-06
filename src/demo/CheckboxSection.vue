@@ -19,18 +19,18 @@ const interestOptions = [
 <template>
   <DemoSection id="checkbox" title="Checkbox" description="하나 또는 여러 항목을 선택합니다.">
     <DemoGroup title="단일 · 다중" note="options를 생략하면 boolean 단일 체크박스로 동작합니다.">
-      <UiCheckbox v-model="agree" label="약관에 동의합니다 (단일)" required />
-      <UiCheckbox v-model="interests" label="다중 선택" :options="interestOptions" />
+      <FmCheckbox v-model="agree" label="약관에 동의합니다 (단일)" required />
+      <FmCheckbox v-model="interests" label="다중 선택" :options="interestOptions" />
     </DemoGroup>
 
     <DemoGroup title="배치 · variant">
-      <UiCheckbox
+      <FmCheckbox
         v-model="interestsHorizontal"
         label="가로"
         direction="horizontal"
         :options="interestOptions"
       />
-      <UiCheckbox
+      <FmCheckbox
         v-model="interestsButton"
         label="button"
         variant="button"

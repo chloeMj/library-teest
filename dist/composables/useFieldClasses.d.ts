@@ -1,7 +1,7 @@
 import { Ref } from 'vue';
 import { ErrorPosition, LabelPosition } from '../types/form';
 export interface UseFieldClassesOptions {
-    /** BEM 블록명. 예: 'ui-input', 'ui-select' */
+    /** BEM 블록명. 예: 'fm-input', 'fm-select' */
     block: string;
     labelPosition: Ref<LabelPosition>;
     errorPosition: Ref<ErrorPosition>;
