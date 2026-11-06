@@ -4,8 +4,9 @@ import { default as Select } from './components/form/Select.vue';
 import { default as Radio } from './components/form/Radio.vue';
 import { default as Checkbox } from './components/form/Checkbox.vue';
 import { default as Button } from './components/button/Button.vue';
+import { default as Modal } from './components/modal/Modal.vue';
 export declare const allComponents: Record<string, Component>;
-export { Input as UiInput, Select as UiSelect, Radio as UiRadio, Checkbox as UiCheckbox, Button as UiButton };
+export { Input as UiInput, Select as UiSelect, Radio as UiRadio, Checkbox as UiCheckbox, Button as UiButton, Modal as UiModal };
 export type { LabelPosition, ErrorPosition, FieldVariant, SelectOption, OptionIcon } from './types/form';
 export type { FieldValidator, FieldValue } from './composables/useFieldValidation';
 declare const plugin: Plugin;
@@ -17,5 +18,6 @@ declare module 'vue' {
         UiRadio: typeof Radio;
         UiCheckbox: typeof Checkbox;
         UiButton: typeof Button;
+        UiModal: typeof Modal;
     }
 }
