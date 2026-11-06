@@ -7,18 +7,28 @@
  */
 type ButtonVariant = "filled" | "outlined" | "ghost" | "text";
 /**
- * 색(의미). 모양과 자유롭게 조합합니다. 예) outlined + danger = 빨간 테두리 삭제 버튼
- *   primary 기본 동작
- *   secondary 강조하지 않는 보조 동작 (취소, 닫기). 회색 계열
- *   danger  되돌리기 어려운 동작 (삭제, 탈퇴)
+ * 색. 용도를 정하지 않고 색의 성격만 정합니다. 어떤 동작에 어떤 색을 쓸지는 디자인이 정합니다.
+ *   primary   브랜드 주조색. 가장 강조
+ *   secondary 강조하지 않는 보조색 (기본 회색)
+ *   danger    경고색 (기본 빨강)
+ * 실제 색은 토큰(--ui-<이름>-default / -on)으로 바꿉니다.
  */
-type ButtonColor = "primary" | "secondary" | "danger";
+declare const NAMED_COLORS: readonly ["primary", "secondary", "danger"];
+type ButtonColor = (typeof NAMED_COLORS)[number];
 type ButtonSize = "sm" | "md" | "lg";
 /** vue-router의 RouteLocationRaw와 같은 모양. 라이브러리가 vue-router에 의존하지 않도록 직접 적습니다 */
 type RouteTarget = string | Record<string, unknown>;
 interface Props {
     variant?: ButtonVariant;
-    color?: ButtonColor;
+    /**
+     * 이름(primary/secondary/danger) 또는 색상값("#1e3a8a", "rgb(...)").
+     * 색상값은 특별한 버튼 하나에만 쓰는 예외용이고, variant="filled"에 쓰세요.
+     * outlined·ghost·text는 색이 글자가 되므로 고정 색 하나로는 라이트·다크 모두에서
+     * 읽히게 할 수 없습니다 → 그런 경우와 프로젝트 전체 색은 토큰으로 바꾸세요.
+     * 색상값을 주면 hover/active는 자동 계산되고, 글자색은 명암비가 높은 쪽(흰색/진회색)을
+     * 자동으로 고릅니다. 직접 정하려면 style="--ui-button-on: ..."을 주세요.
+     */
+    color?: ButtonColor | (string & {});
     /**
      * 표준 크기. 높이·여백 값은 tokens.scss의 --ui-button-height-* / --ui-button-padding-x-*.
      * 버튼 하나만 다른 크기가 필요하면 prop을 늘리지 말고 변수를 직접 주세요.
@@ -66,7 +76,7 @@ declare const __VLS_base: import('vue').DefineComponent<Props, {}, {}, {}, {}, i
     block: boolean;
     type: "button" | "submit" | "reset";
     variant: ButtonVariant;
-    color: ButtonColor;
+    color: ButtonColor | (string & {});
     size: ButtonSize;
     loading: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, any>;

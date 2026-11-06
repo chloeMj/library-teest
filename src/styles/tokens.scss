@@ -107,15 +107,30 @@
   // 역할 — Light
   // ===========================================================================
 
+  // hover / active는 직접 고르지 않고 default에서 계산합니다.
+  //   hover  = default에 on(배경 위 글자색)을 8% 섞음
+  //   active = default에 on을 12% 섞음 (이 비율이면 hover·active에서도 글자 명암비 4.5:1 유지)
+  // on은 항상 default와 대비되는 색이라 라이트·다크 어디서나 변화가 보이고,
+  // 프로젝트는 default 하나만 바꾸면 hover/active가 따라옵니다.
+  // (Material Design의 state layer와 같은 방식. 계산식은 :root 한 곳에만 두고
+  //  다크 모드는 default/on만 바꿉니다.)
+
   // Primary
   // brand-500은 흰 배경에서 3.20:1이라 글자·버튼에 못 씁니다. 4.5:1을 넘는
-  // 첫 단계가 700이라 default를 거기에 맞추고 hover/active를 한 칸씩 밀었습니다.
+  // 첫 단계가 700이라 default를 거기에 맞췄습니다.
   --ui-primary-default: var(--ui-brand-700);
-  --ui-primary-hover: var(--ui-brand-800);
-  --ui-primary-active: var(--ui-brand-900);
+  --ui-primary-hover: color-mix(in srgb, var(--ui-primary-default) 92%, var(--ui-primary-on));
+  --ui-primary-active: color-mix(in srgb, var(--ui-primary-default) 88%, var(--ui-primary-on));
   --ui-primary-subtle: var(--ui-brand-50);
   // primary 배경 위에 올라가는 글자/아이콘
   --ui-primary-on: var(--ui-gray-0);
+
+  // Secondary — 강조하지 않는 보조색. 기본은 본문 글자와 같은 회색 계열입니다.
+  // 프로젝트 보조색(남색 등)이 있으면 default/on만 바꾸세요.
+  --ui-secondary-default: var(--ui-gray-900);
+  --ui-secondary-hover: color-mix(in srgb, var(--ui-secondary-default) 92%, var(--ui-secondary-on));
+  --ui-secondary-active: color-mix(in srgb, var(--ui-secondary-default) 88%, var(--ui-secondary-on));
+  --ui-secondary-on: var(--ui-gray-0);
 
   // Text
   --ui-text-default: var(--ui-gray-900);
@@ -152,8 +167,8 @@
 
   // Feedback
   --ui-danger-default: var(--ui-red-700);
-  --ui-danger-hover: var(--ui-red-800);
-  --ui-danger-active: var(--ui-red-900);
+  --ui-danger-hover: color-mix(in srgb, var(--ui-danger-default) 92%, var(--ui-danger-on));
+  --ui-danger-active: color-mix(in srgb, var(--ui-danger-default) 88%, var(--ui-danger-on));
   --ui-danger-subtle: var(--ui-red-50);
   // danger 배경 위에 올라가는 글자/아이콘 (삭제 버튼 등)
   --ui-danger-on: var(--ui-gray-0);
@@ -229,10 +244,12 @@
 @include theme.dark {
   // Primary — 어두운 배경에서는 밝은 단계를 씁니다
   --ui-primary-default: var(--ui-brand-400);
-  --ui-primary-hover: var(--ui-brand-300);
-  --ui-primary-active: var(--ui-brand-500);
   --ui-primary-subtle: var(--ui-brand-900);
   --ui-primary-on: var(--ui-gray-900);
+
+  // Secondary
+  --ui-secondary-default: var(--ui-gray-0);
+  --ui-secondary-on: var(--ui-gray-900);
 
   // Text
   --ui-text-default: var(--ui-gray-0);
@@ -257,8 +274,6 @@
 
   // Feedback
   --ui-danger-default: var(--ui-red-300);
-  --ui-danger-hover: var(--ui-red-200);
-  --ui-danger-active: var(--ui-red-400);
   --ui-danger-subtle: var(--ui-red-900);
   --ui-danger-on: var(--ui-gray-900);
   --ui-success-default: var(--ui-green-300);

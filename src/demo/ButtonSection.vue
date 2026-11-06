@@ -9,6 +9,9 @@ const count = ref(0)
 const variants = ['filled', 'outlined', 'ghost', 'text'] as const
 const colors = ['primary', 'secondary', 'danger'] as const
 
+// 예외 색상: 어두운 남색, 밝은 노랑(글자색 자동 전환 확인), 중간 밝기 보라
+const customColors = ['#1e3a8a', '#facc15', '#8b5cf6']
+
 const categories = [
   { label: '전체', value: 'all' },
   { label: '공지', value: 'notice' },
@@ -34,6 +37,15 @@ const save = () => {
       <UiButton v-for="color in colors" :key="color" :variant="variant" :color="color">
         {{ color }}
       </UiButton>
+    </DemoGroup>
+
+    <DemoGroup
+      title="예외 색상 — color에 색상값"
+      note="특별한 버튼 하나에만 쓰는 용도로, filled에 쓰세요. hover·누름 색은 자동 계산되고 글자색(흰색/진회색)도 자동으로 고릅니다. outlined·ghost·text는 색이 글자가 되어서, 고정 색 하나로는 라이트·다크 둘 다 읽히게 할 수 없습니다(노랑은 라이트에서, 남색은 다크에서 안 보임). 그런 버튼은 토큰으로 색을 정하세요."
+    >
+      <div class="demo-button-row">
+        <UiButton v-for="custom in customColors" :key="custom" :color="custom">{{ custom }}</UiButton>
+      </div>
     </DemoGroup>
 
     <DemoGroup title="size" note="sm·lg 높이는 --ui-button-height-sm/lg, md는 Input·Select와 같은 --ui-field-height로 바꿉니다.">
@@ -121,11 +133,6 @@ const save = () => {
 </template>
 
 <style>
-/* 데모 그리드는 칸을 꽉 채우므로, 버튼은 원래 크기로 보이게 왼쪽에 붙입니다 */
-#button .demo__row > .ui-button:not(.ui-button--block) {
-  justify-self: start;
-}
-
 .demo-button-row {
   display: flex;
   align-items: flex-end;

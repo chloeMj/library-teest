@@ -7,6 +7,7 @@
 //   primitives.tokens.json   Primitives 컬렉션
 //   Light.tokens.json        Semantic 컬렉션 · Light 모드
 //   Dark.tokens.json         Semantic 컬렉션 · Dark 모드
+//   dimension.tokens.json    Dimension 컬렉션 (숫자: 간격·radius·글자 크기·높이)
 //
 // 형식은 Figma가 Export하는 것과 동일합니다.
 //   색    $value: { colorSpace, components, alpha, hex }
@@ -46,6 +47,10 @@ const SEMANTIC_MAP = {
   '--ui-primary-active': 'primary/active',
   '--ui-primary-subtle': 'primary/subtle',
   '--ui-primary-on': 'primary/on',
+  '--ui-secondary-default': 'secondary/default',
+  '--ui-secondary-hover': 'secondary/hover',
+  '--ui-secondary-active': 'secondary/active',
+  '--ui-secondary-on': 'secondary/on',
   '--ui-danger-default': 'danger/default',
   '--ui-danger-hover': 'danger/hover',
   '--ui-danger-active': 'danger/active',
@@ -120,9 +125,27 @@ const dark = { ...light, ...darkBlock(core) }
 // var(--ui-gray-0, #ffffff) 에서 참조 변수명만 떼어냅니다
 const refOf = (value) => value.match(/^var\(\s*(--[\w-]+)\s*(?:,.*)?\)$/)?.[1] ?? null
 
+// color-mix(in srgb, A 85%, B) — hover/active 계산식. 두 색을 실제 HEX로 풀어 섞습니다.
+// Figma 변수는 계산식을 못 담으므로, 계산된 색이 그대로(별칭 없이) 들어갑니다.
+const mixOf = (value) =>
+  value.match(/^color-mix\(\s*in srgb\s*,\s*(.+?)\s+([\d.]+)%\s*,\s*(.+?)\s*\)$/)
+
+const mixHex = (a, b, ratio) => {
+  const rgb = (hex) => {
+    const h = expandHex(rgbaToHex(hex)).replace('#', '')
+    return [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16))
+  }
+  const [x, y] = [rgb(a), rgb(b)]
+  return '#' + x.map((v, i) => Math.round(v * ratio + y[i] * (1 - ratio)).toString(16).padStart(2, '0')).join('')
+}
+
 // 변수 체인을 따라가 최종 색(HEX 문자열)을 구합니다
 const resolveColor = (value, vars, depth = 0) => {
   if (depth > 20) return '#000000'
+  const mix = mixOf(value)
+  if (mix) {
+    return mixHex(resolveColor(mix[1], vars, depth + 1), resolveColor(mix[3], vars, depth + 1), Number(mix[2]) / 100)
+  }
   const ref = refOf(value)
   if (!ref) return value
   const next = vars[ref]
@@ -186,7 +209,7 @@ const semantic = (vars) =>
       .map(([cssVar, path]) => {
         const raw = vars[cssVar]
         const alias = aliasOf(raw, vars)
-        return { path, token: alias ? aliasToken(raw, alias, vars) : colorToken(raw) }
+        return { path, token: alias ? aliasToken(raw, alias, vars) : colorToken(resolveColor(raw, vars)) }
       }),
   )
 
@@ -218,10 +241,60 @@ const unmapped = Object.keys(light).filter(
     looksLikeColor(light[name], light),
 )
 
+// ---------------------------------------------------------------------------
+// Dimension — 숫자 토큰 (간격, radius, 글자 크기, 컴포넌트 높이·여백)
+//
+// 1) :root에 px로 선언된 토큰 (spacing, radius, font-size)
+// 2) 컴포넌트 CSS의 fallback 변수 (DESIGN.md 5장 방식: var(--ui-field-height, 36px))
+//    — 선언하지 않은 변수라 :root에는 없으므로, 빌드된 CSS에서 기본값을 읽어옵니다.
+//    컴포넌트에 새 치수 변수를 만들면 따로 목록을 고치지 않아도 자동으로 나갑니다.
+// fallback이 다른 토큰을 가리키면(var(--ui-spacing-md)) Figma에서도 그 변수를 별칭으로 가리킵니다.
+// ---------------------------------------------------------------------------
+const DIMENSION_SET = 'Dimension'
+const PX = /^(\d+(?:\.\d+)?)px$/
+
+// --ui-font-size-md → font-size/md, --ui-field-height-inside → field/height-inside
+const dimensionPath = (name) => {
+  const bare = name.replace(/^--ui-/, '')
+  const m = bare.match(/^(font-size|[a-z]+)-(.+)$/)
+  return m ? `${m[1]}/${m[2]}` : bare
+}
+
+const dimensionSource = {}
+for (const [name, value] of Object.entries(light)) {
+  if (/^--ui-(spacing|radius|font-size)-/.test(name) && PX.test(value)) dimensionSource[name] = value
+}
+for (const m of core.matchAll(/var\((--ui-[\w-]+),\s*(\d+(?:\.\d+)?px|var\(--ui-[\w-]+\))\)/g)) {
+  if (!(m[1] in dimensionSource)) dimensionSource[m[1]] = m[2]
+}
+
+const dimensionTokens = nest(
+  Object.entries(dimensionSource).flatMap(([name, value]) => {
+    const px = value.match(PX)
+    if (px) return [{ path: dimensionPath(name), token: { $type: 'number', $value: Number(px[1]) } }]
+    const ref = refOf(value)
+    const target = ref && dimensionSource[ref]?.match(PX)
+    if (!target) return []
+    return [
+      {
+        path: dimensionPath(name),
+        token: {
+          $type: 'number',
+          $value: Number(target[1]),
+          $extensions: {
+            'com.figma.aliasData': { targetVariableName: dimensionPath(ref), targetVariableSetName: DIMENSION_SET },
+          },
+        },
+      },
+    ]
+  }),
+)
+
 console.log('Figma 토큰 JSON 생성')
 write('primitives.tokens.json', primitives, 'primitives')
 write('Light.tokens.json', semantic(light), 'Light')
 write('Dark.tokens.json', semantic(dark), 'Dark')
+write('dimension.tokens.json', dimensionTokens, 'Value')
 
 if (unmapped.length > 0) {
   console.log('')

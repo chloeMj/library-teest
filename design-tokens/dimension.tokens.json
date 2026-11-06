@@ -1,0 +1,149 @@
+{
+  "spacing": {
+    "xs": {
+      "$type": "number",
+      "$value": 4
+    },
+    "sm": {
+      "$type": "number",
+      "$value": 8
+    },
+    "md": {
+      "$type": "number",
+      "$value": 12
+    },
+    "lg": {
+      "$type": "number",
+      "$value": 16
+    }
+  },
+  "radius": {
+    "xs": {
+      "$type": "number",
+      "$value": 4
+    },
+    "sm": {
+      "$type": "number",
+      "$value": 8
+    },
+    "md": {
+      "$type": "number",
+      "$value": 12
+    },
+    "lg": {
+      "$type": "number",
+      "$value": 16
+    }
+  },
+  "font-size": {
+    "sm": {
+      "$type": "number",
+      "$value": 12
+    },
+    "md": {
+      "$type": "number",
+      "$value": 14
+    },
+    "lg": {
+      "$type": "number",
+      "$value": 16
+    }
+  },
+  "field": {
+    "height": {
+      "$type": "number",
+      "$value": 36
+    },
+    "padding-y": {
+      "$type": "number",
+      "$value": 8,
+      "$extensions": {
+        "com.figma.aliasData": {
+          "targetVariableName": "spacing/sm",
+          "targetVariableSetName": "Dimension"
+        }
+      }
+    },
+    "height-inside": {
+      "$type": "number",
+      "$value": 44
+    }
+  },
+  "button": {
+    "padding-x-md": {
+      "$type": "number",
+      "$value": 12,
+      "$extensions": {
+        "com.figma.aliasData": {
+          "targetVariableName": "spacing/md",
+          "targetVariableSetName": "Dimension"
+        }
+      }
+    },
+    "radius": {
+      "$type": "number",
+      "$value": 8,
+      "$extensions": {
+        "com.figma.aliasData": {
+          "targetVariableName": "radius/sm",
+          "targetVariableSetName": "Dimension"
+        }
+      }
+    },
+    "height-sm": {
+      "$type": "number",
+      "$value": 28
+    },
+    "padding-x-sm": {
+      "$type": "number",
+      "$value": 8,
+      "$extensions": {
+        "com.figma.aliasData": {
+          "targetVariableName": "spacing/sm",
+          "targetVariableSetName": "Dimension"
+        }
+      }
+    },
+    "height-lg": {
+      "$type": "number",
+      "$value": 44
+    },
+    "padding-x-lg": {
+      "$type": "number",
+      "$value": 16,
+      "$extensions": {
+        "com.figma.aliasData": {
+          "targetVariableName": "spacing/lg",
+          "targetVariableSetName": "Dimension"
+        }
+      }
+    }
+  },
+  "modal": {
+    "width-md": {
+      "$type": "number",
+      "$value": 560
+    },
+    "radius": {
+      "$type": "number",
+      "$value": 12,
+      "$extensions": {
+        "com.figma.aliasData": {
+          "targetVariableName": "radius/md",
+          "targetVariableSetName": "Dimension"
+        }
+      }
+    },
+    "width-sm": {
+      "$type": "number",
+      "$value": 400
+    },
+    "width-lg": {
+      "$type": "number",
+      "$value": 800
+    }
+  },
+  "$extensions": {
+    "com.figma.modeName": "Value"
+  }
+}

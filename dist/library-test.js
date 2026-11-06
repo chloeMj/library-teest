@@ -365,12 +365,12 @@ var ie = ["for"], ae = {
 			q.value || (F.value ? Y() : J());
 		}, Z = (e) => {
 			q.value || (S("update:modelValue", e.value), Y(), C.value?.focus());
-		}, Fe = (e) => {
+		}, Q = (e) => {
 			let t = e.target;
 			L.value = t.value, F.value = !0, I.value = G.value.length > 0 ? 0 : -1;
-		}, Ie = (e) => {
+		}, Fe = (e) => {
 			H.onFocus(), _.searchable && J(), S("focus", e);
-		}, Q = (e) => {
+		}, Ie = (e) => {
 			H.onBlur(), R.value ? N.value = !0 : Y(), S("blur", e);
 		}, $ = (e) => {
 			if (q.value) return;
@@ -442,10 +442,10 @@ var ie = ["for"], ae = {
 						"aria-activedescendant": I.value >= 0 ? `${z.value}-option-${I.value}` : void 0,
 						"aria-describedby": E(U) ? B.value : void 0,
 						autocomplete: "off",
-						onInput: Fe,
+						onInput: Q,
 						onKeydown: $,
-						onFocus: Ie,
-						onBlur: Q
+						onFocus: Fe,
+						onBlur: Ie
 					}, null, 40, pe),
 					d[2] ||= s("span", {
 						class: "ui-select__arrow",
@@ -465,8 +465,8 @@ var ie = ["for"], ae = {
 					"aria-describedby": E(U) ? B.value : void 0,
 					onClick: X,
 					onKeydown: $,
-					onFocus: Ie,
-					onBlur: Q
+					onFocus: Fe,
+					onBlur: Ie
 				}, [
 					r.$slots.prefix ? (v(), o("span", ue, [x(r.$slots, "prefix")])) : a("", !0),
 					s("span", { class: p(["ui-select__value", { "ui-select__value--placeholder": !W.value }]) }, w(W.value ? W.value.label : u.labelPosition === "inside" ? "" : u.placeholder), 3),
@@ -523,7 +523,7 @@ var ie = ["for"], ae = {
 						class: "ui-select__sheet-search",
 						placeholder: "검색",
 						value: L.value,
-						onInput: Fe,
+						onInput: Q,
 						onKeydown: $
 					}, null, 40, be)) : a("", !0),
 					s("ul", xe, [(v(!0), o(e, null, b(G.value, (e, t) => (v(), o("li", {
@@ -650,10 +650,10 @@ var ie = ["for"], ae = {
 }), Z = {
 	key: 0,
 	class: "ui-checkbox-group__label"
-}, Fe = {
+}, Q = {
 	key: 0,
 	class: "ui-checkbox-group__required-mark"
-}, Ie = { class: "ui-checkbox-group__body" }, Q = [
+}, Fe = { class: "ui-checkbox-group__body" }, Ie = [
 	"role",
 	"aria-label",
 	"aria-required",
@@ -730,7 +730,7 @@ var ie = ["for"], ae = {
 		}, N = (e) => {
 			d.value = !0, u("blur", e);
 		};
-		return n({ validate: () => (d.value = !0, !C.value) }), (n, r) => (v(), o("div", { class: p(["ui-checkbox-group", E(O)]) }, [_.value && t.label ? (v(), o("span", Z, [x(n.$slots, "label", {}, () => [c(w(t.label) + " ", 1), t.required ? (v(), o("span", Fe, "*")) : a("", !0)])])) : a("", !0), s("div", Ie, [s("div", {
+		return n({ validate: () => (d.value = !0, !C.value) }), (n, r) => (v(), o("div", { class: p(["ui-checkbox-group", E(O)]) }, [_.value && t.label ? (v(), o("span", Z, [x(n.$slots, "label", {}, () => [c(w(t.label) + " ", 1), t.required ? (v(), o("span", Q, "*")) : a("", !0)])])) : a("", !0), s("div", Fe, [s("div", {
 			class: p(["ui-checkbox-group__options", [`ui-checkbox-group__options--${t.variant}`, { "ui-checkbox-group__options--horizontal": t.direction === "horizontal" }]]),
 			role: _.value ? "group" : void 0,
 			"aria-label": _.value ? t.label : void 0,
@@ -770,27 +770,73 @@ var ie = ["for"], ae = {
 				c(" " + w(i.label) + " ", 1),
 				!_.value && t.required ? (v(), o("span", Be, " * ")) : a("", !0)
 			])])
-		], 2))), 128)), _.value && S.value.length === 0 ? (v(), o("p", Ve, [x(n.$slots, "empty", {}, () => [r[1] ||= c("표시할 항목이 없습니다.", -1)])])) : a("", !0)], 10, Q), E(C) ? (v(), o("p", {
+		], 2))), 128)), _.value && S.value.length === 0 ? (v(), o("p", Ve, [x(n.$slots, "empty", {}, () => [r[1] ||= c("표시할 항목이 없습니다.", -1)])])) : a("", !0)], 10, Ie), E(C) ? (v(), o("p", {
 			key: 0,
 			id: g.value,
 			class: "ui-checkbox-group__error",
 			role: "alert"
 		}, [x(n.$slots, "error", { message: E(C) }, () => [c(w(E(C)), 1)])], 8, He)) : a("", !0)])], 2));
 	}
-}), Ge = {
+});
+//#endregion
+//#region src/utils/color.ts
+function Ge(e) {
+	let t = e.trim(), n = t.match(/^#([0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/i);
+	if (n) {
+		let e = n[1];
+		return e.length <= 4 && (e = [...e].map((e) => e + e).join("")), [
+			0,
+			2,
+			4
+		].map((t) => parseInt(e.slice(t, t + 2), 16));
+	}
+	let r = t.match(/^rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)/i);
+	return r ? [
+		Number(r[1]),
+		Number(r[2]),
+		Number(r[3])
+	] : null;
+}
+function Ke([e, t, n]) {
+	let r = (e) => {
+		let t = e / 255;
+		return t <= .03928 ? t / 12.92 : ((t + .055) / 1.055) ** 2.4;
+	};
+	return .2126 * r(e) + .7152 * r(t) + .0722 * r(n);
+}
+function qe(e, t) {
+	let [n, r] = [Ke(e), Ke(t)].sort((e, t) => t - e);
+	return (n + .05) / (r + .05);
+}
+var Je = [
+	255,
+	255,
+	255
+], Ye = [
+	26,
+	29,
+	35
+];
+function Xe(e) {
+	let t = Ge(e);
+	return t ? qe(Je, t) >= qe(Ye, t) ? "#ffffff" : "#1a1d23" : null;
+}
+//#endregion
+//#region src/components/button/Button.vue?vue&type=script&setup=true&lang.ts
+var Ze = {
 	key: 0,
 	class: "ui-button__spinner",
 	"aria-hidden": "true"
-}, Ke = {
+}, Qe = {
 	key: 1,
 	class: "ui-button__affix"
-}, qe = {
+}, $e = {
 	key: 2,
 	class: "ui-button__label"
-}, Je = {
+}, et = {
 	key: 3,
 	class: "ui-button__affix"
-}, Ye = /* @__PURE__ */ u({
+}, tt = /* @__PURE__ */ u({
 	__name: "Button",
 	props: {
 		variant: { default: "filled" },
@@ -819,55 +865,177 @@ var ie = ["for"], ae = {
 	},
 	emits: ["click"],
 	setup(e, { emit: t }) {
-		let n = e, s = t, c = O(), l = r(() => n.disabled || n.loading), u = r(() => n.to !== void 0 && !l.value ? S("RouterLink") : n.to !== void 0 || n.href !== void 0 ? "a" : "button"), f = r(() => u.value === "button" ? {
-			type: n.type,
-			disabled: l.value
-		} : l.value ? {
+		let n = [
+			"primary",
+			"secondary",
+			"danger"
+		], s = e, c = t, l = O(), u = r(() => s.disabled || s.loading), f = r(() => n.includes(s.color)), p = r(() => {
+			if (f.value) return;
+			let e = Xe(s.color);
+			return {
+				"--ui-button-color": s.color,
+				...e ? { "--ui-button-on": e } : {}
+			};
+		}), m = r(() => s.to !== void 0 && !u.value ? S("RouterLink") : s.to !== void 0 || s.href !== void 0 ? "a" : "button"), h = r(() => m.value === "button" ? {
+			type: s.type,
+			disabled: u.value
+		} : u.value ? {
 			"aria-disabled": "true",
 			tabindex: -1
-		} : n.to === void 0 ? {
-			href: n.href,
-			target: n.target,
-			rel: n.target === "_blank" ? "noopener noreferrer" : void 0
-		} : { to: n.to }), p = (e) => {
-			if (l.value) {
+		} : s.to === void 0 ? {
+			href: s.href,
+			target: s.target,
+			rel: s.target === "_blank" ? "noopener noreferrer" : void 0
+		} : { to: s.to }), g = (e) => {
+			if (u.value) {
 				e.preventDefault();
 				return;
 			}
-			s("click", e);
+			c("click", e);
 		};
-		return (t, n) => (v(), i(C(u.value), d({ class: ["ui-button", [
-			`ui-button--${e.variant}`,
-			`ui-button--${e.color}`,
-			`ui-button--${e.size}`,
-			{
-				"ui-button--block": e.block,
-				"ui-button--icon": e.icon,
-				"ui-button--loading": e.loading,
-				"ui-button--disabled": e.disabled
-			}
-		]] }, f.value, {
+		return (t, n) => (v(), i(C(m.value), d({
+			class: ["ui-button", [
+				`ui-button--${e.variant}`,
+				f.value ? `ui-button--${e.color}` : "ui-button--custom",
+				`ui-button--${e.size}`,
+				{
+					"ui-button--block": e.block,
+					"ui-button--icon": e.icon,
+					"ui-button--loading": e.loading,
+					"ui-button--disabled": e.disabled
+				}
+			]],
+			style: p.value
+		}, h.value, {
 			"aria-busy": e.loading || void 0,
-			onClick: p
+			onClick: g
 		}), {
 			default: A(() => [
-				e.loading ? (v(), o("span", Ge)) : E(c).prefix ? (v(), o("span", Ke, [x(t.$slots, "prefix")])) : a("", !0),
-				e.icon && e.loading ? a("", !0) : (v(), o("span", qe, [x(t.$slots, "default")])),
-				E(c).suffix ? (v(), o("span", Je, [x(t.$slots, "suffix")])) : a("", !0)
+				e.loading ? (v(), o("span", Ze)) : E(l).prefix ? (v(), o("span", Qe, [x(t.$slots, "prefix")])) : a("", !0),
+				e.icon && e.loading ? a("", !0) : (v(), o("span", $e, [x(t.$slots, "default")])),
+				E(l).suffix ? (v(), o("span", et, [x(t.$slots, "suffix")])) : a("", !0)
 			]),
 			_: 3
-		}, 16, ["class", "aria-busy"]));
+		}, 16, [
+			"class",
+			"style",
+			"aria-busy"
+		]));
 	}
-}), Xe = {
+}), nt = ["aria-labelledby"], rt = {
+	key: 0,
+	class: "ui-modal__header"
+}, it = ["id"], at = { class: "ui-modal__body" }, ot = {
+	key: 1,
+	class: "ui-modal__footer"
+}, st = "a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex=\"-1\"])", ct = /* @__PURE__ */ u({
+	__name: "Modal",
+	props: {
+		modelValue: {
+			type: Boolean,
+			default: !1
+		},
+		title: {},
+		size: { default: "md" },
+		closeOnBackdrop: {
+			type: Boolean,
+			default: !0
+		},
+		closeOnEsc: {
+			type: Boolean,
+			default: !0
+		},
+		hideClose: {
+			type: Boolean,
+			default: !1
+		}
+	},
+	emits: [
+		"update:modelValue",
+		"open",
+		"close"
+	],
+	setup(e, { emit: r }) {
+		let u = e, d = r, m = O(), g = D(), _ = y(null), b = () => d("update:modelValue", !1), S = () => {
+			u.closeOnBackdrop && b();
+		}, C = null, T = () => Array.from(_.value?.querySelectorAll(st) ?? []), j = (e) => {
+			if (e.key === "Escape" && u.closeOnEsc) {
+				e.stopPropagation(), b();
+				return;
+			}
+			if (e.key !== "Tab") return;
+			let t = T();
+			if (t.length === 0) {
+				e.preventDefault();
+				return;
+			}
+			let n = t[0], r = t[t.length - 1];
+			e.shiftKey && document.activeElement === n ? (e.preventDefault(), r.focus()) : !e.shiftKey && document.activeElement === r && (e.preventDefault(), n.focus());
+		}, M = () => {
+			let e = Number(document.body.dataset.uiModalCount ?? 0);
+			e === 0 && (document.body.dataset.uiModalOverflow = document.body.style.overflow, document.body.style.overflow = "hidden"), document.body.dataset.uiModalCount = String(e + 1);
+		}, N = () => {
+			let e = Number(document.body.dataset.uiModalCount ?? 1) - 1;
+			e <= 0 ? (document.body.style.overflow = document.body.dataset.uiModalOverflow ?? "", delete document.body.dataset.uiModalCount, delete document.body.dataset.uiModalOverflow) : document.body.dataset.uiModalCount = String(e);
+		}, P = !1;
+		return k(() => u.modelValue, async (e) => {
+			e ? (C = document.activeElement, M(), P = !0, d("open"), await f(), (T().find((e) => !e.classList.contains("ui-modal__close")) ?? _.value)?.focus()) : P && (N(), P = !1, C?.focus(), C = null);
+		}, { immediate: !0 }), h(() => {
+			P && N();
+		}), (r, u) => (v(), i(t, { to: "body" }, [l(n, {
+			name: "ui-modal",
+			onAfterLeave: u[0] ||= (e) => d("close")
+		}, {
+			default: A(() => [e.modelValue ? (v(), o("div", {
+				key: 0,
+				class: "ui-modal",
+				onKeydown: j
+			}, [s("div", {
+				class: "ui-modal__backdrop",
+				"aria-hidden": "true",
+				onClick: S
+			}), s("div", {
+				ref_key: "panelRef",
+				ref: _,
+				class: p(["ui-modal__panel", `ui-modal__panel--${e.size}`]),
+				role: "dialog",
+				"aria-modal": "true",
+				"aria-labelledby": e.title || E(m).header ? E(g) : void 0,
+				tabindex: "-1"
+			}, [
+				e.title || E(m).header || !e.hideClose ? (v(), o("header", rt, [s("div", {
+					id: E(g),
+					class: "ui-modal__title"
+				}, [x(r.$slots, "header", {}, () => [c(w(e.title), 1)])], 8, it), e.hideClose ? a("", !0) : (v(), i(tt, {
+					key: 0,
+					class: "ui-modal__close",
+					icon: "",
+					size: "sm",
+					variant: "ghost",
+					color: "secondary",
+					"aria-label": "닫기",
+					onClick: b
+				}, {
+					default: A(() => [...u[1] ||= [c(" ✕ ", -1)]]),
+					_: 1
+				}))])) : a("", !0),
+				s("div", at, [x(r.$slots, "default")]),
+				E(m).footer ? (v(), o("footer", ot, [x(r.$slots, "footer", { close: b })])) : a("", !0)
+			], 10, nt)], 32)) : a("", !0)]),
+			_: 3
+		})]));
+	}
+}), lt = {
 	UiInput: G,
 	UiSelect: De,
 	UiRadio: X,
 	UiCheckbox: We,
-	UiButton: Ye
-}, Ze = { install(e) {
-	Object.entries(Xe).forEach(([t, n]) => {
+	UiButton: tt,
+	UiModal: ct
+}, ut = { install(e) {
+	Object.entries(lt).forEach(([t, n]) => {
 		e.component(t, n);
 	});
 } };
 //#endregion
-export { Ye as UiButton, We as UiCheckbox, G as UiInput, X as UiRadio, De as UiSelect, Xe as allComponents, Ze as default };
+export { tt as UiButton, We as UiCheckbox, G as UiInput, ct as UiModal, X as UiRadio, De as UiSelect, lt as allComponents, ut as default };

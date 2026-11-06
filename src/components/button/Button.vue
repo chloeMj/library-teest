@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, resolveComponent, useSlots } from "vue";
+import { readableTextColor } from "../../utils/color";
 
 /**
  * 모양. Input의 variant와 같은 단어를 같은 뜻으로 씁니다.
@@ -10,19 +11,30 @@ import { computed, resolveComponent, useSlots } from "vue";
  */
 type ButtonVariant = "filled" | "outlined" | "ghost" | "text";
 /**
- * 색(의미). 모양과 자유롭게 조합합니다. 예) outlined + danger = 빨간 테두리 삭제 버튼
- *   primary 기본 동작
- *   secondary 강조하지 않는 보조 동작 (취소, 닫기). 회색 계열
- *   danger  되돌리기 어려운 동작 (삭제, 탈퇴)
+ * 색. 용도를 정하지 않고 색의 성격만 정합니다. 어떤 동작에 어떤 색을 쓸지는 디자인이 정합니다.
+ *   primary   브랜드 주조색. 가장 강조
+ *   secondary 강조하지 않는 보조색 (기본 회색)
+ *   danger    경고색 (기본 빨강)
+ * 실제 색은 토큰(--ui-<이름>-default / -on)으로 바꿉니다.
  */
-type ButtonColor = "primary" | "secondary" | "danger";
+const NAMED_COLORS = ["primary", "secondary", "danger"] as const;
+type ButtonColor = (typeof NAMED_COLORS)[number];
 type ButtonSize = "sm" | "md" | "lg";
 /** vue-router의 RouteLocationRaw와 같은 모양. 라이브러리가 vue-router에 의존하지 않도록 직접 적습니다 */
 type RouteTarget = string | Record<string, unknown>;
 
 interface Props {
   variant?: ButtonVariant;
-  color?: ButtonColor;
+  /**
+   * 이름(primary/secondary/danger) 또는 색상값("#1e3a8a", "rgb(...)").
+   * 색상값은 특별한 버튼 하나에만 쓰는 예외용이고, variant="filled"에 쓰세요.
+   * outlined·ghost·text는 색이 글자가 되므로 고정 색 하나로는 라이트·다크 모두에서
+   * 읽히게 할 수 없습니다 → 그런 경우와 프로젝트 전체 색은 토큰으로 바꾸세요.
+   * 색상값을 주면 hover/active는 자동 계산되고, 글자색은 명암비가 높은 쪽(흰색/진회색)을
+   * 자동으로 고릅니다. 직접 정하려면 style="--ui-button-on: ..."을 주세요.
+   */
+  // (string & {}): 아무 문자열이나 받되 자동완성에는 이름 세 개가 보이게 하는 TypeScript 관용구
+  color?: ButtonColor | (string & {});
   /**
    * 표준 크기. 높이·여백 값은 tokens.scss의 --ui-button-height-* / --ui-button-padding-x-*.
    * 버튼 하나만 다른 크기가 필요하면 prop을 늘리지 말고 변수를 직접 주세요.
@@ -72,6 +84,21 @@ const slots = useSlots();
 
 const inactive = computed(() => props.disabled || props.loading);
 
+// --- 색 ---
+const isNamedColor = computed(() =>
+  (NAMED_COLORS as readonly string[]).includes(props.color),
+);
+
+/** 색상값을 직접 준 경우에만 그 색을 CSS 변수로 넘깁니다 */
+const colorStyle = computed(() => {
+  if (isNamedColor.value) return undefined;
+  const on = readableTextColor(props.color);
+  return {
+    "--ui-button-color": props.color,
+    ...(on ? { "--ui-button-on": on } : {}),
+  };
+});
+
 /**
  * 무엇으로 그릴지 고릅니다.
  *   to   → RouterLink (앱에 vue-router가 설치되어 있어야 합니다)
@@ -118,7 +145,7 @@ const onClick = (event: MouseEvent) => {
     class="ui-button"
     :class="[
       `ui-button--${variant}`,
-      `ui-button--${color}`,
+      isNamedColor ? `ui-button--${color}` : 'ui-button--custom',
       `ui-button--${size}`,
       {
         'ui-button--block': block,
@@ -127,6 +154,7 @@ const onClick = (event: MouseEvent) => {
         'ui-button--disabled': disabled,
       },
     ]"
+    :style="colorStyle"
     v-bind="tagAttrs"
     :aria-busy="loading || undefined"
     @click="onClick"
@@ -159,8 +187,11 @@ const onClick = (event: MouseEvent) => {
     버튼 하나만    그 버튼에 --ui-button-height, --ui-button-padding-x 지정
   '버튼 하나만' 변수는 :root에 두지 마세요. 모든 크기가 같은 값이 됩니다.
 
-  색은 color 클래스가 아래 내부 변수(--_c 등)만 정하고,
-  variant 클래스가 그 변수를 어디(배경/글자/테두리)에 쓸지 정합니다.
+  색은 color 클래스가 대표색(--_c)과 그 위 글자색(--_on)만 정하고,
+  variant 클래스가 그 둘을 어디(배경/글자/테두리)에 쓸지 정합니다.
+  hover/active는 --_c에 --_on을 섞어 계산하므로 색마다 따로 정하지 않습니다.
+  버튼 하나만 색을 바꾸려면 --ui-button-color(대표색), --ui-button-on(글자색),
+  --ui-button-border(outlined 테두리)를 주세요. 반복되면 클래스로 묶으세요.
 -->
 <style lang="scss">
 .ui-button {
@@ -228,71 +259,80 @@ const onClick = (event: MouseEvent) => {
 }
 
 // ---------------------------------------------------------------------------
-// 색 — 의미별로 쓸 토큰만 고릅니다
-//   --_c        대표색 (filled 배경 / 나머지는 글자)
-//   --_c-hover  filled hover 배경
-//   --_c-active filled 누름 배경
-//   --_on       filled 배경 위 글자
-//   --_subtle   outlined·ghost hover 배경
-//   --_border   outlined 테두리
+// 색 — 대표색과 그 위 글자색만 고릅니다
+//   --_c      대표색 (filled 배경 / 나머지는 글자)
+//   --_on     filled 배경 위 글자색
+//   --_border outlined 테두리 (기본은 대표색)
+// --ui-button-border를 주면 글자색과 다른 테두리색을 쓸 수 있습니다 (outlined).
+// --ui-button-color / --ui-button-on을 버튼에 주면 그 버튼만 색이 바뀝니다.
 // ---------------------------------------------------------------------------
 .ui-button--primary {
-  --_c: var(--ui-primary-default);
-  --_c-hover: var(--ui-primary-hover);
-  --_c-active: var(--ui-primary-active);
-  --_on: var(--ui-primary-on);
-  --_subtle: var(--ui-primary-subtle);
-  --_border: var(--ui-primary-default);
+  --_c: var(--ui-button-color, var(--ui-primary-default));
+  --_on: var(--ui-button-on, var(--ui-primary-on));
 }
 
 .ui-button--secondary {
-  --_c: var(--ui-text-default);
-  --_c-hover: var(--ui-text-muted);
-  --_c-active: var(--ui-text-default);
-  --_on: var(--ui-text-inverse);
-  --_subtle: var(--ui-surface-hover);
+  --_c: var(--ui-button-color, var(--ui-secondary-default));
+  --_on: var(--ui-button-on, var(--ui-secondary-on));
+  // 회색 테두리는 대표색(진회색)이면 너무 무거워서 입력 박스와 같은 테두리를 씁니다.
   --_border: var(--ui-border-control);
 }
 
 .ui-button--danger {
-  --_c: var(--ui-danger-default);
-  --_c-hover: var(--ui-danger-hover);
-  --_c-active: var(--ui-danger-active);
-  --_on: var(--ui-danger-on);
-  --_subtle: var(--ui-danger-subtle);
-  --_border: var(--ui-danger-default);
+  --_c: var(--ui-button-color, var(--ui-danger-default));
+  --_on: var(--ui-button-on, var(--ui-danger-on));
+}
+
+// color에 색상값을 직접 준 경우 (스크립트가 --ui-button-color를 넣어 줌)
+.ui-button--custom {
+  --_c: var(--ui-button-color);
+  --_on: var(--ui-button-on, #fff);
 }
 
 // ---------------------------------------------------------------------------
 // 모양 — 위 변수를 어디에 쓸지
-// 비활성·로딩 중에는 hover 효과가 들어가지 않게 :not(...)으로 막습니다.
 // ---------------------------------------------------------------------------
-$interactive: ":not(.ui-button--disabled):not(.ui-button--loading)";
-
 .ui-button--filled {
   background: var(--_c);
   color: var(--_on);
-
-  &#{$interactive}:hover {
-    background: var(--_c-hover);
-  }
-
-  &#{$interactive}:active {
-    background: var(--_c-active);
-  }
 }
 
 .ui-button--outlined {
-  border-color: var(--_border);
-
-  &#{$interactive}:hover {
-    background: var(--_subtle);
-  }
+  border-color: var(--ui-button-border, var(--_border, var(--_c)));
 }
 
-.ui-button--ghost {
-  &#{$interactive}:hover {
-    background: var(--_subtle);
+// ---------------------------------------------------------------------------
+// hover · active — 대표색에서 자동 계산 (Material Design의 state layer 방식)
+//   filled           대표색에 글자색을 8% / 12% 섞음 (토큰의 hover/active와 같은 식)
+//   outlined · ghost 투명 배경에 대표색을 8% / 14% 깔아 줌
+//
+// - color-mix()를 모르는 오래된 브라우저(iOS 16.1 이하 등)에서는 @supports로 빠져
+//   hover 색만 안 바뀌고 버튼은 정상으로 보입니다.
+// - hover는 마우스가 있는 기기에서만 적용합니다. 터치 기기는 탭한 뒤 hover 색이
+//   남아 있는 문제가 있어서, 누르는 동안(active)만 색이 바뀝니다.
+// - 비활성·로딩 중에는 :not(...)으로 막습니다.
+// ---------------------------------------------------------------------------
+$interactive: ":not(.ui-button--disabled):not(.ui-button--loading)";
+
+@supports (color: color-mix(in srgb, red, blue)) {
+  @media (hover: hover) {
+    .ui-button--filled#{$interactive}:hover {
+      background: color-mix(in srgb, var(--_c) 92%, var(--_on));
+    }
+
+    .ui-button--outlined#{$interactive}:hover,
+    .ui-button--ghost#{$interactive}:hover {
+      background: color-mix(in srgb, var(--_c) 8%, transparent);
+    }
+  }
+
+  .ui-button--filled#{$interactive}:active {
+    background: color-mix(in srgb, var(--_c) 88%, var(--_on));
+  }
+
+  .ui-button--outlined#{$interactive}:active,
+  .ui-button--ghost#{$interactive}:active {
+    background: color-mix(in srgb, var(--_c) 14%, transparent);
   }
 }
 
@@ -303,9 +343,11 @@ $interactive: ":not(.ui-button--disabled):not(.ui-button--loading)";
   border: none;
   border-radius: 0;
 
-  &#{$interactive}:hover {
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
+  @media (hover: hover) {
+    &#{$interactive}:hover {
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
   }
 }
 
