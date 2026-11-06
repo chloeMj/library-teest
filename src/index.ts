@@ -8,6 +8,7 @@ import Select from './components/form/Select.vue'
 import Radio from './components/form/Radio.vue'
 import Checkbox from './components/form/Checkbox.vue'
 import Button from './components/button/Button.vue'
+import Modal from './components/modal/Modal.vue'
 
 // 전역 등록용 목록. 설치한 프로젝트의 컴포넌트와 겹치지 않도록 Ui 접두사를 붙입니다.
 // 컴포넌트를 추가하면 위 import와 이 목록에 한 줄씩 더하면 됩니다.
@@ -17,10 +18,11 @@ export const allComponents: Record<string, Component> = {
   UiRadio: Radio,
   UiCheckbox: Checkbox,
   UiButton: Button,
+  UiModal: Modal,
 }
 
 // 개별 import 용: import { UiInput } from 'library-test'
-export { Input as UiInput, Select as UiSelect, Radio as UiRadio, Checkbox as UiCheckbox, Button as UiButton }
+export { Input as UiInput, Select as UiSelect, Radio as UiRadio, Checkbox as UiCheckbox, Button as UiButton, Modal as UiModal }
 
 // 공개 타입
 export type { LabelPosition, ErrorPosition, FieldVariant, SelectOption, OptionIcon } from './types/form'
@@ -46,5 +48,6 @@ declare module 'vue' {
     UiRadio: typeof Radio
     UiCheckbox: typeof Checkbox
     UiButton: typeof Button
+    UiModal: typeof Modal
   }
 }

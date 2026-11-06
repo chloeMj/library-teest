@@ -122,6 +122,9 @@ padding: var(--ui-field-padding-y, var(--ui-spacing-sm)) 0;
 | `--ui-button-font-weight` | `600` | Button 글자 굵기 |
 | `--ui-button-height` / `--ui-button-padding-x` | — | **버튼 하나에만** 지정하는 높이·여백 (`:root`에 두지 않음) |
 | `--ui-button-color` / `--ui-button-on` / `--ui-button-border` | — | 버튼 하나의 대표색·글자색·outlined 테두리 (클래스로 묶어 쓰기 권장) |
+| `--ui-modal-width-sm` / `-md` / `-lg` | `400px` / `560px` / `800px` | Modal 크기별 너비 |
+| `--ui-modal-width` | — | 모달 하나만 너비 지정 |
+| `--ui-modal-radius` | `--ui-radius-md` | Modal 모서리 |
 
 높이를 토큰으로 고정할 때 두 컴포넌트가 같은 값에서 같은 높이가 나오도록,
 박스 역할을 하는 요소는 `box-sizing: border-box`로 맞춘다.

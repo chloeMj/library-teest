@@ -7,6 +7,7 @@ import SelectSection from './SelectSection.vue'
 import RadioSection from './RadioSection.vue'
 import CheckboxSection from './CheckboxSection.vue'
 import ButtonSection from './ButtonSection.vue'
+import ModalSection from './ModalSection.vue'
 
 export interface DemoEntry {
   /** 주소(#id)와 섹션 id로 함께 씁니다 */
@@ -23,4 +24,5 @@ export const demos: DemoEntry[] = [
   { id: 'select', label: 'Select', group: 'Form', component: SelectSection },
   { id: 'radio', label: 'Radio', group: 'Form', component: RadioSection },
   { id: 'checkbox', label: 'Checkbox', group: 'Form', component: CheckboxSection },
+  { id: 'modal', label: 'Modal', group: 'Overlay', component: ModalSection },
 ]
