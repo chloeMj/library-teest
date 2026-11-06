@@ -9,9 +9,19 @@
 
 const PRIMITIVES = 'Primitives'
 const SEMANTIC = 'Semantic'
+const DIMENSION = 'Dimension'
 
-// 파일 이름으로 어느 컬렉션인지 정합니다 (primitives.tokens.json / Light.tokens.json)
-const collectionNameOf = (fileName) => (/primitives/i.test(fileName) ? PRIMITIVES : SEMANTIC)
+// 파일 이름으로 어느 컬렉션인지 정합니다
+//   primitives.tokens.json → Primitives, dimension.tokens.json → Dimension, 나머지 → Semantic
+const collectionNameOf = (fileName) => {
+  if (/primitives/i.test(fileName)) return PRIMITIVES
+  if (/dimension/i.test(fileName)) return DIMENSION
+  return SEMANTIC
+}
+
+// 토큰 종류 → Figma 변수 타입 (색 / 숫자)
+const figmaTypeOf = (token) => (token.$type === 'number' ? 'FLOAT' : 'COLOR')
+const valueOf = (token) => (token.$type === 'number' ? token.$value : toRgba(token.$value))
 
 const toRgba = (value) => ({
   r: value.components[0],
@@ -28,7 +38,7 @@ const flatten = (node, prefix) => {
     const value = node[key]
     if (!value || typeof value !== 'object') continue
     const path = prefix ? prefix + '/' + key : key
-    if (value.$type === 'color') out.push({ path: path, token: value })
+    if (value.$type === 'color' || value.$type === 'number') out.push({ path: path, token: value })
     else out.push.apply(out, flatten(value, path))
   }
   return out
@@ -90,7 +100,7 @@ const applyFile = async (file) => {
     if (variable) {
       updated++
     } else {
-      variable = figma.variables.createVariable(item.path, collection, 'COLOR')
+      variable = figma.variables.createVariable(item.path, collection, figmaTypeOf(item.token))
       vars.set(item.path, variable)
       created++
     }
@@ -102,10 +112,10 @@ const applyFile = async (file) => {
         variable.setValueForMode(modeId, figma.variables.createVariableAlias(target))
         continue
       }
-      // 가리킬 변수가 아직 없으면 실제 색으로 넣고 끝에 알려줍니다
+      // 가리킬 변수가 아직 없으면 실제 값으로 넣고 끝에 알려줍니다
       brokenAlias.push(item.path + ' → ' + alias.targetVariableName)
     }
-    variable.setValueForMode(modeId, toRgba(item.token.$value))
+    variable.setValueForMode(modeId, valueOf(item.token))
   }
 
   return {
@@ -128,7 +138,7 @@ figma.ui.onmessage = async (msg) => {
   try {
     // Semantic이 Primitives를 별칭으로 가리키므로 Primitives를 먼저 넣습니다
     const ordered = msg.files.slice().sort((a, b) => {
-      const rank = (f) => (collectionNameOf(f.name) === PRIMITIVES ? 0 : 1)
+      const rank = (f) => (collectionNameOf(f.name) === PRIMITIVES ? 0 : collectionNameOf(f.name) === DIMENSION ? 1 : 2)
       return rank(a) - rank(b)
     })
     const report = []

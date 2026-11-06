@@ -20,11 +20,11 @@ Figma의 변수 가져오기 버튼은 **컬렉션이 비어 있을 때만** 나
 npm run build
 ```
 
-`design-tokens/`에 json 3개가 다시 생깁니다. 그다음 Figma에서
+`design-tokens/`에 json 4개가 다시 생깁니다 (색 3개 + 숫자 1개). 그다음 Figma에서
 
 1. 변수를 넣을 파일을 엽니다
 2. Plugins → Development → `library-test 토큰 넣기`
-3. `primitives.tokens.json`, `Light.tokens.json`, `Dark.tokens.json`을 **한 번에** 고릅니다
+3. `primitives.tokens.json`, `Light.tokens.json`, `Dark.tokens.json`, `dimension.tokens.json`을 **한 번에** 고릅니다
 4. 덮어쓰기
 
 순서는 신경 쓰지 않아도 됩니다. Semantic이 Primitives를 별칭으로 가리키므로
@@ -37,7 +37,9 @@ npm run build
 - JSON에만 있는 변수 → 새로 만듭니다.
 - JSON에 없는 변수 → **건드리지 않습니다.** 지우는 동작은 없습니다.
 - 컬렉션·모드가 없으면 만듭니다. 파일 이름이 컬렉션(`primitives…` → Primitives,
-  나머지 → Semantic), 파일 안의 `com.figma.modeName`이 모드 이름이 됩니다.
+  `dimension…` → Dimension, 나머지 → Semantic), 파일 안의 `com.figma.modeName`이 모드 이름이 됩니다.
+- Dimension은 **숫자 변수**입니다(간격·radius·글자 크기·Input/Select/Button 높이·여백).
+  Figma에서 Auto layout 여백, 너비·높이, 모서리, 글자 크기에 연결할 수 있습니다.
 
 ## 결과 읽는 법
 

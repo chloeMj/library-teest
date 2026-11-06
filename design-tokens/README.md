@@ -8,6 +8,7 @@
 | `primitives.tokens.json` | Primitives | Mode 1 |
 | `Light.tokens.json` | Semantic | Light |
 | `Dark.tokens.json` | Semantic | Dark |
+| `dimension.tokens.json` | Dimension (숫자) | Value |
 
 형식은 **Figma가 변수를 Export할 때 내보내는 것과 같습니다.** 파일 하나가
 "컬렉션의 모드 하나"에 대응하고, 가져올 때 파일 이름이 그대로 모드 이름이
