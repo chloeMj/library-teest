@@ -46,6 +46,10 @@ const SEMANTIC_MAP = {
   '--ui-primary-active': 'primary/active',
   '--ui-primary-subtle': 'primary/subtle',
   '--ui-primary-on': 'primary/on',
+  '--ui-secondary-default': 'secondary/default',
+  '--ui-secondary-hover': 'secondary/hover',
+  '--ui-secondary-active': 'secondary/active',
+  '--ui-secondary-on': 'secondary/on',
   '--ui-danger-default': 'danger/default',
   '--ui-danger-hover': 'danger/hover',
   '--ui-danger-active': 'danger/active',
@@ -120,9 +124,27 @@ const dark = { ...light, ...darkBlock(core) }
 // var(--ui-gray-0, #ffffff) 에서 참조 변수명만 떼어냅니다
 const refOf = (value) => value.match(/^var\(\s*(--[\w-]+)\s*(?:,.*)?\)$/)?.[1] ?? null
 
+// color-mix(in srgb, A 85%, B) — hover/active 계산식. 두 색을 실제 HEX로 풀어 섞습니다.
+// Figma 변수는 계산식을 못 담으므로, 계산된 색이 그대로(별칭 없이) 들어갑니다.
+const mixOf = (value) =>
+  value.match(/^color-mix\(\s*in srgb\s*,\s*(.+?)\s+([\d.]+)%\s*,\s*(.+?)\s*\)$/)
+
+const mixHex = (a, b, ratio) => {
+  const rgb = (hex) => {
+    const h = expandHex(rgbaToHex(hex)).replace('#', '')
+    return [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16))
+  }
+  const [x, y] = [rgb(a), rgb(b)]
+  return '#' + x.map((v, i) => Math.round(v * ratio + y[i] * (1 - ratio)).toString(16).padStart(2, '0')).join('')
+}
+
 // 변수 체인을 따라가 최종 색(HEX 문자열)을 구합니다
 const resolveColor = (value, vars, depth = 0) => {
   if (depth > 20) return '#000000'
+  const mix = mixOf(value)
+  if (mix) {
+    return mixHex(resolveColor(mix[1], vars, depth + 1), resolveColor(mix[3], vars, depth + 1), Number(mix[2]) / 100)
+  }
   const ref = refOf(value)
   if (!ref) return value
   const next = vars[ref]
@@ -186,7 +208,7 @@ const semantic = (vars) =>
       .map(([cssVar, path]) => {
         const raw = vars[cssVar]
         const alias = aliasOf(raw, vars)
-        return { path, token: alias ? aliasToken(raw, alias, vars) : colorToken(raw) }
+        return { path, token: alias ? aliasToken(raw, alias, vars) : colorToken(resolveColor(raw, vars)) }
       }),
   )
 

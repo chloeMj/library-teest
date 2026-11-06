@@ -318,6 +318,11 @@ body {
   padding: 24px 20px;
 }
 
+/* 그리드는 칸을 꽉 채우므로, 버튼은 원래 크기로 보이게 왼쪽에 붙입니다 (모든 데모 공통) */
+.demo__row > .ui-button:not(.ui-button--block) {
+  justify-self: start;
+}
+
 .demo__note {
   margin: 0;
   padding: 10px 20px;

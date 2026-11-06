@@ -56,6 +56,27 @@ describe('UiButton', () => {
       )
     })
 
+    it('이름 색(primary 등)은 클래스로만 처리하고 style을 넣지 않는다', () => {
+      const wrapper = mount(Button, { props: { color: 'secondary' } })
+
+      expect(wrapper.classes()).toContain('ui-button--secondary')
+      expect(wrapper.attributes('style')).toBeUndefined()
+    })
+
+    it('color에 색상값을 주면 그 색이 CSS 변수로 들어가고, 어두운 색이면 흰 글자를 고른다', () => {
+      const wrapper = mount(Button, { props: { color: '#1e3a8a' } })
+
+      expect(wrapper.classes()).toContain('ui-button--custom')
+      expect(wrapper.attributes('style')).toContain('--ui-button-color: #1e3a8a')
+      expect(wrapper.attributes('style')).toContain('--ui-button-on: #ffffff')
+    })
+
+    it('밝은 색상값이면 글자색을 진한 회색으로 고른다 (노란 버튼에 흰 글자 방지)', () => {
+      const wrapper = mount(Button, { props: { color: '#facc15' } })
+
+      expect(wrapper.attributes('style')).toContain('--ui-button-on: #1a1d23')
+    })
+
     it('버튼 하나만 높이·여백을 바꾸는 변수가 그대로 전달된다', () => {
       const wrapper = mount(Button, {
         attrs: { style: '--ui-button-height: 52px; --ui-button-padding-x: 24px' },

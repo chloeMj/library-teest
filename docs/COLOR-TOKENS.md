@@ -60,21 +60,35 @@
 | 토큰 | 용도 | 기본 팔레트 (Light / Dark) |
 |---|---|---|
 | `--ui-primary-default` | 포커스 테두리, 선택 표시, 버튼 배경 | Brand/700 · Brand/400 |
-| `--ui-primary-hover` | hover | Brand/800 · Brand/300 |
-| `--ui-primary-active` | 누름 | Brand/900 · Brand/500 |
+| `--ui-primary-hover` | hover | 자동 계산 (default에 on 8%) |
+| `--ui-primary-active` | 누름 | 자동 계산 (default에 on 12%) |
 | `--ui-primary-subtle` | 옅은 강조 배경 | Brand/50 · Brand/900 |
 | `--ui-primary-on` | primary 배경 위 글자·아이콘 | Gray/0 · Gray/900 |
 
+> hover/active는 default에서 `color-mix()`로 계산합니다. 프로젝트는 **default와 on만**
+> 바꾸면 되고, hover/active는 따라옵니다. Figma에는 계산된 색이 들어갑니다.
+>
 > 라이트 모드가 500이 아니라 **700**을 쓰는 이유는 명암비입니다. Brand/500은
 > 흰 배경에서 3.20:1이라 글자·버튼 배경으로 쓸 수 없습니다. 다크 모드는 배경이
 > 어두워 Brand/400으로 충분합니다.
+
+## Secondary — 보조
+
+| 토큰 | 용도 | 기본 팔레트 (Light / Dark) |
+|---|---|---|
+| `--ui-secondary-default` | 강조하지 않는 버튼 배경·글자 | Gray/900 · Gray/0 |
+| `--ui-secondary-hover` / `-active` | hover·누름 | 자동 계산 (primary와 같은 식) |
+| `--ui-secondary-on` | secondary 배경 위 글자·아이콘 | Gray/0 · Gray/900 |
+
+> 기본은 본문 글자와 같은 회색 계열입니다. 프로젝트에 보조색(남색 등)이 있으면
+> default/on만 바꾸세요. outlined 테두리는 `--ui-border-control`을 씁니다.
 
 ## Feedback — 상태
 
 | 토큰 | 용도 | 기본 팔레트 (Light / Dark) |
 |---|---|---|
 | `--ui-danger-default` | 에러 메시지, 필수 표시, 에러 테두리 | Red/700 · Red/300 |
-| `--ui-danger-hover` / `-active` | danger 버튼 hover·누름 | Red/800·900 / Red/200·400 |
+| `--ui-danger-hover` / `-active` | danger 버튼 hover·누름 | 자동 계산 (primary와 같은 식) |
 | `--ui-danger-subtle` | 에러 배경 | Red/50 · Red/900 |
 | `--ui-danger-on` | danger 배경 위 글자·아이콘 | Gray/0 · Gray/900 |
 | `--ui-success-default` / `-subtle` | 성공 (Toast 등, 아직 미사용) | Green/500·300 / Green/50·900 |

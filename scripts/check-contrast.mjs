@@ -27,6 +27,15 @@ const CHECKS = [
   ['--ui-primary-default', '--ui-surface-default', 4.5, 'primary 링크·아이콘'],
   ['--ui-danger-default', '--ui-surface-default', 4.5, '에러 글자'],
   ['--ui-danger-on', '--ui-danger-default', 4.5, 'danger 버튼 글자'],
+  ['--ui-secondary-on', '--ui-secondary-default', 4.5, 'secondary 버튼 글자'],
+  ['--ui-secondary-default', '--ui-surface-default', 4.5, 'secondary 글자 버튼'],
+  // hover/active는 color-mix()로 계산되는 색이라, 계산 결과 위의 글자도 검사합니다.
+  ['--ui-primary-on', '--ui-primary-hover', 4.5, 'primary 버튼 글자 (hover)'],
+  ['--ui-primary-on', '--ui-primary-active', 4.5, 'primary 버튼 글자 (누름)'],
+  ['--ui-danger-on', '--ui-danger-hover', 4.5, 'danger 버튼 글자 (hover)'],
+  ['--ui-danger-on', '--ui-danger-active', 4.5, 'danger 버튼 글자 (누름)'],
+  ['--ui-secondary-on', '--ui-secondary-hover', 4.5, 'secondary 버튼 글자 (hover)'],
+  ['--ui-secondary-on', '--ui-secondary-active', 4.5, 'secondary 버튼 글자 (누름)'],
   // --ui-border-default(구분선·카드)는 장식이라 1.4.11 대상이 아니므로 검사하지 않습니다.
   ['--ui-border-control', '--ui-surface-default', 3, '입력 박스 테두리'],
   ['--ui-border-focus', '--ui-surface-default', 3, '포커스 테두리'],
@@ -60,9 +69,21 @@ const darkBlock = (css) => {
 
 const refOf = (value) => value.match(/^var\(\s*(--[\w-]+)\s*(?:,.*)?\)$/)?.[1] ?? null
 
+// color-mix(in srgb, A 92%, B) — 두 색을 풀어서 섞은 rgb() 문자열로 바꿉니다
+const mixOf = (value) =>
+  value.match(/^color-mix\(\s*in srgb\s*,\s*(.+?)\s+([\d.]+)%\s*,\s*(.+?)\s*\)$/)
+
 // var() 체인을 끝까지 따라가 실제 색 문자열을 구합니다
 const resolve = (value, vars, depth = 0) => {
   if (value === undefined || depth > 20) return null
+  const mix = mixOf(value)
+  if (mix) {
+    const a = toRgb(resolve(mix[1], vars, depth + 1))
+    const b = toRgb(resolve(mix[3], vars, depth + 1))
+    if (!a || !b) return null
+    const t = Number(mix[2]) / 100
+    return `rgb(${a.map((v, i) => Math.round(v * t + b[i] * (1 - t))).join(', ')})`
+  }
   const ref = refOf(value)
   if (!ref) return value
   if (vars[ref] !== undefined) return resolve(vars[ref], vars, depth + 1)
